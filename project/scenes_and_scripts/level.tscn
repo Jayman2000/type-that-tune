@@ -27,8 +27,8 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 14.5, 24.629, 35.003, 56.759, 77.501, 88.4, 98.934, 108.803, 119.978, 129.85, 140.212, 151.382, 161.589, 172.601, 182.985, 204.144, 225.374, 235.793, 249.419, 270.576, 291.497, 314.563, 347.95, 368.478, 378.724, 391.25, 401.098, 434.354, 445.007, 455.122, 462.668, 464.246, 474.956, 485.424, 504.717, 515.599, 525.548, 533.118, 538.332, 548.444, 568.758, 578.649, 584, 586.973, 589, 591, 594, 597, 599, 602, 604, 607, 609, 612, 617, 623.223, 643.17, 653.281, 666.45),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 14.5, 24.629, 35.003, 56.759, 77.501, 88.4, 98.934, 108.803, 119.978, 129.85, 140.212, 151.382, 161.589, 172.601, 182.985, 204.144, 225.374, 235.793, 249.419, 270.576, 291.497, 314.563, 347.95, 368.478, 378.724, 391.25, 401.098, 434.354, 445.007, 455.122, 462.668, 464.246, 474.956, 485.424, 504.717, 515.599, 525.548, 533.118, 538.332, 548.444, 568.758, 578.649, 623.223, 643.17, 653.281, 666.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "values": [{
 "args": [""],
 "method": &"update_text_to_type"
@@ -45,16 +45,16 @@ tracks/1/keys = {
 "args": ["Do-Dai"],
 "method": &"update_text_to_type"
 }, {
-"args": ["Mi-w-na-w-gi-w-t-w-te-w-ki-w-ta-www & Under My Skin"],
+"args": [["Under My Skin", "Mi-w-na-w-gi-w-t-w-te-w-ki-w-ta-www"]],
 "method": &"update_text_to_type"
 }, {
-"args": ["Night of Nights & Dancing Samurai"],
+"args": [["Night of Nights", "Dancing Samurai"]],
 "method": &"update_text_to_type"
 }, {
 "args": ["Sand Canyon"],
 "method": &"update_text_to_type"
 }, {
-"args": ["Sky High & Pop Star"],
+"args": [["Sky High", "Pop Star"]],
 "method": &"update_text_to_type"
 }, {
 "args": ["Got The Groove"],
@@ -114,7 +114,7 @@ tracks/1/keys = {
 "args": ["Beloved Tomboyish Girl"],
 "method": &"update_text_to_type"
 }, {
-"args": ["Town & PoPiPo"],
+"args": [["Town", "PoPiPo"]],
 "method": &"update_text_to_type"
 }, {
 "args": ["The Solar Tribe from Mizonokuchi"],
@@ -156,46 +156,7 @@ tracks/1/keys = {
 "args": [""],
 "method": &"update_text_to_type"
 }, {
-"args": ["Konayuki & Endless Rain"],
-"method": &"update_text_to_type"
-}, {
-"args": ["Uninstall & true my heart"],
-"method": &"update_text_to_type"
-}, {
-"args": ["Let's Go! Onmyouji"],
-"method": &"update_text_to_type"
-}, {
-"args": ["Marisa Stole the Precious Thing & Futari no Mojipittan"],
-"method": &"update_text_to_type"
-}, {
-"args": ["Skill & Dr. Wily Stage 1"],
-"method": &"update_text_to_type"
-}, {
-"args": ["Tsurupettan & Hare Hare Yukai &  Gacha Gacha Cute"],
-"method": &"update_text_to_type"
-}, {
-"args": ["Agent Yoru o Yuku"],
-"method": &"update_text_to_type"
-}, {
-"args": ["You are the Prince of Tennis"],
-"method": &"update_text_to_type"
-}, {
-"args": ["You & Motteke! Sailor Fuku"],
-"method": &"update_text_to_type"
-}, {
-"args": ["Help me, ERINNNNNN!!"],
-"method": &"update_text_to_type"
-}, {
-"args": ["GO MY WAY!! & Airman ga Taosenai"],
-"method": &"update_text_to_type"
-}, {
-"args": ["Melt & Little Busters!"],
-"method": &"update_text_to_type"
-}, {
-"args": ["God knows... & Cheetahmen 2 Theme & Genesis of Aquarion"],
-"method": &"update_text_to_type"
-}, {
-"args": ["Miku Miku ni Shite Ageru & Caramelldansen & U.N. Owen was her? & Makka na Chikai"],
+"args": [["Konayuki", "Endless Rain", "Uninstall", "true my heart", "Let's Go! Onmyouji", "Marisa Stole the Precious Thing", "Futari no Mojipittan", "Skill", "Dr. Wily Stage 1", "Tsurupettan", "Hare Hare Yukai", "Gacha Gacha Cute", "Agent Yoru o Yuku", "You are the Prince of Tennis", "You", "Motteke! Sailor Fuku", "Help me, ERINNNNNN!!", "GO MY WAY!!", "Airman ga Taosenai", "Melt", "Little Busters!", "God knows...", "Cheetahmen 2 Theme", "Genesis of Aquarion", "Miku Miku ni Shite Ageru", "Caramelldansen", "U.N. Owen was her?", "Makka na Chikai"]],
 "method": &"update_text_to_type"
 }, {
 "args": ["Don't say \"lazy\""],
