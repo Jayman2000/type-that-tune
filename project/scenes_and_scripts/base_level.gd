@@ -2,10 +2,10 @@
 # SPDX-FileCopyrightText: 2024 Jason Yundt <jason@jasonyundt.email>
 extends Node
 
-
-var queue_loops: bool = false
 var text_queue_i: int = 0
-var text_queue: Array[String] = []:
+
+@export var queue_loops: bool = false
+@export var text_queue: Array[String] = []:
     set(new_text_queue):
         text_queue = new_text_queue
         update_displayed_text()
