@@ -125,6 +125,8 @@ repos:
                 exclude: *default_excludes
                 args:
                     - --strict
+                additional_dependencies:
+                    - reuse
     -
         repo: https://github.com/astral-sh/ruff-pre-commit
         rev: v0.6.2

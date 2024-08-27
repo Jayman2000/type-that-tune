@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 requires = ["setuptools"]
 
 [project]
-dependencies = []
+dependencies = ["reuse"]
 description = "Prepares project/ before it gets imported by Godot"
 name = "type-that-tune-build-tool"
 requires-python = ">=3.8"

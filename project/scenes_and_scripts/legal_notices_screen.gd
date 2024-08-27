@@ -3,16 +3,12 @@
 extends CanvasItem
 
 
-var license_info = Engine.get_license_info()
+const DocumentViewer := preload(
+    "res://scenes_and_scripts/document_viewer.gd"
+)
 
 @onready var project_selector: Node = \
     $MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector
-@onready var legal_notices_for_godot: Node = \
-    project_selector.get_node("Legal notices for Godot")
-@onready var godot_licenes_names: ItemList = \
-    legal_notices_for_godot.get_node("Licenses/Names")
-@onready var godot_licenes_contents: TextEdit = \
-    legal_notices_for_godot.get_node("Licenses/Contents")
 
 
 func dictionary_to_nicely_formatted_list(
@@ -36,13 +32,18 @@ func dictionary_to_nicely_formatted_list(
     return return_value
 
 
-func _ready() -> void:
+func set_up_godot_legal_notices() -> void:
+
+    var legal_notices_for_godot: Node = \
+        project_selector.get_node("Legal notices for Godot")
     var godot_authors_text_box: TextEdit = \
         legal_notices_for_godot.get_node("Authors")
     var godot_donors_text_box: TextEdit = \
         legal_notices_for_godot.get_node("Donors")
     var godot_copyright_notices: TextEdit = \
         legal_notices_for_godot.get_node("Copyright notices")
+    var godot_licenes: DocumentViewer = \
+        legal_notices_for_godot.get_node("Licenses")
     const AUTHOR_INFO_KEYS: Array[String] = [
         "founders",
         "lead_developers",
@@ -111,15 +112,47 @@ func _ready() -> void:
                 + "\n"
         copyright_info_as_a_string += "\n"
     godot_copyright_notices.text = copyright_info_as_a_string
-
-    for license_name: String in license_info.keys():
-        godot_licenes_names.add_item(license_name)
+    godot_licenes.change_documents_list(Engine.get_license_info())
 
 
-func _on_godot_license_names_item_selected(index: int) -> void:
-    var item_name: String = godot_licenes_names.get_item_text(index)
-    godot_licenes_contents.text = license_info[item_name]
+func set_up_ttt_legal_notices() -> void:
+    const LONG_NAME := "Legal notices for Type That Tune’s source code"
+    const LONG_NAME2 := "Text of licenses used in SPDX document"
+    var legal_notices_for_ttt: Node = \
+        project_selector.get_node(LONG_NAME)
+    var spdx_document_text_box: Node = \
+        legal_notices_for_ttt.get_node("SPDX document")
+    var licenses_document_viewer: DocumentViewer = \
+        legal_notices_for_ttt.get_node(LONG_NAME2)
+
+    var spdx_document_file = FileAccess.open(
+        "res://generated/type_that_tune_legal_notices.spdx",
+        FileAccess.READ
+    )
+    spdx_document_text_box.text = spdx_document_file.get_as_text()
+    spdx_document_file.close()
+
+    var document_list: Dictionary = {}
+    const LICENSES_DIR_PATH: String = "res://generated/licenses/"
+    var license_filenames: PackedStringArray = \
+        DirAccess.get_files_at(LICENSES_DIR_PATH)
+    for license_filename: String in license_filenames:
+        var license_file: FileAccess = FileAccess.open(
+            LICENSES_DIR_PATH + license_filename,
+            FileAccess.READ
+        )
+        document_list[license_filename] = license_file.get_as_text()
+    licenses_document_viewer.change_documents_list(document_list)
+
+
+func _ready() -> void:
+    set_up_godot_legal_notices()
+    set_up_ttt_legal_notices()
 
 
 func _on_close_button_pressed():
     hide()
+
+
+func _on_ttt_readme_meta_clicked(meta) -> void:
+    OS.shell_open(str(meta))

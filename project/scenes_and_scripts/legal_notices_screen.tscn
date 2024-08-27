@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dm4esd72ptakv"]
+[gd_scene load_steps=4 format=3 uid="uid://dm4esd72ptakv"]
 
 [ext_resource type="Script" path="res://scenes_and_scripts/legal_notices_screen.gd" id="1_agapk"]
 [ext_resource type="PackedScene" uid="uid://chn05cw6ft6g3" path="res://scenes_and_scripts/text_box_for_legal_notices.tscn" id="2_if6av"]
+[ext_resource type="PackedScene" uid="uid://cpqwp3t61k7nx" path="res://scenes_and_scripts/document_viewer.tscn" id="3_fxek8"]
 
 [node name="LegalNoticesScreen" type="ColorRect"]
 anchors_preset = 15
@@ -65,23 +66,31 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
-[node name="Licenses" type="HBoxContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Godot"]
+[node name="Licenses" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Godot" instance=ExtResource("3_fxek8")]
+layout_mode = 2
+
+[node name="Legal notices for Type That Tune’s source code" type="TabContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector"]
 visible = false
 layout_mode = 2
 
-[node name="Names" type="ItemList" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Godot/Licenses"]
+[node name="README" type="RichTextLabel" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Type That Tune’s source code"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.25
+bbcode_enabled = true
+text = "Type That Tune expresses the legal notices for its source code using an SPDX document. There are multiple formats for SPDX documents. Type That Tune uses the tag/value format. The tag/value format is the one that uses the [code].spdx[/code] file extension.
 
-[node name="Contents" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Godot/Licenses" instance=ExtResource("2_if6av")]
+For more information, please visit [url]https://spdx.dev[/url]"
+
+[node name="SPDX document" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Type That Tune’s source code" instance=ExtResource("2_if6av")]
+visible = false
 layout_mode = 2
-size_flags_horizontal = 3
+
+[node name="Text of licenses used in SPDX document" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Type That Tune’s source code" instance=ExtResource("3_fxek8")]
+layout_mode = 2
 
 [node name="CloseButton" type="Button" parent="MarginContainer/Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Close"
 
-[connection signal="item_selected" from="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Godot/Licenses/Names" to="." method="_on_godot_license_names_item_selected"]
+[connection signal="meta_clicked" from="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Type That Tune’s source code/README" to="." method="_on_ttt_readme_meta_clicked"]
 [connection signal="pressed" from="MarginContainer/Panel/MarginContainer/VBoxContainer/CloseButton" to="." method="_on_close_button_pressed"]
