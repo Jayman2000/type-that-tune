@@ -9,12 +9,6 @@ var license_info = Engine.get_license_info()
     $MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector
 @onready var legal_notices_for_godot: Node = \
     project_selector.get_node("Legal notices for Godot")
-@onready var godot_authors_text_box: TextEdit = \
-    legal_notices_for_godot.get_node("Authors")
-@onready var godot_donors_text_box: TextEdit = \
-    legal_notices_for_godot.get_node("Donors")
-@onready var godot_copyright_notices: TextEdit = \
-    legal_notices_for_godot.get_node("Copyright notices")
 @onready var godot_licenes_names: ItemList = \
     legal_notices_for_godot.get_node("Licenses/Names")
 @onready var godot_licenes_contents: TextEdit = \
@@ -43,6 +37,12 @@ func dictionary_to_nicely_formatted_list(
 
 
 func _ready() -> void:
+    var godot_authors_text_box: TextEdit = \
+        legal_notices_for_godot.get_node("Authors")
+    var godot_donors_text_box: TextEdit = \
+        legal_notices_for_godot.get_node("Donors")
+    var godot_copyright_notices: TextEdit = \
+        legal_notices_for_godot.get_node("Copyright notices")
     const AUTHOR_INFO_KEYS: Array[String] = [
         "founders",
         "lead_developers",
