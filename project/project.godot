@@ -13,11 +13,22 @@ config_version=5
 config/name="Type That Tune"
 run/main_scene="res://scenes_and_scripts/title_screen.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
-config/icon="res://icon.webp"
+config/icon="res://art/icon.webp"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="canvas_items"
 
 [filesystem]
 
 import/blender/enabled=false
+
+[gui]
+
+theme/custom="res://art/default_theme.tres"
+theme/custom_font="res://art/source_code_pro.woff2"
 
 [rendering]
 

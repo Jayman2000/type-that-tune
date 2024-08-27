@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpqwp3t61k7nx"]
+
+[ext_resource type="PackedScene" uid="uid://chn05cw6ft6g3" path="res://scenes_and_scripts/text_box_for_legal_notices.tscn" id="1_5fa8h"]
+[ext_resource type="Script" path="res://scenes_and_scripts/document_viewer.gd" id="1_qp5h2"]
+
+[node name="DocumentViewer" type="HBoxContainer"]
+visible = false
+script = ExtResource("1_qp5h2")
+
+[node name="Names" type="ItemList" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="Contents" parent="." instance=ExtResource("1_5fa8h")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="item_selected" from="Names" to="." method="_on_names_item_selected"]

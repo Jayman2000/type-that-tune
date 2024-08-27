@@ -10,31 +10,38 @@ SPDX-FileCopyrightText: 2024 Jason Yundt <jason@jasonyundt.email>
 1. Make sure that you have a copy of this repo on your computer. If you
 aren’t sure how to do this, then please click [here].
 
-2. Make sure that you have [Godot] v4.2.2 installed.
+2. Open a terminal.
+
+3. Change directory to the root of this repo by running this command:
+
+    ```bash
+    cd <path-to-repo>
+    ```
+
+4. Make sure that you have the following installed:
+
+    - [Godot] v4.2.2
+    - [uv](https://docs.astral.sh/uv/)
 
     If you use [the Nix package manager], then you may want to use this
-    repo’s flake in order to ensure that you have the right version of
-    Godot. Here’s what you need to do in order to use this repo’s flake:
+    repo’s flake in order to ensure that you have all of those
+    dependencies installed. To do so, run this command:
 
-    1. Open a terminal.
+    ```bash
+    nix \
+        --extra-experimental-features nix-command \
+        --extra-experimental-features flakes \
+        develop
+    ```
 
-    2. Change directory to the root of this repo by running this
-    command:
+5. Generate files that Godot will need when it imports the `project/`
+directory later. To do so, run this command:
 
-        ```bash
-        cd <path-to-repo>
-        ```
+    ```bash
+    uv run ttt-build-tool
+    ```
 
-    3. Activate the flake’s `devShell` by running this command:
-
-        ```bash
-        nix \
-            --extra-experimental-features nix-command \
-            --extra-experimental-features flakes \
-            develop
-        ```
-
-3. Open Godot.
+6. Open Godot.
 
     If you’re using the Nix flake that I mentioned earlier, then you can
     open the correct version of Godot by running this command:
@@ -43,18 +50,18 @@ aren’t sure how to do this, then please click [here].
     godot4
     ```
 
-4. Click “Import”.
+7. Click “Import”.
 
-5. In the “Open a File or Directory” window, navigate to the root of
+8. In the “Open a File or Directory” window, navigate to the root of
 this repo.
 
-6. Click on the `project/` folder.
+9. Click on the `project/` folder.
 
-7. Click “Select This Folder”.
+10. Click “Select This Folder”.
 
-8. Click “Import &amp; Edit”.
+11. Click “Import &amp; Edit”.
 
-9. Press <kbd>F5</kbd> to run the game.
+12. Press <kbd>F5</kbd> to run the game.
 
 <!-- editorconfig-checker-disable -->
 [Godot]: https://godotengine.org
@@ -74,6 +81,13 @@ creating a pre-commit configuration][3].
 - Try to keep lines shorter than seventy-three characters.
 - This repo uses an [EditorConfig](https://editorconfig.org) file.
 - Use [CommonMark](https://commonmark.org) for Markdown files.
+- If you’re using [NixOS](https://nixos.org), then the
+[ruff](https://docs.astral.sh/ruff/) pre-commit hook probably won’t
+work. Here’s how you fix it:
+
+    1. Set the `PIP_NO_BINARY` environment variable to “ruff”.
+    2. Run `pre-commit clean`
+    3. Run `pre-commit install-hooks`
 
 [1]: https://pre-commit.com
 [2]: https://pre-commit.com/#quick-start

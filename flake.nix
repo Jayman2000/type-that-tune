@@ -3,11 +3,15 @@
 {
     description = "A shell for working on Type That Tune";
 
-    inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    inputs = {
+        nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+        nixpkgsUnstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    };
 
-    outputs = { self, nixpkgs }: let
+    outputs = { self, nixpkgs, nixpkgsUnstable }: let
         system = "x86_64-linux";
         pkgs = import nixpkgs { inherit system; };
+        unstablePkgs = import nixpkgsUnstable { inherit system; };
     in {
         devShell.x86_64-linux = pkgs.mkShellNoCC {
             name = "dev-shell-for-reflecting-on-life";
@@ -23,9 +27,14 @@
                 pkgs.git
                 pkgs.nodePackages_latest.livedown
                 pkgs.godot_4
+                # Unfortunately, the version of uv that’s in pkgs isn’t
+                # new enough, so we have to use unstablePkgs here.
+                unstablePkgs.uv
+
                 customPre-commit
                 # Dependencies for pre-commit hooks:
                 pkgs.go
+                pkgs.rustc
             ];
         };
     };

@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://chn05cw6ft6g3"]
+
+[node name="TextBoxForLegalNotices" type="TextEdit"]
+editable = false
