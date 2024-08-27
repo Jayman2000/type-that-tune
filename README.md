@@ -22,6 +22,7 @@ aren’t sure how to do this, then please click [here].
 
     - [Godot] v4.2.2
     - [uv](https://docs.astral.sh/uv/)
+    - [FFmpeg](https://www.ffmpeg.org)
 
     If you use [the Nix package manager], then you may want to use this
     repo’s flake in order to ensure that you have all of those

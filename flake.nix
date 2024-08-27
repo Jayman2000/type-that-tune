@@ -27,6 +27,7 @@
                 pkgs.git
                 pkgs.nodePackages_latest.livedown
                 pkgs.godot_4
+                pkgs.ffmpeg
                 # Unfortunately, the version of uv that’s in pkgs isn’t
                 # new enough, so we have to use unstablePkgs here.
                 unstablePkgs.uv
