@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2024 Jason Yundt <jason@jasonyundt.email>
-extends Node
+extends CanvasItem
 
 
 var license_info = Engine.get_license_info()
@@ -119,3 +119,7 @@ func _ready() -> void:
 func _on_godot_license_names_item_selected(index: int) -> void:
     var item_name: String = godot_licenes_names.get_item_text(index)
     godot_licenes_contents.text = license_info[item_name]
+
+
+func _on_close_button_pressed():
+    hide()

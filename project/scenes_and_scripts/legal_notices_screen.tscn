@@ -78,9 +78,10 @@ size_flags_stretch_ratio = 0.25
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="MarginContainer/Panel/MarginContainer/VBoxContainer"]
+[node name="CloseButton" type="Button" parent="MarginContainer/Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Close"
 
 [connection signal="item_selected" from="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Godot/Licenses/Names" to="." method="_on_godot_license_names_item_selected"]
+[connection signal="pressed" from="MarginContainer/Panel/MarginContainer/VBoxContainer/CloseButton" to="." method="_on_close_button_pressed"]
