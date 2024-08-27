@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: 2024 Jason Yundt <jason@jasonyundt.email>
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools"]
+
+[project]
+dependencies = []
+description = "Prepares project/ before it gets imported by Godot"
+name = "type-that-tune-build-tool"
+requires-python = ">=3.8"
+# This is me trying to say “I don’t want this thing to have version
+# numbers.”
+version = "0.dev0"
+
+[project.scripts]
+ttt-build-tool = "build_tool:main"
+
+[tool.setuptools]
+packages = ["build_tool"]

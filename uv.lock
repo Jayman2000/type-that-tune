@@ -1,0 +1,7 @@
+version = 1
+requires-python = ">=3.8"
+
+[[package]]
+name = "type-that-tune-build-tool"
+version = "0.dev0"
+source = { editable = "." }
