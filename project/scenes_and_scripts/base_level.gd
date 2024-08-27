@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2024 Jason Yundt <jason@jasonyundt.email>
 extends Node
 
+
 var text_queue_i: int = 0
 
 @export var queue_loops: bool = false
