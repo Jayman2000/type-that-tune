@@ -11,15 +11,15 @@ config_version=5
 [application]
 
 config/name="Type That Tune"
-run/main_scene="res://scenes_and_scripts/level.tscn"
-config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://icon.svg"
+run/main_scene="res://scenes_and_scripts/title_screen.tscn"
+config/features=PackedStringArray("4.2", "GL Compatibility")
+config/icon="res://icon.webp"
 
-[display]
+[filesystem]
 
-window/size/viewport_width=1920
-window/size/viewport_height=1080
+import/blender/enabled=false
 
 [rendering]
 
-environment/defaults/default_clear_color=Color(0, 0, 0, 1)
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
