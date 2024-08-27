@@ -14,6 +14,10 @@ config/name="Type That Tune"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.webp"
 
+[filesystem]
+
+import/blender/enabled=false
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
