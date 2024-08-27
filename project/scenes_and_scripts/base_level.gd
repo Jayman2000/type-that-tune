@@ -3,7 +3,7 @@
 extends Node
 
 
-var queue_loops = false
+var queue_loops: bool = false
 var text_queue_i: int = 0
 var text_queue: Array[String] = []:
     set(new_text_queue):
