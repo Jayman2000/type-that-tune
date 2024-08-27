@@ -25,6 +25,10 @@ window/stretch/mode="canvas_items"
 
 import/blender/enabled=false
 
+[gui]
+
+theme/custom="res://art/default_theme.tres"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
