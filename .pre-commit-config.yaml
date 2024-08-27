@@ -46,6 +46,11 @@ repos:
                 exclude: *default_excludes
                 args:
                     - -ignore-defaults
+                    # Unfortunately, I don’t think that there’s any way
+                    # to get Godot to obey the EditorConfig when
+                    # generating plain text files.
+                    - -exclude
+                    - '*.import'
     -
         repo: https://github.com/pre-commit/pre-commit-hooks
         rev: v4.6.0

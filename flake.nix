@@ -22,6 +22,7 @@
             in [
                 pkgs.git
                 pkgs.nodePackages_latest.livedown
+                pkgs.godot_4
                 customPre-commit
                 # Dependencies for pre-commit hooks:
                 pkgs.go
