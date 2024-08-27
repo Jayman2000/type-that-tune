@@ -3,6 +3,9 @@
 extends Node
 
 
+signal text_queue_completed
+
+
 var text_queue_i: int = 0
 
 @export var queue_loops: bool = false
@@ -30,6 +33,7 @@ func advance_text_queue() -> void:
         text_queue_i = 0
         if not queue_loops:
             text_queue = []
+        emit_signal("text_queue_completed")
     update_displayed_text()
 
 
