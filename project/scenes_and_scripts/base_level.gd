@@ -3,6 +3,7 @@
 extends Node
 
 
+var queue_loops = false
 var text_queue_i: int = 0
 var text_queue: Array[String] = []:
     set(new_text_queue):
@@ -16,8 +17,19 @@ var text_queue: Array[String] = []:
 
 
 func update_displayed_text() -> void:
-    if len(text_queue) > 0:
+    if len(text_queue) == 0:
+        text_to_type_label.text = ""
+    else:
         text_to_type_label.text = text_queue[text_queue_i]
+
+
+func advance_text_queue() -> void:
+    text_queue_i += 1
+    if text_queue_i >= len(text_queue):
+        text_queue_i = 0
+        if not queue_loops:
+            text_queue = []
+    update_displayed_text()
 
 
 func next_correct_character() -> String:
@@ -38,3 +50,4 @@ func _unhandled_input(event: InputEvent) -> void:
             elif event.keycode == KEY_ENTER:
                 if text_to_type_label.text == user_input_label.text:
                     user_input_label.text = ""
+                    advance_text_queue()
