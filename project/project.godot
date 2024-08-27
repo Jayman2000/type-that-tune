@@ -28,6 +28,7 @@ import/blender/enabled=false
 [gui]
 
 theme/custom="res://art/default_theme.tres"
+theme/custom_font="res://art/source_code_pro.woff2"
 
 [rendering]
 
