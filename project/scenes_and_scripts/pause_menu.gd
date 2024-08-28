@@ -6,6 +6,9 @@ extends ColorRect
 signal unpaused
 
 
+@onready var debug_menu: CanvasItem = $DebugMenu
+
+
 func show_tutorial_skip_tip() -> void:
     var input_for_skip: String
     var skip_events: Array[InputEvent] = \
@@ -28,6 +31,7 @@ func show_tutorial_skip_tip() -> void:
 
 
 func resume():
+    debug_menu.visible = false
     visible = false
     get_tree().paused = false
     unpaused.emit()
