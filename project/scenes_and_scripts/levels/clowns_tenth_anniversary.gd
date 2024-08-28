@@ -41,15 +41,13 @@ func wait_for_text_queue_to_be_finished(
     )
 
 
-func _unhandled_key_input(event: InputEvent) -> void:
-    if event is InputEventKey and event.pressed:
-        if event.keycode == KEY_ESCAPE:
-            if animation_player.is_playing():
-                if animation_player.current_animation == "part_1":
-                    # Skip to the end of the tutorial:
-                    animation_player.advance(
-                        animation_player.current_animation_length
-                    )
-                    get_viewport().set_input_as_handled()
-                    return
-    super._unhandled_key_input(event)
+func _unhandled_input(event: InputEvent) -> void:
+    if event.is_action_pressed("skip"):
+        if animation_player.is_playing():
+            if animation_player.current_animation == "part_1":
+                # Skip to the end of the tutorial:
+                animation_player.advance(
+                    animation_player.current_animation_length
+                )
+                get_viewport().set_input_as_handled()
+                return
