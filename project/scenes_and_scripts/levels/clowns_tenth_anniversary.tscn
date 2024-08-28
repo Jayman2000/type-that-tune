@@ -106,10 +106,10 @@ tracks/1/path = NodePath(".:queue_loops")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 29),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 29, 625.333),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [false, true]
+"values": [false, true, false]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -118,10 +118,10 @@ tracks/2/path = NodePath(".:text_queue")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 31.133, 80.6),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 31.133, 80.6, 100.85, 134.633, 155.133, 177.35, 198.167, 239.25, 281.617, 302.25, 333.333, 366.617, 386.783, 407.5, 445.5, 478.017, 500.4, 522.633, 547.983, 605, 625.333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Array[String]([]), Array[String](["Shanghai Teahouse ~ Chinese Tea"]), Array[String](["Oriental Dark Flight"])]
+"values": [Array[String]([]), Array[String](["Shanghai Teahouse ~ Chinese Tea"]), Array[String](["Oriental Dark Flight"]), Array[String](["Flight of the Bamboo Cutter ~ Lunatic Princess"]), Array[String](["Gensokyo Millennium ~ History of the Moon"]), Array[String](["U.N. Owen was her?"]), Array[String](["Hartmann's Youkai Girl"]), Array[String](["Flowering Night"]), Array[String](["Interdimensional Voyage of a Ghostly Passenger Ship"]), Array[String](["Captain Murasa"]), Array[String](["Dichromatic Lotus Butterfly ~ Red and White"]), Array[String](["Lunatic Eyes ~ Invisible Full Moon"]), Array[String](["Heian Alien"]), Array[String](["Pierrot of the Star-Spangled Banner"]), Array[String](["The Venerable Ancient Battlefield ~ Suwa Foughten Field"]), Array[String](["Magus Night"]), Array[String](["Tomorrow Will Be Special, Yesterday Was Not"]), Array[String](["Native Faith"]), Array[String](["Beloved Tomboyish Girl"]), Array[String](["Bad Apple!!"]), Array[String](["Vessel of Stars ~ Casket of Star"]), Array[String](["Reincarnation"])]
 }
 tracks/3/type = "method"
 tracks/3/imported = false
@@ -182,11 +182,12 @@ _data = {
 
 [node name="ClownsTenthAnniversary" instance=ExtResource("1_m810v")]
 script = ExtResource("2_q6fmm")
-queue_loops = true
-text_queue = Array[String](["Oriental Dark Flight"])
 
 [node name="VideoStreamPlayer" parent="." index="0"]
 stream = ExtResource("2_1danf")
+
+[node name="VBoxContainer" parent="CenterContainer" index="0"]
+modulate = Color(1, 1, 1, 0)
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {
@@ -195,6 +196,7 @@ libraries = {
 autoplay = "part_1"
 
 [node name="TutorialContainer" type="MarginContainer" parent="." index="3"]
+modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
