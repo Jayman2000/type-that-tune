@@ -30,6 +30,8 @@ func update_displayed_text() -> void:
                 text_to_type_label.text = ""
         else:
             text_to_type_label.text = text_queue[text_queue_i]
+    if user_input_label != null:
+        user_input_label.text = ""
 
 
 func advance_text_queue() -> void:
