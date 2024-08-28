@@ -55,11 +55,14 @@ func next_correct_character() -> String:
 func _unhandled_key_input(event: InputEvent) -> void:
     if len(text_queue) > 0:
         if event is InputEventKey and event.pressed:
+            var viewport: Viewport = get_viewport()
             if event.unicode != 0:
                 var character_entered: String = char(event.unicode)
                 if character_entered == next_correct_character():
                     user_input_label.text += character_entered
+                viewport.set_input_as_handled()
             elif event.keycode == KEY_ENTER:
                 if text_to_type_label.text == user_input_label.text:
                     user_input_label.text = ""
                     advance_text_queue()
+                viewport.set_input_as_handled()
