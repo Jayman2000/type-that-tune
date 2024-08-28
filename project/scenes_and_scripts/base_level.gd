@@ -20,11 +20,16 @@ var text_queue_i: int = 0
     $CenterContainer/VBoxContainer/UserInput
 
 
+func _ready() -> void:
+    update_displayed_text()
+
+
 func update_displayed_text() -> void:
-    if len(text_queue) == 0:
-        text_to_type_label.text = ""
-    else:
-        text_to_type_label.text = text_queue[text_queue_i]
+    if text_to_type_label != null:
+        if len(text_queue) == 0:
+                text_to_type_label.text = ""
+        else:
+            text_to_type_label.text = text_queue[text_queue_i]
 
 
 func advance_text_queue() -> void:
