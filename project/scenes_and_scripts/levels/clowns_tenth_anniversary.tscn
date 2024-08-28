@@ -102,7 +102,7 @@ tracks/6/keys = {
 
 [sub_resource type="Animation" id="Animation_fudv1"]
 resource_name = "part_2"
-length = 660.0
+length = 682.0
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -148,8 +148,8 @@ tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(2.583, 13.1, 27.733),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(2.583, 13.1, 27.733, 682),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "values": [{
 "args": [PackedStringArray("Doukeshi Juunensai")],
 "method": &"wait_for_text_queue_to_be_finished"
@@ -159,6 +159,9 @@ tracks/3/keys = {
 }, {
 "args": [PackedStringArray("[The 10th Collaboration]")],
 "method": &"wait_for_text_queue_to_be_finished"
+}, {
+"args": [],
+"method": &"display_end_screen"
 }]
 }
 tracks/4/type = "value"

@@ -91,3 +91,13 @@ func _unhandled_key_input(event: InputEvent) -> void:
                     user_input_label.text = ""
                     advance_text_queue()
                 viewport.set_input_as_handled()
+
+
+func display_end_screen() -> void:
+    $EndScreen.show()
+
+
+func _on_main_menu_button_pressed() -> void:
+    get_tree().change_scene_to_packed(
+        preload("res://scenes_and_scripts/title_screen.tscn")
+    )
