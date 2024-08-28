@@ -41,7 +41,7 @@ func wait_for_text_queue_to_be_finished(
     )
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _unhandled_key_input(event: InputEvent) -> void:
     if event is InputEventKey and event.pressed:
         if event.keycode == KEY_ESCAPE:
             if animation_player.is_playing():
@@ -52,4 +52,4 @@ func _unhandled_input(event: InputEvent) -> void:
                     )
                     get_viewport().set_input_as_handled()
                     return
-    super._unhandled_input(event)
+    super._unhandled_key_input(event)

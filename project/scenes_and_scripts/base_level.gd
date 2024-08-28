@@ -52,7 +52,7 @@ func next_correct_character() -> String:
     return ""
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _unhandled_key_input(event: InputEvent) -> void:
     if len(text_queue) > 0:
         if event is InputEventKey and event.pressed:
             if event.unicode != 0:
