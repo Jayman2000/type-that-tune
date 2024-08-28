@@ -6,7 +6,7 @@
 
 [sub_resource type="Animation" id="Animation_2c2p8"]
 resource_name = "part_1"
-length = 15.0
+length = 30.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -26,7 +26,7 @@ tracks/1/path = NodePath(".:text_queue")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 10),
+"times": PackedFloat32Array(0, 23),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [Array[String]([]), Array[String](["[Donald]"])]
@@ -38,7 +38,7 @@ tracks/2/path = NodePath("CenterContainer/VBoxContainer:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 10.5, 12),
+"times": PackedFloat32Array(0, 23, 24.5),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -46,14 +46,14 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("TutorialContainer/Panel/MarginContainer/RichTextLabel:visible_ratio")
+tracks/3/path = NodePath("TutorialContainer/Panel/MarginContainer/TutorialTextBox:visible_ratio")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 1, 10),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 1, 10, 10.2, 13.2, 15, 22),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 0.0, 1.0]
+"values": [0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -74,12 +74,30 @@ tracks/5/path = NodePath(".")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 10.1, 14.4),
+"transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
 "args": [],
-"method": &"set_up_part_1_signals"
+"method": &"set_up_for_part_1"
+}, {
+"args": [],
+"method": &"make_sure_player_knows_how_to_pause"
+}, {
+"args": [],
+"method": &"switch_to_second_message_for_part_1"
 }]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("TutorialContainer:size")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 13.2, 15),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1920, 1080), Vector2(1920, 1080), Vector2(1920, 400)]
 }
 
 [sub_resource type="Animation" id="Animation_fudv1"]
@@ -185,12 +203,13 @@ _data = {
 
 [node name="ClownsTenthAnniversary" instance=ExtResource("1_m810v")]
 script = ExtResource("2_q6fmm")
+text_queue = Array[String](["[Donald]"])
 
 [node name="VideoStreamPlayer" parent="." index="0"]
 stream = ExtResource("2_1danf")
 
 [node name="VBoxContainer" parent="CenterContainer" index="0"]
-modulate = Color(1, 1, 1, 0)
+modulate = Color(1, 1, 1, 2.38419e-07)
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {
@@ -199,11 +218,10 @@ libraries = {
 autoplay = "part_1"
 
 [node name="TutorialContainer" type="MarginContainer" parent="." index="3"]
-modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = -697.0
+offset_bottom = -580.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 64
@@ -226,17 +244,14 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="RichTextLabel" type="RichTextLabel" parent="TutorialContainer/Panel/MarginContainer" index="0"]
+[node name="TutorialTextBox" type="RichTextLabel" parent="TutorialContainer/Panel/MarginContainer" index="0"]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
-text = "[center]Welcome to Type That Tune![/center]
-
-Whenever you see text appear in the center of your screen, type it in, and then press ENTER. Make sure that you capitalize everything correctly."
-visible_characters = 0
-visible_ratio = 0.0
 
 [node name="FadeOutPlayer" type="AnimationPlayer" parent="TutorialContainer" index="1"]
 libraries = {
 "": SubResource("AnimationLibrary_dul6i")
 }
+
+[connection signal="unpaused" from="PauseMenu" to="." method="_on_pause_menu_unpaused"]
