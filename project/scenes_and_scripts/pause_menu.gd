@@ -27,13 +27,17 @@ func show_tutorial_skip_tip() -> void:
     )
 
 
+func resume():
+    visible = false
+    get_tree().paused = false
+    unpaused.emit()
+
+
 func _unhandled_input(event: InputEvent) -> void:
     if event.is_action_pressed("pause"):
         var scene_tree: SceneTree = get_tree()
         if scene_tree.paused:
-            visible = false
-            scene_tree.paused = false
-            unpaused.emit()
+            resume()
         else:
             visible = true
             scene_tree.paused = true

@@ -18,8 +18,8 @@ var waiting_for_player_to_pause: bool = false
 func set_up_for_part_1() -> void:
     tutorial_text_box.text = (
         "[center]Welcome to Type That Tune![/center]\n\n"
-        + "You can pause and unpause the game at any time by pressing "
-        + "one of these keys:\n\n"
+        + "You can pause the game at any time by pressing one of these "
+        + "keys:\n\n"
     )
     for event: InputEvent in InputMap.action_get_events(&"pause"):
         tutorial_text_box.text += "• " + event.as_text() + "\n"
