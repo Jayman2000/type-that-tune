@@ -1,4 +1,9 @@
 [gd_resource type="Theme" format=3 uid="uid://ddydn0g1e4ifa"]
 
 [resource]
+BigText/base_type = &"Label"
+BigText/colors/font_outline_color = Color(0, 0, 0, 1)
+BigText/constants/outline_size = 16
+BigText/font_sizes/font_size = 57
+Button/font_sizes/font_size = 50
 VBoxContainer/constants/separation = 8

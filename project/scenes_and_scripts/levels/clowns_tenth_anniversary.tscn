@@ -1,0 +1,261 @@
+[gd_scene load_steps=9 format=3 uid="uid://dfjmo6dbcwvwp"]
+
+[ext_resource type="PackedScene" uid="uid://c17df4x23ypub" path="res://scenes_and_scripts/base_level.tscn" id="1_m810v"]
+[ext_resource type="VideoStream" path="res://generated/media/clowns_tenth_anniversary.ogv" id="2_1danf"]
+[ext_resource type="Script" path="res://scenes_and_scripts/levels/clowns_tenth_anniversary.gd" id="2_q6fmm"]
+
+[sub_resource type="Animation" id="Animation_2c2p8"]
+resource_name = "part_1"
+length = 30.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:queue_loops")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:text_queue")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 23),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Array[String]([]), Array[String](["[Donald]"])]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CenterContainer/VBoxContainer:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 23, 24.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TutorialContainer/Panel/MarginContainer/TutorialTextBox:visible_ratio")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1, 10, 10.2, 13.2, 15, 22),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("TutorialContainer:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 10.1, 14.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"set_up_for_part_1"
+}, {
+"args": [],
+"method": &"make_sure_player_knows_how_to_pause"
+}, {
+"args": [],
+"method": &"switch_to_second_message_for_part_1"
+}]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("TutorialContainer:size")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 13.2, 15),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1920, 1080), Vector2(1920, 1080), Vector2(1920, 400)]
+}
+
+[sub_resource type="Animation" id="Animation_fudv1"]
+resource_name = "part_2"
+length = 682.0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VideoStreamPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:queue_loops")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 29, 625.333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:text_queue")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 31.133, 80.6, 100.85, 134.633, 155.133, 177.35, 198.167, 239.25, 281.617, 302.25, 333.333, 366.617, 386.783, 407.5, 455.5, 478.017, 500.4, 522.633, 547.983, 605, 625.333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Array[String]([]), Array[String](["Shanghai Teahouse ~ Chinese Tea"]), Array[String](["Oriental Dark Flight"]), Array[String](["Flight of the Bamboo Cutter ~ Lunatic Princess"]), Array[String](["Gensokyo Millennium ~ History of the Moon"]), Array[String](["U.N. Owen was her?"]), Array[String](["Hartmann's Youkai Girl"]), Array[String](["Flowering Night"]), Array[String](["Interdimensional Voyage of a Ghostly Passenger Ship"]), Array[String](["Captain Murasa"]), Array[String](["Dichromatic Lotus Butterfly ~ Red and White"]), Array[String](["Lunatic Eyes ~ Invisible Full Moon"]), Array[String](["Heian Alien"]), Array[String](["Pierrot of the Star-Spangled Banner"]), Array[String](["The Venerable Ancient Battlefield ~ Suwa Foughten Field"]), Array[String](["Magus Night"]), Array[String](["Tomorrow Will Be Special, Yesterday Was Not"]), Array[String](["Native Faith"]), Array[String](["Beloved Tomboyish Girl"]), Array[String](["Bad Apple!!"]), Array[String](["Vessel of Stars ~ Casket of Star"]), Array[String](["Reincarnation"])]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(2.583, 13.1, 27.733, 682),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [PackedStringArray("Doukeshi Juunensai")],
+"method": &"wait_for_text_queue_to_be_finished"
+}, {
+"args": [PackedStringArray("Clown\'s Tenth Anniversary")],
+"method": &"wait_for_text_queue_to_be_finished"
+}, {
+"args": [PackedStringArray("[The 10th Collaboration]")],
+"method": &"wait_for_text_queue_to_be_finished"
+}, {
+"args": [],
+"method": &"display_end_screen"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CenterContainer/VBoxContainer:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p63ka"]
+_data = {
+"part_1": SubResource("Animation_2c2p8"),
+"part_2": SubResource("Animation_fudv1")
+}
+
+[sub_resource type="Animation" id="Animation_pm5w6"]
+resource_name = "fade_out"
+length = 1.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dul6i"]
+_data = {
+"fade_out": SubResource("Animation_pm5w6")
+}
+
+[node name="ClownsTenthAnniversary" instance=ExtResource("1_m810v")]
+script = ExtResource("2_q6fmm")
+
+[node name="VideoStreamPlayer" parent="." index="0"]
+stream = ExtResource("2_1danf")
+
+[node name="VBoxContainer" parent="CenterContainer" index="0"]
+modulate = Color(1, 1, 1, 0)
+
+[node name="AnimationPlayer" parent="." index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_p63ka")
+}
+autoplay = "part_1"
+
+[node name="TutorialContainer" type="MarginContainer" parent="." index="3"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="Panel" type="Panel" parent="TutorialContainer" index="0"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TutorialContainer/Panel" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="TutorialTextBox" type="RichTextLabel" parent="TutorialContainer/Panel/MarginContainer" index="0"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="FadeOutPlayer" type="AnimationPlayer" parent="TutorialContainer" index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_dul6i")
+}
+
+[connection signal="unpaused" from="PauseMenu" to="." method="_on_pause_menu_unpaused"]

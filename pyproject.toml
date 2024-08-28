@@ -6,7 +6,11 @@ build-backend = "setuptools.build_meta"
 requires = ["setuptools"]
 
 [project]
-dependencies = ["reuse"]
+dependencies = [
+    "appdirs",
+    "reuse",
+    "yt-dlp"
+]
 description = "Prepares project/ before it gets imported by Godot"
 name = "type-that-tune-build-tool"
 requires-python = ">=3.8"

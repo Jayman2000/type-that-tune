@@ -126,7 +126,11 @@ repos:
                 args:
                     - --strict
                 additional_dependencies:
+                    - appdirs
+                    - appdirs-stubs
                     - reuse
+                    - yt-dlp
+                    - yt-dlp-types
     -
         repo: https://github.com/astral-sh/ruff-pre-commit
         rev: v0.6.2

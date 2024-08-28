@@ -1,0 +1,205 @@
+[gd_scene load_steps=5 format=3 uid="uid://c17df4x23ypub"]
+
+[ext_resource type="Script" path="res://scenes_and_scripts/base_level.gd" id="1_epdmp"]
+[ext_resource type="Script" path="res://scenes_and_scripts/pause_menu.gd" id="2_31nxr"]
+[ext_resource type="Script" path="res://scenes_and_scripts/debug_menu.gd" id="3_g8wi5"]
+[ext_resource type="Script" path="res://scenes_and_scripts/time_display.gd" id="4_e2yek"]
+
+[node name="BaseLevel" type="Node"]
+script = ExtResource("1_epdmp")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="TextToType" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"BigText"
+vertical_alignment = 2
+
+[node name="UserInput" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"BigText"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="EndScreen" type="MarginContainer" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="Panel" type="Panel" parent="EndScreen"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EndScreen/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="EndScreen/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 150
+text = "Level complete!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MainMenuButton" type="Button" parent="EndScreen/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+text = "Return to main menu"
+
+[node name="PauseMenu" type="ColorRect" parent="."]
+process_mode = 3
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.501961)
+script = ExtResource("2_31nxr")
+
+[node name="MarginContainer" type="MarginContainer" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="TipText" type="Label" parent="PauseMenu/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="PauseText" type="Label" parent="PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 200
+text = "Paused"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+text = "Resume"
+
+[node name="DebugMenuButton" type="Button" parent="PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+text = "Show debug menu"
+
+[node name="DebugMenu" type="MarginContainer" parent="PauseMenu"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+script = ExtResource("3_g8wi5")
+
+[node name="Panel" type="Panel" parent="PauseMenu/DebugMenu"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/DebugMenu/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="PauseMenu/DebugMenu/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Debug Menu"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PauseMenu/DebugMenu/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PauseMenu/DebugMenu/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Seek main AnimationPlayer to this number of seconds:"
+
+[node name="SeekPositionInputBox" type="LineEdit" parent="PauseMenu/DebugMenu/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+placeholder_text = "seconds"
+
+[node name="SeekButton" type="Button" parent="PauseMenu/DebugMenu/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Seek"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PauseMenu/DebugMenu/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "WARNING: Seeking doesn’t actually work properly at the moment because [url=https://docs.godotengine.org/en/4.2/tutorials/animation/playing_videos.html#playback-limitations]Godot doesn’t support seeking video streams yet[/url]. I’m only keeping this implemented because it might be useful in the future once Godot support seeking.
+"
+
+[node name="ShowTimesButton" type="Button" parent="PauseMenu/DebugMenu/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Show playback times"
+
+[node name="CloseButton" type="Button" parent="PauseMenu/DebugMenu/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Close Debug Menu"
+
+[node name="TimeDisplay" type="Label" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"BigText"
+vertical_alignment = 2
+script = ExtResource("4_e2yek")
+
+[connection signal="pressed" from="EndScreen/Panel/VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
+[connection signal="pressed" from="PauseMenu/MarginContainer/VBoxContainer/ResumeButton" to="PauseMenu" method="resume"]
+[connection signal="pressed" from="PauseMenu/MarginContainer/VBoxContainer/DebugMenuButton" to="PauseMenu/DebugMenu" method="show"]
+[connection signal="pressed" from="PauseMenu/DebugMenu/Panel/VBoxContainer/HBoxContainer/SeekButton" to="PauseMenu/DebugMenu" method="_on_seek_button_pressed"]
+[connection signal="meta_clicked" from="PauseMenu/DebugMenu/Panel/VBoxContainer/HBoxContainer/RichTextLabel" to="PauseMenu/DebugMenu" method="_on_rich_text_label_meta_clicked"]
+[connection signal="pressed" from="PauseMenu/DebugMenu/Panel/VBoxContainer/ShowTimesButton" to="TimeDisplay" method="enable"]
+[connection signal="pressed" from="PauseMenu/DebugMenu/Panel/VBoxContainer/CloseButton" to="PauseMenu/DebugMenu" method="hide"]
