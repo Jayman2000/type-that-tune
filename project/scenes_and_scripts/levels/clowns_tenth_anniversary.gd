@@ -8,11 +8,9 @@ const PauseMenu := preload("res://scenes_and_scripts/pause_menu.gd")
 var player_has_confirmed_they_know_how_to_pause: bool = false
 var waiting_for_player_to_pause: bool = false
 
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var pause_menu: PauseMenu = $PauseMenu
 @onready var tutorial_text_box: RichTextLabel = \
     $TutorialContainer/Panel/MarginContainer/TutorialTextBox
-@onready var video_stream_player: VideoStreamPlayer = $VideoStreamPlayer
 
 
 func set_up_for_part_1() -> void:
@@ -52,28 +50,6 @@ func make_sure_player_knows_how_to_pause() -> void:
         animation_player.pause()
         waiting_for_player_to_pause = true
 
-
-func wait_for_text_queue_to_be_finished(
-    # I’m using a PackedStringArray here instead of an Array[String] in
-    # order to work around this bug:
-    # <https://github.com/godotengine/godot/issues/78681>
-    new_text_queue: PackedStringArray
-) -> void:
-    animation_player.pause()
-    video_stream_player.paused = true
-
-    if not new_text_queue.is_empty():
-        var new_text_queue_as_a_reqular_array: Array[String] = []
-        for item in new_text_queue:
-            new_text_queue_as_a_reqular_array.append(item)
-        text_queue = new_text_queue_as_a_reqular_array
-
-    text_queue_completed.connect(
-        func():
-            animation_player.play()
-            video_stream_player.paused = false,
-        CONNECT_ONE_SHOT
-    )
 
 
 func _unhandled_input(event: InputEvent) -> void:
