@@ -38,6 +38,7 @@ func set_up_for_part_1() -> void:
 
 
 func switch_to_second_message_for_part_1() -> void:
+    pause_menu.show_tutorial_skip_tip()
     tutorial_text_box.text = (
         "Good job!\n\n"
         + "Whenever you see text appear in the center of your screen, "

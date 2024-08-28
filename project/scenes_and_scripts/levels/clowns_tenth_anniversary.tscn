@@ -203,13 +203,12 @@ _data = {
 
 [node name="ClownsTenthAnniversary" instance=ExtResource("1_m810v")]
 script = ExtResource("2_q6fmm")
-text_queue = Array[String](["[Donald]"])
 
 [node name="VideoStreamPlayer" parent="." index="0"]
 stream = ExtResource("2_1danf")
 
 [node name="VBoxContainer" parent="CenterContainer" index="0"]
-modulate = Color(1, 1, 1, 2.38419e-07)
+modulate = Color(1, 1, 1, 0)
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {
@@ -218,10 +217,10 @@ libraries = {
 autoplay = "part_1"
 
 [node name="TutorialContainer" type="MarginContainer" parent="." index="3"]
+modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = -580.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 64
@@ -248,6 +247,8 @@ theme_override_constants/margin_bottom = 16
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
+visible_characters = 0
+visible_ratio = 0.0
 
 [node name="FadeOutPlayer" type="AnimationPlayer" parent="TutorialContainer" index="1"]
 libraries = {
