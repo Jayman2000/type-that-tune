@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c17df4x23ypub"]
+[gd_scene load_steps=3 format=3 uid="uid://c17df4x23ypub"]
 
 [ext_resource type="Script" path="res://scenes_and_scripts/base_level.gd" id="1_epdmp"]
+[ext_resource type="Script" path="res://scenes_and_scripts/pause_menu.gd" id="2_31nxr"]
 
 [node name="BaseLevel" type="Node"]
 script = ExtResource("1_epdmp")
@@ -32,3 +33,26 @@ layout_mode = 2
 theme_type_variation = &"BigText"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="PauseMenu" type="ColorRect" parent="."]
+process_mode = 3
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.501961)
+script = ExtResource("2_31nxr")
+
+[node name="Label" type="Label" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 500
+text = "Paused"
+horizontal_alignment = 1
+vertical_alignment = 1
