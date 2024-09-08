@@ -27,6 +27,12 @@ size_flags_horizontal = 4
 size_flags_vertical = 6
 text = "Play"
 
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+text = "Quit"
+
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
@@ -42,4 +48,5 @@ scroll_active = false
 visible = false
 
 [connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="meta_clicked" from="RichTextLabel" to="." method="_on_rich_text_label_meta_clicked"]
