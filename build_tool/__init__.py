@@ -161,6 +161,10 @@ def prepare_all_media() -> None:
         "https://www.nicovideo.jp/watch/sm2057168",
         "ronald_mcdonald_insanity"
     )
+    prepare_one_piece_of_media(
+        "https://www.nicovideo.jp/watch/sm5718044",
+        "mcdonalds_countdown"
+    )
 
 
 def main() -> int:

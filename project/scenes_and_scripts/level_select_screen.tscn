@@ -34,6 +34,12 @@ size_flags_horizontal = 4
 size_flags_vertical = 6
 text = "Level 3"
 
+[node name="Level4Button" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+text = "Level 4"
+
 [node name="ReturnToMenuButton" type="Button" parent="."]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -43,4 +49,5 @@ text = "Return to main menu"
 [connection signal="pressed" from="Level1Button" to="." method="_on_level_1_button_pressed"]
 [connection signal="pressed" from="Level2Button" to="." method="_on_level_2_button_pressed"]
 [connection signal="pressed" from="Level3Button" to="." method="_on_level_3_button_pressed"]
+[connection signal="pressed" from="Level4Button" to="." method="_on_level_4_button_pressed"]
 [connection signal="pressed" from="ReturnToMenuButton" to="." method="_on_return_to_menu_button_pressed"]

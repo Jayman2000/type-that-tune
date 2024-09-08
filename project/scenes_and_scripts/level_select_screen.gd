@@ -22,9 +22,13 @@ func _on_level_3_button_pressed() -> void:
     )
 
 
+func _on_level_4_button_pressed() -> void:
+    get_tree().change_scene_to_file(
+        "res://scenes_and_scripts/levels/mcdonalds_countdown.tscn"
+    )
+
+
 func _on_return_to_menu_button_pressed() -> void:
     get_tree().change_scene_to_file(
         "res://scenes_and_scripts/title_screen.tscn"
     )
-
-
