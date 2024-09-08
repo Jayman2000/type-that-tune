@@ -1,0 +1,80 @@
+[gd_scene load_steps=5 format=3 uid="uid://rfodhbvjuso6"]
+
+[ext_resource type="PackedScene" uid="uid://c17df4x23ypub" path="res://scenes_and_scripts/base_level.tscn" id="1_jvfbs"]
+[ext_resource type="VideoStream" path="res://generated/media/ronald_mcdonald_insanity.ogv" id="2_dw2xl"]
+
+[sub_resource type="Animation" id="Animation_mk4db"]
+resource_name = "main"
+length = 320.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:queue_loops")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:text_queue")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 120.8, 313.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Array[String](["U.N. Owen was her?"]), Array[String](["Last Brutal Sister Flandre S."]), Array[String]([])]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(319),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"display_end_screen"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("VideoStreamPlayer")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3pnl8"]
+_data = {
+"main": SubResource("Animation_mk4db")
+}
+
+[node name="RonaldMcDonaldInsanity" instance=ExtResource("1_jvfbs")]
+queue_loops = true
+text_queue = Array[String](["U.N. Owen was her?"])
+initial_text_queue = Array[String](["Ronald McDonald Insanity"])
+
+[node name="VideoStreamPlayer" parent="." index="0"]
+stream = ExtResource("2_dw2xl")
+
+[node name="AnimationPlayer" parent="." index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_3pnl8")
+}
+
+[connection signal="text_queue_completed" from="." to="AnimationPlayer" method="play" binds= [&"main"]]
