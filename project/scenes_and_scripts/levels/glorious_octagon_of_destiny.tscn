@@ -69,7 +69,7 @@ _data = {
 
 [node name="GloriousOctagonOfDestiny" instance=ExtResource("1_23rpp")]
 queue_loops = true
-text_queue = Array[String](["The Glorious Octagon of Destiny"])
+initial_text_queue = Array[String](["The Glorious Octagon of Destiny"])
 
 [node name="VideoStreamPlayer" parent="." index="0"]
 stream = ExtResource("2_t3xqi")
