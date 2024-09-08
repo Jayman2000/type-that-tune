@@ -78,4 +78,4 @@ libraries = {
 "": SubResource("AnimationLibrary_3pnl8")
 }
 
-[connection signal="text_queue_completed" from="." to="AnimationPlayer" method="play" binds= [&"main"]]
+[connection signal="text_queue_completed" from="." to="AnimationPlayer" method="play" flags=6 binds= [&"main"]]
