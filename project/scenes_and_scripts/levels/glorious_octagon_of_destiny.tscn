@@ -1,0 +1,82 @@
+[gd_scene load_steps=5 format=3 uid="uid://b75gc6ipom3li"]
+
+[ext_resource type="PackedScene" uid="uid://c17df4x23ypub" path="res://scenes_and_scripts/base_level.tscn" id="1_23rpp"]
+[ext_resource type="VideoStream" path="res://generated/media/glorious_octagon_of_destiny.ogv" id="2_t3xqi"]
+
+[sub_resource type="Animation" id="Animation_3twwj"]
+resource_name = "main"
+length = 481.0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VideoStreamPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:queue_loops")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 439),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:text_queue")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 13.2, 26.067, 49.933, 82.933, 111.567, 148.467, 178.557, 205.167, 243.967, 266.2, 285.667, 305.4, 329.5, 363.733, 390, 437.367),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Array[String]([]), Array[String](["Viva Happy"]), Array[String](["WarioWare Inc."]), Array[String](["Bonfire"]), Array[String](["Rock My Emotions"]), Array[String](["Heart of Fire"]), Array[String](["Because Princess Inada Is Scolding Me"]), Array[String](["Fort Francis"]), Array[String](["Keep Moving, Kirby! ~ Hilltop Chase"]), Array[String](["Focus"]), Array[String](["In the Hall of the Mountain King"]), Array[String](["Kill Me no Baby!"]), Array[String](["Overdrive"]), Array[String](["Snow Goose"]), Array[String](["Big Blue"]), Array[String](["smooooch", "Kokoro Odoru", "Ochame Kinou", "Shuric Scan", "Bonetrousle", "Oshama Scramble!", "Solar Sect of Mystic Wisdom ~ Nuclear Fusion", "We Are Number One", "Minor Circuit", "Second Heaven", "Bloomin' feeling"]), Array[String]([])]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(441.1, 480.1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [PackedStringArray("Beelzeboss (The Final Showdown)")],
+"method": &"wait_for_text_queue_to_be_finished"
+}, {
+"args": [],
+"method": &"display_end_screen"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pvikt"]
+_data = {
+"main": SubResource("Animation_3twwj")
+}
+
+[node name="GloriousOctagonOfDestiny" instance=ExtResource("1_23rpp")]
+queue_loops = true
+initial_text_queue = Array[String](["The Glorious Octagon of Destiny"])
+
+[node name="VideoStreamPlayer" parent="." index="0"]
+stream = ExtResource("2_t3xqi")
+
+[node name="AnimationPlayer" parent="." index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_pvikt")
+}
+
+[connection signal="text_queue_completed" from="." to="AnimationPlayer" method="play" flags=6 binds= [&"main"]]

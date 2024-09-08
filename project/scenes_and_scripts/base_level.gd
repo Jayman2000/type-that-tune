@@ -12,7 +12,9 @@ var text_queue_i: int = 0
 @export var text_queue: Array[String] = []:
     set(new_text_queue):
         text_queue = new_text_queue
+        text_queue_i = 0
         update_displayed_text()
+@export var initial_text_queue: Array[String] = []
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var text_to_type_label: Label = \
@@ -23,7 +25,7 @@ var text_queue_i: int = 0
 
 
 func _ready() -> void:
-    update_displayed_text()
+    text_queue = initial_text_queue
 
 
 func update_displayed_text() -> void:
@@ -100,4 +102,10 @@ func display_end_screen() -> void:
 func _on_main_menu_button_pressed() -> void:
     get_tree().change_scene_to_packed(
         preload("res://scenes_and_scripts/title_screen.tscn")
+    )
+
+
+func _on_level_select_button_pressed() -> void:
+    get_tree().change_scene_to_file(
+        "res://scenes_and_scripts/level_select_screen.tscn"
     )

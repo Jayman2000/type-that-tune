@@ -89,7 +89,11 @@ def locate_ffmpeg() -> pathlib.Path:
         )
     return pathlib.Path(FFMPEG_PATH)
 
-def prepare_one_piece_of_media(url: str, name: str) -> None:
+def prepare_one_piece_of_media(
+    url: str,
+    name: str,
+    additional_ffmpeg_args: tuple[str, ...] = tuple()
+) -> None:
     URL_HASH: Final = hashlib.sha3_256(url.encode("utf-8")).hexdigest()
     CACHED_DOWNLOAD_PATH_NO_SUFFIX: Final = pathlib.Path(
         CACHE_DIRECTORY,
@@ -120,22 +124,38 @@ def prepare_one_piece_of_media(url: str, name: str) -> None:
 
     if not GENERATED_FILE_PATH.exists():
         FFMPEG_COMMAND: Final[tuple[str, ...]] = (
-            str(FFMPEG_PATH),
-            "-i", str(CACHED_DOWNLOAD_PATH),
-            "-codec:v", "libtheora",
-            "-qscale:v", "10",
-            "-codec:a", "libvorbis",
-            "-qscale:a", "10",
-            "-y",
-            str(GENERATED_FILE_PATH.absolute())
+            (
+                str(FFMPEG_PATH),
+                "-i", str(CACHED_DOWNLOAD_PATH),
+                "-codec:v", "libtheora",
+                "-qscale:v", "10",
+                "-codec:a", "libvorbis",
+                "-qscale:a", "10",
+                "-y"
+            )
+            + additional_ffmpeg_args
+            + (
+                str(GENERATED_FILE_PATH.absolute()),
+            )
         )
         subprocess.run(FFMPEG_COMMAND)
 
 
 def prepare_all_media() -> None:
+    FFMPEG_RESIZE_FILTER: Final = (
+        "scale=width=1920"
+        ":height=0"
+        ":force_original_aspect_ratio=decrease"
+    )
+
     prepare_one_piece_of_media(
         "https://youtu.be/XXU68uo9qUc",
         "clowns_tenth_anniversary"
+    )
+    prepare_one_piece_of_media(
+        "https://youtu.be/ddWJatRxfz8",
+        "glorious_octagon_of_destiny",
+        ("-filter:v", FFMPEG_RESIZE_FILTER)
     )
 
 
