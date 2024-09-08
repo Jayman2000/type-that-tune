@@ -12,6 +12,7 @@ var text_queue_i: int = 0
 @export var text_queue: Array[String] = []:
     set(new_text_queue):
         text_queue = new_text_queue
+        text_queue_i = 0
         update_displayed_text()
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
