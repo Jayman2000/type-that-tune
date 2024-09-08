@@ -12,5 +12,5 @@ func _on_rich_text_label_meta_clicked(_meta) -> void:
 
 func _on_play_button_pressed():
     get_tree().change_scene_to_file(
-        "res://scenes_and_scripts/levels/clowns_tenth_anniversary.tscn"
+        "res://scenes_and_scripts/level_select_screen.tscn"
     )
