@@ -8,6 +8,7 @@ signal text_queue_completed
 
 var text_queue_i: int = 0
 
+@export var aspect_ratio: Vector2 = Vector2(16, 9)
 @export var queue_loops: bool = false
 @export var text_queue: Array[String] = []:
     set(new_text_queue):
@@ -21,10 +22,12 @@ var text_queue_i: int = 0
     $CenterContainer/VBoxContainer/TextToType
 @onready var user_input_label: Label = \
     $CenterContainer/VBoxContainer/UserInput
-@onready var video_stream_player: VideoStreamPlayer = $VideoStreamPlayer
+@onready var video_stream_player: VideoStreamPlayer = \
+    $AspectRatioContainer/VideoStreamPlayer
 
 
 func _ready() -> void:
+    $AspectRatioContainer.ratio = aspect_ratio.x / aspect_ratio.y
     text_queue = initial_text_queue
 
 

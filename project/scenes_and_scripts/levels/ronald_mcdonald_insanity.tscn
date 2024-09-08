@@ -47,7 +47,7 @@ tracks/2/keys = {
 tracks/3/type = "method"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("VideoStreamPlayer")
+tracks/3/path = NodePath("AspectRatioContainer/VideoStreamPlayer")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -65,11 +65,12 @@ _data = {
 }
 
 [node name="RonaldMcDonaldInsanity" instance=ExtResource("1_jvfbs")]
+aspect_ratio = Vector2(4, 3)
 queue_loops = true
 text_queue = Array[String](["U.N. Owen was her?"])
 initial_text_queue = Array[String](["Ronald McDonald Insanity"])
 
-[node name="VideoStreamPlayer" parent="." index="0"]
+[node name="VideoStreamPlayer" parent="AspectRatioContainer" index="0"]
 stream = ExtResource("2_dw2xl")
 
 [node name="AnimationPlayer" parent="." index="2"]

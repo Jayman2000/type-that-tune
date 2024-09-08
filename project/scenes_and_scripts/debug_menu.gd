@@ -8,7 +8,7 @@ extends MarginContainer
 @onready var seek_position_input_box: LineEdit = \
     $Panel/VBoxContainer/HBoxContainer/SeekPositionInputBox
 @onready var video_stream_player: VideoStreamPlayer = \
-    $"../../VideoStreamPlayer"
+    $"../../AspectRatioContainer/VideoStreamPlayer"
 
 
 func _on_seek_button_pressed():

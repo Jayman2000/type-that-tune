@@ -5,7 +5,7 @@ extends Label
 
 @onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
 @onready var video_stream_player: VideoStreamPlayer = \
-    $"../VideoStreamPlayer"
+    $"../AspectRatioContainer/VideoStreamPlayer"
 
 
 func _ready() -> void:
