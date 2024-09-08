@@ -106,6 +106,14 @@ func _on_main_menu_button_pressed() -> void:
 
 
 func _on_level_select_button_pressed() -> void:
+    # This is needed for the LevelSelectButton that’s in the PauseMenu.
+    # If we don’t make sure that the game is unpaused now, then there’s
+    # a chance that the game will be paused during the level select
+    # screen. When the game is paused during the level select screen,
+    # none of the level select Buttons work, and there’s no way to
+    # uppause the game.
+    get_tree().paused = false
+
     get_tree().change_scene_to_file(
         "res://scenes_and_scripts/level_select_screen.tscn"
     )
