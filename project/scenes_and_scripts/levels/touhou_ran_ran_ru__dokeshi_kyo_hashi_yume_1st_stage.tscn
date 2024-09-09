@@ -1,0 +1,87 @@
+[gd_scene load_steps=5 format=3 uid="uid://b2eep4j582ngn"]
+
+[ext_resource type="PackedScene" uid="uid://c17df4x23ypub" path="res://scenes_and_scripts/base_level.tscn" id="1_kx2fx"]
+[ext_resource type="VideoStream" path="res://generated/media/touhou_ran_ran_ru__dokeshi_kyo_hashi_yume_1st_stage.ogv" id="2_6ofgx"]
+
+[sub_resource type="Animation" id="Animation_76ykv"]
+resource_name = "main"
+length = 1076.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:queue_loops")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AspectRatioContainer/VideoStreamPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:text_queue")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 28.295, 53.687, 72.513, 91.598, 113.62, 146.693, 166.68, 185.906, 203.59, 227.347, 268.395, 288.515, 320.954),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Array[String]([]), Array[String](["Maiden's Capriccio ~ Dream Battle"]), Array[String](["A Soul as Scarlet as a Ground Cherry"]), Array[String](["Corpse Voyage ~ Be of good cheer!"]), Array[String](["The Doll Maker of Bucuresti"]), Array[String](["Beware the Umbrella Left There Forever"]), Array[String](["Shanghai Alice of Meiji 17"]), Array[String](["Extend Ash ~ Person of Hourai"]), Array[String](["Lunate Elf"]), Array[String](["Lunar Clock ~ Luna Dial"]), Array[String](["Dark Side of Fate"]), Array[String](["G Free"]), Array[String](["Catastrophe in Bhavaagra ~ Wonderful Heaven"]), Array[String](["Vanishing Dream ~ Lost Dream"])]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(2.603, 13.113, 17.184, 21.255),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [PackedStringArray("Touhou Ran Ran Ru")],
+"method": &"wait_for_text_queue_to_be_finished"
+}, {
+"args": [PackedStringArray("dokeshi-kyi hashi yume")],
+"method": &"wait_for_text_queue_to_be_finished"
+}, {
+"args": [PackedStringArray("1st Stage")],
+"method": &"wait_for_text_queue_to_be_finished"
+}, {
+"args": [PackedStringArray("[Part 1 of the collaboration]")],
+"method": &"wait_for_text_queue_to_be_finished"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hujd6"]
+_data = {
+"main": SubResource("Animation_76ykv")
+}
+
+[node name="TouhouRanRanRuDokeshiKyoHashiYume1stStage" instance=ExtResource("1_kx2fx")]
+initial_text_queue = Array[String](["[Donald]"])
+
+[node name="VideoStreamPlayer" parent="AspectRatioContainer" index="0"]
+stream = ExtResource("2_6ofgx")
+
+[node name="AnimationPlayer" parent="." index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_hujd6")
+}
+
+[connection signal="text_queue_completed" from="." to="AnimationPlayer" method="play" binds= [&"main"]]

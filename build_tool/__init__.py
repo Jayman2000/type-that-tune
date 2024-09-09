@@ -169,6 +169,10 @@ def prepare_all_media() -> None:
         "https://www.nicovideo.jp/watch/sm11449123",
         "touhou_ran_ran_ru__dokeshi_boso_kuse"
     )
+    prepare_one_piece_of_media(
+        "https://www.nicovideo.jp/watch/sm13204470",
+        "touhou_ran_ran_ru__dokeshi_kyo_hashi_yume_1st_stage"
+    )
 
 
 def main() -> int:
