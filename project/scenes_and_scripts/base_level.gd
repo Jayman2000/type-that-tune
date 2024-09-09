@@ -103,9 +103,7 @@ func display_end_screen() -> void:
 
 
 func _on_main_menu_button_pressed() -> void:
-    get_tree().change_scene_to_packed(
-        preload("res://scenes_and_scripts/title_screen.tscn")
-    )
+    BackButtonHelper.return_to_title_screen()
 
 
 func _on_level_select_button_pressed() -> void:
@@ -117,6 +115,4 @@ func _on_level_select_button_pressed() -> void:
     # uppause the game.
     get_tree().paused = false
 
-    get_tree().change_scene_to_file(
-        "res://scenes_and_scripts/level_select_screen.tscn"
-    )
+    BackButtonHelper.go_back()
