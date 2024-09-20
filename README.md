@@ -5,6 +5,8 @@ SPDX-FileCopyrightText: 2024 Jason Yundt <jason@jasonyundt.email>
 
 # Type That Tune
 
+Type That Tune is a typing game for crazy people.
+
 ## Building and running the game from source
 
 1. Make sure that you have a copy of this repo on your computer. If you
