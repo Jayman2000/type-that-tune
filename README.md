@@ -5,6 +5,8 @@ SPDX-FileCopyrightText: 2024 Jason Yundt <jason@jasonyundt.email>
 
 # Type That Tune
 
+Type That Tune is a typing game for crazy people.
+
 ## Building and running the game from source
 
 1. Make sure that you have a copy of this repo on your computer. If you
@@ -41,6 +43,9 @@ directory later. To do so, run this command:
     ```bash
     uv run ttt-build-tool
     ```
+
+    **Warning:** This step will take a really long time. Please be
+    patient.
 
 6. Open Godot.
 

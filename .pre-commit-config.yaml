@@ -28,7 +28,7 @@ repos:
                 id: reuse
     -
         repo: https://gitlab.com/vojko.pribudic.foss/pre-commit-update
-        rev: v0.4.0post1
+        rev: v0.5.0
         hooks:
             -
                 id: pre-commit-update
@@ -85,14 +85,14 @@ repos:
                 exclude: *default_excludes
     -
         repo: https://github.com/zricethezav/gitleaks
-        rev: v8.18.4
+        rev: v8.19.2
         hooks:
             -
                 id: gitleaks
                 exclude: *default_excludes
     -
         repo: https://github.com/Jayman2000/yamllint-pr
-        rev: pr630-rev-8
+        rev: pr630-rev-9
         hooks:
             -
                 id: yamllint
@@ -133,7 +133,7 @@ repos:
                     - yt-dlp-types
     -
         repo: https://github.com/astral-sh/ruff-pre-commit
-        rev: v0.6.4
+        rev: v0.6.6
         hooks:
             -
                 id: ruff
