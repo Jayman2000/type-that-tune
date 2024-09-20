@@ -44,6 +44,9 @@ directory later. To do so, run this command:
     uv run ttt-build-tool
     ```
 
+    **Warning:** This step will take a really long time. Please be
+    patient.
+
 6. Open Godot.
 
     If you’re using the Nix flake that I mentioned earlier, then you can
