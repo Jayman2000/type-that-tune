@@ -20,6 +20,9 @@ repos:
                     - ^LICENSE
                     - --pattern
                     - ^COPYING
+            -
+                id: flake-lock-updater
+                exclude: *default_excludes
     -
         repo: https://github.com/fsfe/reuse-tool
         rev: v4.0.3
@@ -137,4 +140,11 @@ repos:
         hooks:
             -
                 id: ruff
+                exclude: *default_excludes
+    -
+        repo: https://github.com/NixOS/nixfmt
+        rev: d0c0cda4fe6b7ae2b9aa37f3ee15e6412573eb01
+        hooks:
+            -
+                id: nixfmt
                 exclude: *default_excludes

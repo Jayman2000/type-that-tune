@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: CC0-1.0
-# SPDX-FileCopyrightText: 2023 Jason Yundt <jason@jasonyundt.email>
+# SPDX-FileCopyrightText: 2023–2024 Jason Yundt <jason@jasonyundt.email>
 root = true
 
 [**]
@@ -78,10 +78,10 @@ root = true
 # Using spaces also has other advantages. Some tools default to using
 # spaces for indentation, and others default to using tabs. The majority
 # of the tools that I use default to using space. One tool that I’ve
-# been wanting to use doesn’t support using tabs for indentation yet
-# [11]. I’m also aware of at least one language that requires that you
-# use spaces instead of tabs [12]. I’m not aware of any tools or
-# languages that support tabs but don’t support spaces.
+# started using doesn’t support using tabs for indentation yet [11].
+# I’m also aware of at least one language that requires that you use
+# spaces instead of tabs [12]. I’m not aware of any tools or languages
+# that support tabs but don’t support spaces.
 #
 # editorconfig-checker-disable
 # [1]: <https://jasonyundt.website/submitting-patches.html#send>
@@ -222,3 +222,12 @@ insert_final_newline = true
 # [4]: <https://git-scm.com/docs/git-diff#_combined_diff_format>
 # editorconfig-checker-enable
 max_line_length = 72
+
+[**.nix]
+# I’m only using 2 for Nix files because the Nix ecosystem project
+# itself uses 2 spaces for indentation [1].
+#
+# editorconfig-checker-disable
+# [1]: <https://github.com/NixOS/rfcs/blob/62d1245ec1eae275edb996229585637035c02538/rfcs/0166-nix-formatting.md#indentation>
+# editorconfig-checker-enable
+indent_size = 2
