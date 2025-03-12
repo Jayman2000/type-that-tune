@@ -18,6 +18,7 @@ config/icon="res://art/icon.webp"
 [autoload]
 
 BackButtonHelper="*res://scenes_and_scripts/autoload/back_button_helper.gd"
+StartupChecker="res://scenes_and_scripts/autoload/startup_checker.gd"
 
 [display]
 
