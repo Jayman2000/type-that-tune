@@ -45,6 +45,8 @@
             # Dependencies for pre-commit hooks:
             pkgs.go
             pkgs.rustc
+            pkgs.cabal-install
+            pkgs.ghc
           ];
       };
     };
