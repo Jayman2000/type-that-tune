@@ -1,0 +1,91 @@
+[gd_scene load_steps=5 format=3 uid="uid://cs341tvesx5s7"]
+
+[ext_resource type="PackedScene" uid="uid://c17df4x23ypub" path="res://scenes_and_scripts/base_level.tscn" id="1_03qus"]
+[ext_resource type="VideoStream" path="res://generated/media/touhou_ran_ran_ru__dokeshi_boso_kuse.ogv" id="2_fw2br"]
+
+[sub_resource type="Animation" id="Animation_ppyp8"]
+resource_name = "main"
+length = 1180.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:queue_loops")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 25.3, 1112.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:text_queue")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 25.4, 64.333, 64.667, 84.433, 113.333, 113.567, 144.5, 144.8, 172.867, 192.533, 193.467, 231.733, 232.733, 253.1, 253.467, 272.767, 273.233, 301.867, 302.033, 319.1, 348.733, 377.533, 409.9, 411.067, 432.033, 465.6, 465.967, 484.6, 503.832, 504.233, 547.233, 549, 567.067, 597.433, 597.833, 626.65, 645.2, 687.7, 707.183, 736.567, 755.3, 775.067, 799.7, 827.467, 857.5, 877.033, 906.267, 932.965, 952.767, 953.443, 973.333, 1013.33, 1030, 1070.2, 1110.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Array[String]([]), Array[String](["Shanghai Scarlet Teahouse ~ Chinese Tea"]), Array[String]([]), Array[String](["Chirumiru Cirno"]), Array[String](["Because Princess Inada Is Scolding Me"]), Array[String]([]), Array[String](["Retribution for the Eternal Night ~ Imperishable Night"]), Array[String]([]), Array[String](["Green-Eyed Jealousy"]), Array[String](["Plain Asia"]), Array[String]([]), Array[String](["The Road of the Misfortune God ~ Dark Road"]), Array[String]([]), Array[String](["Sleeping Terror"]), Array[String]([]), Array[String](["Song of the Night Sparrow ~ Night Bird"]), Array[String]([]), Array[String](["The Grimoire of Alice"]), Array[String]([]), Array[String](["Doll Judgement ~ The Girl Who Played with People's Shapes"]), Array[String](["U.N. Owen was her?"]), Array[String](["Vanishing Dream ~ Lost Dream"]), Array[String](["The Maid and the Pocket Watch of Blood"]), Array[String]([]), Array[String](["The Fantastic Tales from Tono"]), Array[String](["Lunatic Eyes ~ Invisible Full Moon"]), Array[String]([]), Array[String](["Dichromatic Lotus Butterfly ~ Ancients"]), Array[String](["Eastern Mystical Tale of Romance"]), Array[String]([]), Array[String](["Hiroari Shoots a Strange Bird ~ Till When?"]), Array[String]([]), Array[String](["Bloom Nobly, Ink-Black Cherry Blossom ~ Border of Life"]), Array[String](["Satori Maiden ~ 3rd Eye"]), Array[String]([]), Array[String](["Wriggling Autumn Moon ~ Mooned Insect"]), Array[String](["Crimson in the Black Sea ~ Legendary Fish"]), Array[String](["Reach for the Moon, Immortal Smoke"]), Array[String](["Voyage 1969"]), Array[String](["Voyage 1970"]), Array[String](["Sleepless Night of the Eastern Country"]), Array[String](["Higan Retour ~ Riverside View"]), Array[String](["Greenwich in the Sky"]), Array[String](["Faith Is for the Transient People"]), Array[String](["The Venerable Ancient Battlefield ~ Suwa Foughten Field"]), Array[String](["Native Faith"]), Array[String](["Poison Body ~ Forsaken Doll"]), Array[String](["Hartmann's Youkai Girl"]), Array[String](["Bad Apple!!"]), Array[String]([]), Array[String](["Locked Girl ~ The Girl's Sealed Room"]), Array[String](["Reincarnation"]), Array[String](["Love-colored Master Spark"]), Array[String](["Necrofantasia"]), Array[String](["Septette for a Dead Princess"]), Array[String]([])]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AspectRatioContainer/VideoStreamPlayer")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(2.6, 17.067, 25.167, 1114.47, 1179),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": [PackedStringArray("Touhou Ran Ran Ru")],
+"method": &"wait_for_text_queue_to_be_finished"
+}, {
+"args": [PackedStringArray("dokeshi boso kuse")],
+"method": &"wait_for_text_queue_to_be_finished"
+}, {
+"args": [PackedStringArray("[Collaboration]")],
+"method": &"wait_for_text_queue_to_be_finished"
+}, {
+"args": [PackedStringArray("Dark Side of Fate")],
+"method": &"wait_for_text_queue_to_be_finished"
+}, {
+"args": [],
+"method": &"display_end_screen"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gh2go"]
+_data = {
+"main": SubResource("Animation_ppyp8")
+}
+
+[node name="TouhouRanRanRuDokeshiBosoKuse" instance=ExtResource("1_03qus")]
+aspect_ratio = Vector2(4, 3)
+initial_text_queue = Array[String](["[Donald]"])
+
+[node name="VideoStreamPlayer" parent="AspectRatioContainer" index="0"]
+stream = ExtResource("2_fw2br")
+
+[node name="AnimationPlayer" parent="." index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_gh2go")
+}
+
+[connection signal="text_queue_completed" from="." to="AnimationPlayer" method="play" binds= [&"main"]]

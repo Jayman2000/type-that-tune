@@ -11,8 +11,9 @@ func _on_rich_text_label_meta_clicked(_meta) -> void:
 
 
 func _on_play_button_pressed():
-    get_tree().change_scene_to_file(
-        "res://scenes_and_scripts/level_select_screen.tscn"
+    BackButtonHelper.change_scne_to_file(
+        "res://scenes_and_scripts/level_or_world_select_screens/"
+        + "world_select_screen.tscn"
     )
 
 

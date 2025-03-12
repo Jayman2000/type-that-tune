@@ -15,6 +15,10 @@ run/main_scene="res://scenes_and_scripts/title_screen.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://art/icon.webp"
 
+[autoload]
+
+BackButtonHelper="*res://scenes_and_scripts/autoload/back_button_helper.gd"
+
 [display]
 
 window/size/viewport_width=1920
@@ -48,3 +52,4 @@ skip={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

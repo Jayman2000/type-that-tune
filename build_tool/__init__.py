@@ -157,6 +157,22 @@ def prepare_all_media() -> None:
         "glorious_octagon_of_destiny",
         ("-filter:v", FFMPEG_RESIZE_FILTER)
     )
+    prepare_one_piece_of_media(
+        "https://www.nicovideo.jp/watch/sm2057168",
+        "ronald_mcdonald_insanity"
+    )
+    prepare_one_piece_of_media(
+        "https://www.nicovideo.jp/watch/sm5718044",
+        "mcdonalds_countdown"
+    )
+    prepare_one_piece_of_media(
+        "https://www.nicovideo.jp/watch/sm11449123",
+        "touhou_ran_ran_ru__dokeshi_boso_kuse"
+    )
+    prepare_one_piece_of_media(
+        "https://www.nicovideo.jp/watch/sm13204470",
+        "touhou_ran_ran_ru__dokeshi_kyo_hashi_yume_1st_stage"
+    )
 
 
 def main() -> int:

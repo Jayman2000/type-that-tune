@@ -106,7 +106,7 @@ length = 682.0
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("VideoStreamPlayer")
+tracks/0/path = NodePath("AspectRatioContainer/VideoStreamPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -207,7 +207,7 @@ _data = {
 [node name="ClownsTenthAnniversary" instance=ExtResource("1_m810v")]
 script = ExtResource("2_q6fmm")
 
-[node name="VideoStreamPlayer" parent="." index="0"]
+[node name="VideoStreamPlayer" parent="AspectRatioContainer" index="0"]
 stream = ExtResource("2_1danf")
 
 [node name="VBoxContainer" parent="CenterContainer" index="0"]
