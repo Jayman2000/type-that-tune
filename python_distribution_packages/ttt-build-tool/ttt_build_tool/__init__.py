@@ -5,6 +5,7 @@ import hashlib
 import pathlib
 import shutil
 import subprocess
+import sys
 from typing import Final, Optional
 
 import appdirs
@@ -18,7 +19,9 @@ CACHE_DIRECTORY: Final = pathlib.Path(appdirs.user_cache_dir(
     appname="ttt-build-tool",
     appauthor="Type That Tune contributors"
 ))
-GENERATED_DIR: Final = pathlib.Path("project", "generated")
+PROJECT_DIR: Final = pathlib.Path("project")
+GENERATED_DIR: Final = pathlib.Path(PROJECT_DIR, "generated")
+GODOT_ENGINE_DIR: Final = pathlib.Path("godot_engine")
 MEDIA_DIR: Final = pathlib.Path(GENERATED_DIR, "media")
 
 
@@ -47,6 +50,34 @@ class YTDLPLogger():
     @staticmethod
     def error(_msg: str) -> None:
         pass
+
+
+def build_godot() -> int:
+    print("Attempting to build the Godot Engine editor…")
+    result: subprocess.CompletedProcess[bytes] = subprocess.run(
+        ("scons",),
+        cwd=GODOT_ENGINE_DIR,
+        stdout=sys.stdout,
+        stderr=sys.stderr
+    )
+    print("Finished attempting to build the Godot Engine editor.")
+    if result.returncode != 0:
+        return result.returncode
+    print("Enabling self-contained mode for the Godot Engine editor…")
+    pathlib.Path(GODOT_ENGINE_DIR, "bin", "_sc_").touch()
+    print(
+        "Finished enabling self-contained mode for the Godot Engine "
+        + "editor."
+    )
+    print("Attempting to build Godot Engine export templates…")
+    result = subprocess.run(
+        ("scons", "production=yes", "target=template_release"),
+        cwd=GODOT_ENGINE_DIR,
+        stdout=sys.stdout,
+        stderr=sys.stderr
+    )
+    print("Finished attempting to build Godot Engine export templates.")
+    return result.returncode
 
 
 def generate_license_related_files() -> None:
@@ -166,13 +197,36 @@ def prepare_all_media() -> None:
     )
 
 
+def export_godot_project() -> int:
+    GODOT_BIN_DIR: Final = pathlib.Path(GODOT_ENGINE_DIR, "bin")
+    godot_editor_executable: Optional[pathlib.Path] = None
+    for path in GODOT_BIN_DIR.glob("*"):
+        if path.is_file() and ("editor" in path.name):
+            godot_editor_executable = path
+    if godot_editor_executable is None:
+        raise FileNotFoundError(
+            "Couldn’t find a Godot Engine editor executable in "
+            + f"{GODOT_BIN_DIR}."
+        )
+    result: subprocess.CompletedProcess[bytes] = subprocess.run(
+        (godot_editor_executable, "--export-release", "linuxbsd/x86_64", "../exported_godot_project/type-that-tune"),
+        cwd=PROJECT_DIR,
+        stdout=sys.stdout,
+        stderr=sys.stderr
+    )
+
+
 def main() -> int:
     for directory in (CACHE_DIRECTORY, MEDIA_DIR):
         directory.mkdir(exist_ok=True, parents=True)
 
+    exit_status: int = build_godot()
+    if exit_status != 0:
+        print("Failed to build Godot Engine.", file=sys.stderr)
+        return exit_status
     generate_license_related_files()
     prepare_all_media()
 
-    return 0
+    return exit_status
 
 FFMPEG_PATH: Final[pathlib.Path] = locate_ffmpeg()

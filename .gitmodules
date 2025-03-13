@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: 2025 Jason Yundt <jason@jasonyundt.email>
+[submodule "python_distribution_packages/type-that-tune/godot"]
+	path = godot_engine
+	url = https://github.com/godotengine/godot

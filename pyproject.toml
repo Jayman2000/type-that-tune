@@ -2,22 +2,37 @@
 # SPDX-FileCopyrightText: 2024–2025 Jason Yundt <jason@jasonyundt.email>
 
 [build-system]
-build-backend = "setuptools.build_meta"
-requires = ["setuptools"]
+backend-path = ["./python_distribution_packages/type-that-tune"]
+build-backend = "build_backend.build_meta"
+requires = ["setuptools", "setuptools-scm", "ttt-build-tool"]
 
 [project]
-dependencies = ["ttt-build-tool"]
-name = "type-that-tune-workspace"
+name = "type-that-tune"
 requires-python = ">=3.9"
 # This is me trying to say “I don’t want this thing to have version
 # numbers.”
 version = "0.dev0"
 
-[tool.setuptools]
-packages = []
+# If we don’t do this, then the contents of submodules won’t be included
+# in the sdist.
+[project.entry-points."setuptools_scm.files_command"]
+".git" = "build_backend:git_find_files"
+
+[project.scripts]
+type-that-tune = "type_that_tune:main"
+
+[tool.setuptools.packages.find]
+include = ["type_that_tune"]
+where = ["python_distribution_packages/type-that-tune"]
+
+[tool.setuptools_scm]
 
 [tool.uv.sources]
 ttt-build-tool = {workspace = true}
 
 [tool.uv.workspace]
+# This directory contains code that gets used for the package that is
+# specified by this pyproject.toml file (the one that you are currently
+# reading).
+exclude = ["python_distribution_packages/type-that-tune"]
 members = ["python_distribution_packages/*"]

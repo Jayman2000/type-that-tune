@@ -32,6 +32,16 @@
           pkgs.ffmpeg
           pkgs.uv
 
+          # Dependencies for the ttt-build-tool Python distribution
+          # package.
+          pkgs.pkg-config
+          pkgs.gcc
+
+          # Dependencies for running the Godot Engine editor build
+          # produced by the ttt-build-tool.
+          pkgs.fontconfig
+          pkgs.xorg.libX11
+
           pkgs.pre-commit
           # Dependencies for pre-commit hooks:
           pkgs.go

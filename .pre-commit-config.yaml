@@ -135,6 +135,8 @@ repos:
                     - appdirs
                     - appdirs-stubs
                     - reuse
+                    - setuptools
+                    - types-setuptools
                     - yt-dlp
                     - yt-dlp-types
     -

@@ -9,6 +9,7 @@ requires = ["setuptools"]
 dependencies = [
     "appdirs",
     "reuse",
+    "scons",
     "yt-dlp"
 ]
 description = "Prepares project/ before it gets imported by Godot"

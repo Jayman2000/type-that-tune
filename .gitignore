@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2010–2023 GitHub .gitignore template contributors
+# SPDX-FileCopyrightText: 2025 Jason Yundt <jason@jasonyundt.email>
 # SPDX-FileAttributionText: This file was copied from here: <https://github.com/github/gitignore/blob/8779ee73af62c669e7ca371aaab8399d87127693/Python.gitignore>.
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -163,3 +164,6 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+
+# Type That Tune–specific stuff:
+exported_godot_project/
