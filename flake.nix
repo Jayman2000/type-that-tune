@@ -9,7 +9,6 @@
     # right version of Godot in it. Newer commits have newer versions of
     # Godot.
     nixpkgsOldStable.url = "github:NixOS/nixpkgs/26eb674c5d0c0c9bb66b6836cc23805bacb532dc";
-    nixpkgsUnstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
   outputs =
@@ -17,13 +16,11 @@
       self,
       nixpkgs,
       nixpkgsOldStable,
-      nixpkgsUnstable,
     }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
       oldStablePkgs = import nixpkgsOldStable { inherit system; };
-      unstablePkgs = import nixpkgsUnstable { inherit system; };
     in
     {
       devShell.x86_64-linux = pkgs.mkShellNoCC {
@@ -33,9 +30,7 @@
           pkgs.nodePackages_latest.livedown
           oldStablePkgs.godot_4
           pkgs.ffmpeg
-          # Unfortunately, the version of uv that’s in pkgs isn’t
-          # new enough, so we have to use unstablePkgs here.
-          unstablePkgs.uv
+          pkgs.uv
 
           pkgs.pre-commit
           # Dependencies for pre-commit hooks:
