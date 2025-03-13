@@ -20,4 +20,4 @@ packages = []
 ttt-build-tool = {workspace = true}
 
 [tool.uv.workspace]
-members = ["python_packages/*"]
+members = ["python_distribution_packages/*"]

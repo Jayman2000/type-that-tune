@@ -285,7 +285,7 @@ wheels = [
 [[package]]
 name = "ttt-build-tool"
 version = "0.dev0"
-source = { editable = "python_packages/ttt-build-tool" }
+source = { editable = "python_distribution_packages/ttt-build-tool" }
 dependencies = [
     { name = "appdirs" },
     { name = "reuse" },
@@ -308,7 +308,7 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "ttt-build-tool", editable = "python_packages/ttt-build-tool" }]
+requires-dist = [{ name = "ttt-build-tool", editable = "python_distribution_packages/ttt-build-tool" }]
 
 [[package]]
 name = "yt-dlp"
