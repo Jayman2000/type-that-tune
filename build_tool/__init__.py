@@ -8,9 +8,8 @@ import subprocess
 from typing import Final, Optional
 
 import appdirs
-import reuse._main
 import reuse.project
-import reuse.spdx
+import reuse.report
 import reuse.vcs
 import yt_dlp
 
@@ -50,7 +49,7 @@ class YTDLPLogger():
         pass
 
 
-def generate_license_related_files() -> int:
+def generate_license_related_files() -> None:
     ORIGINAL_LICENSES_PATH: Final = pathlib.Path("LICENSES")
     GENERATED_LICENSES_PATH: Final = pathlib.Path(
         GENERATED_DIR,
@@ -64,20 +63,12 @@ def generate_license_related_files() -> int:
         GENERATED_DIR,
         "type_that_tune_legal_notices.spdx"
     )
-    # I wish that calling reuse.spdx.run() didn’t require that I create
-    # an ArgumentParser, but it does.
-    REUSE_ARGUMENT_PARSER: Final = reuse._main.parser()
-    reuse.spdx.add_arguments(REUSE_ARGUMENT_PARSER)
-    REUSE_PROJECT: Final = reuse.project.Project(
-        pathlib.Path.cwd(),
-        vcs_strategy=reuse.vcs.VCSStrategyGit
+    PROJECT: Final = reuse.project.Project.from_directory(
+        pathlib.Path.cwd()
     )
-    with BOM_PATH.open(mode="w", encoding="utf-8") as bom_file:
-        return reuse.spdx.run(
-            REUSE_ARGUMENT_PARSER.parse_args(args=tuple()),
-            REUSE_PROJECT,
-            out=bom_file
-        )
+    REPORT: Final = reuse.report.ProjectReport.generate(PROJECT)
+    with BOM_PATH.open(mode="w", encoding="utf-8") as file:
+        file.write(REPORT.bill_of_materials())
 
 
 def locate_ffmpeg() -> pathlib.Path:
@@ -179,10 +170,7 @@ def main() -> int:
     for directory in (CACHE_DIRECTORY, MEDIA_DIR):
         directory.mkdir(exist_ok=True, parents=True)
 
-    EXIT_STATUS: Final = generate_license_related_files()
-    if EXIT_STATUS != 0:
-        return EXIT_STATUS
-
+    generate_license_related_files()
     prepare_all_media()
 
     return 0
