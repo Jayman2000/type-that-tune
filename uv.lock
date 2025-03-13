@@ -277,7 +277,7 @@ wheels = [
 ]
 
 [[package]]
-name = "type-that-tune-build-tool"
+name = "ttt-build-tool"
 version = "0.dev0"
 source = { editable = "." }
 dependencies = [
