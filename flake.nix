@@ -27,7 +27,7 @@
     in
     {
       devShell.x86_64-linux = pkgs.mkShellNoCC {
-        name = "dev-shell-for-reflecting-on-life";
+        name = "dev-shell-for-type-that-tune";
         packages = [
           pkgs.git
           pkgs.nodePackages_latest.livedown
