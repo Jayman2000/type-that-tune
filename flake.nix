@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2024 Jason Yundt <jason@jasonyundt.email>
 {
-  description = "A shell for working on Type That Tune";
+  description = "A flake for working on Type That Tune";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
