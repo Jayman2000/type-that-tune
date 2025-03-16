@@ -11,15 +11,15 @@ dependencies = [
     "reuse",
     "yt-dlp"
 ]
-description = "Prepares project/ before it gets imported by Godot"
-name = "type-that-tune-build-tool"
+description = "Prepares godot_project/ before it gets imported by Godot"
+name = "ttt-build-tool"
 requires-python = ">=3.9"
 # This is me trying to say “I don’t want this thing to have version
 # numbers.”
 version = "0.dev0"
 
 [project.scripts]
-ttt-build-tool = "build_tool:main"
+ttt-build-tool = "ttt_build_tool:main"
 
 [tool.setuptools]
-packages = ["build_tool"]
+packages = ["ttt_build_tool"]
