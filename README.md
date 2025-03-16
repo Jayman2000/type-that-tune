@@ -22,7 +22,6 @@ aren’t sure how to do this, then please click [here].
 
 4. Make sure that you have the following installed:
 
-    - [Godot] v4.2.2
     - [uv](https://docs.astral.sh/uv/)
     - [FFmpeg](https://www.ffmpeg.org)
 
@@ -37,40 +36,30 @@ aren’t sure how to do this, then please click [here].
         develop
     ```
 
-5. Generate files that Godot will need when it imports the
-`godot_project/` directory later. To do so, run this command:
+5. Prepare the Godot project folder and open it in the Godot Engine
+editor:
 
-    ```bash
-    uv run ttt-build-tool
-    ```
+    - If you ran the `nix` command from the previous step, then run this
+    command:
+
+        ```bash
+        uv run ttt-build-tool \
+            --godot-editor-path "$(command -v godot4)" \
+            open_project_in_editor
+        ```
+
+    - Otherwise, run this command:
+
+        ```bash
+        uv run ttt-build-tool open_project_in_editor
+        ```
 
     **Warning:** This step will take a really long time. Please be
     patient.
 
-6. Open Godot.
-
-    If you’re using the Nix flake that I mentioned earlier, then you can
-    open the correct version of Godot by running this command:
-
-    ```bash
-    godot4
-    ```
-
-7. Click “Import”.
-
-8. In the “Open a File or Directory” window, navigate to the root of
-this repo.
-
-9. Click on the `project/` folder.
-
-10. Click “Select This Folder”.
-
-11. Click “Import &amp; Edit”.
-
-12. Press <kbd>F5</kbd> to run the game.
+6. Press <kbd>F5</kbd> to run the game.
 
 <!-- editorconfig-checker-disable -->
-[Godot]: https://godotengine.org
 [here]: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
 [the Nix package manager]: https://nix.dev
 <!-- editorconfig-checker-enable -->

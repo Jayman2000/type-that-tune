@@ -3,24 +3,17 @@
 # SPDX-FileCopyrightText: 2025 Jason Yundt <jason@jasonyundt.email>
 import os
 import pathlib
-import subprocess
-import sys
 from typing import Final
 
 from .. import common
 
 
-GODOT_ENGINE_DIR: Final = pathlib.Path("godot_engine")
-EDITOR_EXECUTABLE_SYMLINK_PATH: Final = pathlib.Path(
-    GODOT_ENGINE_DIR,
-    "editor.exe" if os.name == "nt" else "editor"
-)
 __doc__ = f"""
-Make sure that {EDITOR_EXECUTABLE_SYMLINK_PATH} exists.
+Make sure that {common.EDITOR_EXECUTABLE_SYMLINK_PATH} exists.
 
 Some other tasks need to be able to run the Godot Engine editor. Those
-tasks expect that {EDITOR_EXECUTABLE_SYMLINK_PATH} exists and is a
-symlink to a Godot Engine editor executable. This task makes sure that
+tasks expect that {common.EDITOR_EXECUTABLE_SYMLINK_PATH} exists and is
+a symlink to a Godot Engine editor executable. This task makes sure that
 that symlink exists.
 
 If you run ttt-build-tool with the --godot-editor-path /EXAMPLE_PATH
@@ -31,7 +24,12 @@ symlink to the freshly built editor executable.
 
 
 def locate_editor_executable() -> pathlib.Path:
-    for path in pathlib.Path(GODOT_ENGINE_DIR, "src", "bin").glob("*"):
+    GODOT_BUILD_BIN_DIR: Final = pathlib.Path(
+        common.GODOT_ENGINE_DIR,
+        "src",
+        "bin"
+    )
+    for path in GODOT_BUILD_BIN_DIR.glob("*"):
         if "editor" in path.name.lower():
             return path
     raise FileNotFoundError(
@@ -49,19 +47,14 @@ def remove_then_symlink(
 
 def perform_task(settings: common.Settings) -> None:
     EDITOR_EXECUTABLE_SYMLINK_PATH: Final = pathlib.Path(
-        GODOT_ENGINE_DIR,
+        common.GODOT_ENGINE_DIR,
         "editor.exe" if os.name == "nt" else "editor"
     )
     if settings.godot_editor_path is None:
-        COMMAND: Final = ("scons",)
-        RESULT: Final = subprocess.run(
-            COMMAND,
-            cwd=pathlib.Path(GODOT_ENGINE_DIR, "src"),
-            stdout=sys.stdout,
-            stderr=sys.stderr
+        common.run_command(
+            ("scons",),
+            pathlib.Path(common.GODOT_ENGINE_DIR, "src")
         )
-        if RESULT.returncode != 0:
-            raise RuntimeError(f"This command failed: {COMMAND}")
         remove_then_symlink(
             locate_editor_executable().absolute(),
             EDITOR_EXECUTABLE_SYMLINK_PATH
