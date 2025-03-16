@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: CC0-1.0
-# SPDX-FileCopyrightText: 2024 Jason Yundt <jason@jasonyundt.email>
+# SPDX-FileCopyrightText: 2024–2025 Jason Yundt <jason@jasonyundt.email>
 {
-  description = "A shell for working on Type That Tune";
+  description = "A flake for working on Type That Tune";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
@@ -10,41 +10,14 @@
     # Godot.
     nixpkgsOldStable.url = "github:NixOS/nixpkgs/26eb674c5d0c0c9bb66b6836cc23805bacb532dc";
     nixpkgsUnstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    blueprint.url = "github:numtide/blueprint";
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      nixpkgsOldStable,
-      nixpkgsUnstable,
-    }:
-    let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
-      oldStablePkgs = import nixpkgsOldStable { inherit system; };
-      unstablePkgs = import nixpkgsUnstable { inherit system; };
-    in
-    {
-      devShell.x86_64-linux = pkgs.mkShellNoCC {
-        name = "dev-shell-for-type-that-tune";
-        packages = [
-          pkgs.git
-          pkgs.nodePackages_latest.livedown
-          oldStablePkgs.godot_4
-          pkgs.ffmpeg
-          pkgs.uv
-
-          # Dependencies for ttt-build-tool
-          pkgs.pkg-config
-
-          pkgs.pre-commit
-          # Dependencies for pre-commit hooks:
-          pkgs.go
-          unstablePkgs.rustc
-          pkgs.cabal-install
-          pkgs.ghc
-        ];
-      };
+    inputs:
+    inputs.blueprint {
+      inherit inputs;
+      prefix = "flake-blueprint-files";
+      systems = [ "x86_64-linux" ];
     };
 }

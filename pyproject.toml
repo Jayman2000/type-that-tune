@@ -22,5 +22,6 @@ version = "0.dev0"
 [project.scripts]
 ttt-build-tool = "ttt_build_tool:main"
 
-[tool.setuptools]
-packages = ["ttt_build_tool"]
+[tool.setuptools.packages.find]
+include = ["ttt_build_tool*"]
+where = ["."]
