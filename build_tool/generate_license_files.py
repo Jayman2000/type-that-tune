@@ -12,6 +12,7 @@ from . import common
 
 
 def perform_task() -> None:
+    common.GENERATED_DIR.mkdir(exist_ok=True, parents=True)
     ORIGINAL_LICENSES_PATH: Final = pathlib.Path("LICENSES")
     GENERATED_LICENSES_PATH: Final = pathlib.Path(
         common.GENERATED_DIR,
