@@ -37,8 +37,8 @@ aren’t sure how to do this, then please click [here].
         develop
     ```
 
-5. Generate files that Godot will need when it imports the `project/`
-directory later. To do so, run this command:
+5. Generate files that Godot will need when it imports the
+`godot_project/` directory later. To do so, run this command:
 
     ```bash
     uv run ttt-build-tool
