@@ -10,7 +10,7 @@ from typing import Final, Optional
 import appdirs
 import yt_dlp
 
-from . import common
+from .. import common
 
 
 CACHE_DIRECTORY: Final = pathlib.Path(appdirs.user_cache_dir(

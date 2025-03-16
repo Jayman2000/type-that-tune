@@ -8,7 +8,7 @@ from typing import Final
 import reuse.project
 import reuse.report
 
-from . import common
+from .. import common
 
 
 def perform_task() -> None:
