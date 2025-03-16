@@ -17,7 +17,32 @@ CACHE_DIRECTORY: Final = pathlib.Path(appdirs.user_cache_dir(
     appname="ttt-build-tool",
     appauthor="Type That Tune contributors"
 ))
+DOWNLOADS_DIR: Final = pathlib.Path(CACHE_DIRECTORY, "downloads")
 MEDIA_DIR: Final = pathlib.Path(common.GENERATED_DIR, "media")
+__doc__ = f"""
+Ensures that the files in the {MEDIA_DIR} directory exist.
+
+The {MEDIA_DIR} directory contains all of the video files that Type That
+Tune uses. This task makes sure that each of the video files exists. If
+any of them does not exist, then this task will create it.
+
+This task starts by ensure that required videos are preset in the
+downloads cache directory. The downloads cache directory is located at:
+    {DOWNLOADS_DIR}
+If a required video is not in the downloads cache directory, then this
+task will download it. The downloads cache directory is stored outside
+of this repository in order to (hopefully) make sure that videos are
+only downloaded once. The concern is that Niconico or YouTube might try
+to block or rate limit users that download many videos.
+
+Once this task has made sure that a video is in the downloads cache
+directory, this task will then check if the video is present in the
+{MEDIA_DIR} directory. If it is not, then the video will be transcoded
+into a format that the Godot Engine supports and placed in the
+{MEDIA_DIR} directory. Transcoding can take a very long time, so it’s
+best to leave this task running in the background while you do other
+stuff.
+"""
 
 
 class YTDLPLogger():
@@ -64,8 +89,7 @@ def prepare_one_piece_of_media(
 ) -> None:
     URL_HASH: Final = hashlib.sha3_256(url.encode("utf-8")).hexdigest()
     CACHED_DOWNLOAD_PATH_NO_SUFFIX: Final = pathlib.Path(
-        CACHE_DIRECTORY,
-        "downloads",
+        DOWNLOADS_DIR,
         URL_HASH,
         "media"
     )

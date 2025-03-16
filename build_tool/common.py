@@ -5,4 +5,5 @@ import pathlib
 from typing import Final
 
 
-GENERATED_DIR: Final = pathlib.Path("project", "generated")
+GODOT_PROJECT_DIR: Final = pathlib.Path("project")
+GENERATED_DIR: Final = pathlib.Path(GODOT_PROJECT_DIR, "generated")
