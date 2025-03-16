@@ -4,10 +4,11 @@
 import argparse
 import collections.abc
 import importlib
+import pathlib
 import pkgutil
 from typing import Final
 
-from . import tasks
+from . import common, tasks
 
 
 def task_names() -> collections.abc.Iterable[str]:
@@ -50,6 +51,19 @@ def main() -> int:
         action="store_true",
         help="Print help text about the task instead of running it."
     )
+    ARGUMENT_PARSER.add_argument(
+        "--godot-editor-path",
+        help=(
+            "Some tasks require a copy of the Godot Engine editor in "
+            + "order to run. By default, ttt-build-tool will try to "
+            + "build and use its own copy of the Godot Engine editor. "
+            + "You can use the --godot-editor-absolute-path option to "
+            + "tell ttt-build-tool to use an existing copy of the Godot"
+            + "Engine editor instead of building its own."
+        ),
+        type=pathlib.Path,
+        metavar="PATH"
+    )
     ARGS: Final = ARGUMENT_PARSER.parse_args()
 
     MODULE_FOR_CURRENT_TASK: Final = importlib.import_module(
@@ -67,6 +81,9 @@ def main() -> int:
         else:
             print(DOC_STRING)
     else:
-        MODULE_FOR_CURRENT_TASK.perform_task()
+        SETTINGS: Final = common.Settings(
+            godot_editor_path=ARGS.godot_editor_path
+        )
+        MODULE_FOR_CURRENT_TASK.perform_task(SETTINGS)
 
     return 0

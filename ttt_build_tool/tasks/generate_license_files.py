@@ -30,7 +30,7 @@ required).
 """
 
 
-def perform_task() -> None:
+def perform_task(settings: common.Settings) -> None:
     common.GENERATED_DIR.mkdir(exist_ok=True, parents=True)
     ORIGINAL_LICENSES_PATH: Final = pathlib.Path("LICENSES")
     if GENERATED_LICENSES_PATH.exists():

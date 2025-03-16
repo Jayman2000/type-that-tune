@@ -268,6 +268,15 @@ wheels = [
 ]
 
 [[package]]
+name = "scons"
+version = "4.9.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/61/7e/79e07dc2eb8874580934cd0c834a8a78f15d5b0d6155a424f6c7b35441c3/scons-4.9.0.tar.gz", hash = "sha256:f1a5e161bf3d1411d780d65d7919654b9405555994621d3d68e42d62114b592a", size = 3251763 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/18/f5/77635f6c68ed742a23e1f52977267e191ea7c2aec89b9604a86487405da1/scons-4.9.0-py3-none-any.whl", hash = "sha256:c8cc309db0f91cffdc27c1374fa3d31e9421bcb31d210de071b0b11adc84739b", size = 4130637 },
+]
+
+[[package]]
 name = "tomlkit"
 version = "0.13.2"
 source = { registry = "https://pypi.org/simple" }
@@ -283,6 +292,7 @@ source = { editable = "." }
 dependencies = [
     { name = "appdirs" },
     { name = "reuse" },
+    { name = "scons" },
     { name = "yt-dlp" },
 ]
 
@@ -290,6 +300,7 @@ dependencies = [
 requires-dist = [
     { name = "appdirs" },
     { name = "reuse" },
+    { name = "scons" },
     { name = "yt-dlp" },
 ]
 
