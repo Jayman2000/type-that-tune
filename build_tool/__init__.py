@@ -1,178 +1,72 @@
 # -*- coding: utf-8 -*-
 # SPDX-License-Identifier: CC0-1.0
-# SPDX-FileCopyrightText: 2024 Jason Yundt <jason@jasonyundt.email>
-import hashlib
-import pathlib
-import shutil
-import subprocess
-from typing import Final, Optional
+# SPDX-FileCopyrightText: 2024–2025 Jason Yundt <jason@jasonyundt.email>
+import argparse
+import collections.abc
+import importlib
+import pkgutil
+from typing import Final
 
-import appdirs
-import reuse.project
-import reuse.report
-import reuse.vcs
-import yt_dlp
+from . import tasks
 
 
-CACHE_DIRECTORY: Final = pathlib.Path(appdirs.user_cache_dir(
-    appname="ttt-build-tool",
-    appauthor="Type That Tune contributors"
-))
-GENERATED_DIR: Final = pathlib.Path("project", "generated")
-MEDIA_DIR: Final = pathlib.Path(GENERATED_DIR, "media")
-
-
-class YTDLPLogger():
-    """
-    A pretty useless class.
-
-    At the moment, this just hides yt-dlp’s output. Maybe in the future,
-    I’ll make it do something that’s actually useful.
-
-    The only reason why I created this was to appease the type checker.
-    Once yt-dlp-types gets fixed, I won’t this class anymore.
-    """
-    @staticmethod
-    def debug(_msg: str) -> None:
-        pass
-
-    @staticmethod
-    def info(_msg: str) -> None:
-        pass
-
-    @staticmethod
-    def warning(_msg: str) -> None:
-        pass
-
-    @staticmethod
-    def error(_msg: str) -> None:
-        pass
-
-
-def generate_license_related_files() -> None:
-    ORIGINAL_LICENSES_PATH: Final = pathlib.Path("LICENSES")
-    GENERATED_LICENSES_PATH: Final = pathlib.Path(
-        GENERATED_DIR,
-        "licenses"
-    )
-    if GENERATED_LICENSES_PATH.exists():
-        shutil.rmtree(GENERATED_LICENSES_PATH)
-    shutil.copytree(ORIGINAL_LICENSES_PATH, GENERATED_LICENSES_PATH)
-
-    BOM_PATH: Final = pathlib.Path(
-        GENERATED_DIR,
-        "type_that_tune_legal_notices.spdx"
-    )
-    PROJECT: Final = reuse.project.Project.from_directory(
-        pathlib.Path.cwd()
-    )
-    REPORT: Final = reuse.report.ProjectReport.generate(PROJECT)
-    with BOM_PATH.open(mode="w", encoding="utf-8") as file:
-        file.write(REPORT.bill_of_materials())
-
-
-def locate_ffmpeg() -> pathlib.Path:
-    FFMPEG_PATH: Final[Optional[str]] = shutil.which("ffmpeg")
-    if FFMPEG_PATH is None:
-        raise RuntimeError(
-            "Couldn’t locate ffmpeg. Are you sure that ffmpeg is on "
-            "your PATH?"
-        )
-    return pathlib.Path(FFMPEG_PATH)
-
-def prepare_one_piece_of_media(
-    url: str,
-    name: str,
-    additional_ffmpeg_args: tuple[str, ...] = tuple()
-) -> None:
-    URL_HASH: Final = hashlib.sha3_256(url.encode("utf-8")).hexdigest()
-    CACHED_DOWNLOAD_PATH_NO_SUFFIX: Final = pathlib.Path(
-        CACHE_DIRECTORY,
-        "downloads",
-        URL_HASH,
-        "media"
-    )
-    CACHED_DOWNLOAD_PATH: Final = \
-        CACHED_DOWNLOAD_PATH_NO_SUFFIX.with_suffix(".mkv")
-    GENERATED_FILE_PATH: Final = pathlib.Path(
-        MEDIA_DIR,
-        name + ".ogv"
-    )
-
-    if not CACHED_DOWNLOAD_PATH.exists():
-        YT_DLP_OPTIONS: Final[yt_dlp.YDLOpts] = {
-            "logger": YTDLPLogger,
-            "keepvideo": "True",
-            "outtmpl": {
-                "default": str(CACHED_DOWNLOAD_PATH_NO_SUFFIX)
-            },
-            "postprocessors": [
-                {"key": "FFmpegVideoRemuxer", "preferedformat": "mkv" },
-            ]
-        }
-        with yt_dlp.YoutubeDL(YT_DLP_OPTIONS) as downloader:
-            downloader.download(url)
-
-    if not GENERATED_FILE_PATH.exists():
-        FFMPEG_COMMAND: Final[tuple[str, ...]] = (
-            (
-                str(FFMPEG_PATH),
-                "-i", str(CACHED_DOWNLOAD_PATH),
-                "-codec:v", "libtheora",
-                "-qscale:v", "10",
-                "-codec:a", "libvorbis",
-                "-qscale:a", "10",
-                "-y"
-            )
-            + additional_ffmpeg_args
-            + (
-                str(GENERATED_FILE_PATH.absolute()),
-            )
-        )
-        subprocess.run(FFMPEG_COMMAND)
-
-
-def prepare_all_media() -> None:
-    FFMPEG_RESIZE_FILTER: Final = (
-        "scale=width=1920"
-        ":height=0"
-        ":force_original_aspect_ratio=decrease"
-    )
-
-    prepare_one_piece_of_media(
-        "https://youtu.be/XXU68uo9qUc",
-        "clowns_tenth_anniversary"
-    )
-    prepare_one_piece_of_media(
-        "https://youtu.be/ddWJatRxfz8",
-        "glorious_octagon_of_destiny",
-        ("-filter:v", FFMPEG_RESIZE_FILTER)
-    )
-    prepare_one_piece_of_media(
-        "https://www.nicovideo.jp/watch/sm2057168",
-        "ronald_mcdonald_insanity"
-    )
-    prepare_one_piece_of_media(
-        "https://www.nicovideo.jp/watch/sm5718044",
-        "mcdonalds_countdown"
-    )
-    prepare_one_piece_of_media(
-        "https://www.nicovideo.jp/watch/sm11449123",
-        "touhou_ran_ran_ru__dokeshi_boso_kuse"
-    )
-    prepare_one_piece_of_media(
-        "https://www.nicovideo.jp/watch/sm13204470",
-        "touhou_ran_ran_ru__dokeshi_kyo_hashi_yume_1st_stage"
-    )
+def task_names() -> collections.abc.Iterable[str]:
+    SEARCH_PATHS: Final = tasks.__spec__.submodule_search_locations
+    for module_info in pkgutil.iter_modules(path=SEARCH_PATHS):
+        yield module_info.name
 
 
 def main() -> int:
-    for directory in (CACHE_DIRECTORY, MEDIA_DIR):
-        directory.mkdir(exist_ok=True, parents=True)
+    DESCRIPTION: Final =(
+        "Transform Type That Tune’s source code into something that can"
+        + " be be used with the Godot Engine editor."
+    )
+    TASK_NAMES: Final = tuple(task_names())
+    DEFAULT_TASK: Final = "prepare_godot_project"
+    ARGUMENT_PARSER: Final = argparse.ArgumentParser(
+        description=DESCRIPTION
+    )
+    ARGUMENT_PARSER.add_argument(
+        "task_name",
+        nargs="?",
+        default=DEFAULT_TASK,
+        choices=TASK_NAMES,
+        help=(
+            "The preparation task that you want the build tool to "
+            + f"perform. If not specified, {DEFAULT_TASK} will be used "
+            + "by default. Some tasks will automatically run other "
+            + "tasks as dependencies. For example, the "
+            + "prepare_godot_project task will run the "
+            + "generate_license_files because that task needs to be run"
+            + " before the Godot project directory is ready to be used."
+            + " Here’s a list of all valid tasks: "
+            + f"{", ".join(TASK_NAMES)}. You can use the "
+            + "--describe-task option to get help on specific tasks."
+        ),
+        metavar="TASK",
+    )
+    ARGUMENT_PARSER.add_argument(
+        "--describe-task",
+        action="store_true",
+        help="Print help text about the task instead of running it."
+    )
+    ARGS: Final = ARGUMENT_PARSER.parse_args()
 
-    generate_license_related_files()
-    prepare_all_media()
+    MODULE_FOR_CURRENT_TASK: Final = importlib.import_module(
+        f".tasks.{ARGS.task_name}",
+        package=__name__
+    )
+    if ARGS.describe_task:
+        print(f"{ARGS.task_name}:")
+        DOC_STRING: Final = MODULE_FOR_CURRENT_TASK.__doc__
+        if DOC_STRING is None:
+            print(
+                "Unfortunately, this task doesn’t have a description "
+                + "yet."
+            )
+        else:
+            print(DOC_STRING)
+    else:
+        MODULE_FOR_CURRENT_TASK.perform_task()
 
     return 0
-
-FFMPEG_PATH: Final[pathlib.Path] = locate_ffmpeg()
