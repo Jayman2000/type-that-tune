@@ -35,6 +35,9 @@
           pkgs.ffmpeg
           pkgs.uv
 
+          # Dependencies for ttt-build-tool
+          pkgs.pkg-config
+
           pkgs.pre-commit
           # Dependencies for pre-commit hooks:
           pkgs.go

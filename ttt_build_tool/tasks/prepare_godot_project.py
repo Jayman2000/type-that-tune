@@ -16,6 +16,6 @@ already exist.
 """
 
 
-def perform_task() -> None:
-    generate_license_files.perform_task()
-    prepare_media_files.perform_task()
+def perform_task(settings: common.Settings) -> None:
+    generate_license_files.perform_task(settings)
+    prepare_media_files.perform_task(settings)

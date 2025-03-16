@@ -133,7 +133,7 @@ def prepare_one_piece_of_media(
         subprocess.run(FFMPEG_COMMAND)
 
 
-def perform_task() -> None:
+def perform_task(settings: common.Settings) -> None:
     for directory in (CACHE_DIRECTORY, MEDIA_DIR):
         directory.mkdir(exist_ok=True, parents=True)
 
