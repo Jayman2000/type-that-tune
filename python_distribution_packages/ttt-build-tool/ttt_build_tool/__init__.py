@@ -106,7 +106,7 @@ def main() -> int:
             + "to always look for the ttt-runtime-tool at a fixed "
             + "location."
         ),
-        type=str,
+        type=pathlib.Path,
         metavar="PATH"
     )
     ARGS: Final = ARGUMENT_PARSER.parse_args()
