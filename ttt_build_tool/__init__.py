@@ -27,6 +27,10 @@ def main() -> int:
     ARGUMENT_PARSER: Final = argparse.ArgumentParser(
         description=DESCRIPTION
     )
+    EXPORT_PRESETS_PATH: Final = pathlib.Path(
+        common.GODOT_PROJECT_DIR,
+        "export_presets.cfg"
+    )
     ARGUMENT_PARSER.add_argument(
         "task_name",
         nargs="?",
@@ -77,6 +81,18 @@ def main() -> int:
         type=pathlib.Path,
         metavar="PATH"
     )
+    ARGUMENT_PARSER.add_argument(
+        "--godot-export-preset",
+        help=(
+            "Some tasks will try to export the Type That Tune Godot "
+            + "project. Godot projects can have multiple different "
+            + "export templates, and the ttt-build-tool needs to know "
+            + "which one you want to use. A list of valid preset names "
+            + f"can be found in {EXPORT_PRESETS_PATH}."
+        ),
+        type=str,
+        metavar="NAME"
+    )
     ARGS: Final = ARGUMENT_PARSER.parse_args()
 
     MODULE_FOR_CURRENT_TASK: Final = importlib.import_module(
@@ -96,7 +112,8 @@ def main() -> int:
     else:
         SETTINGS: Final = common.Settings(
             godot_editor_path=ARGS.godot_editor_path,
-            godot_export_templates_path=ARGS.godot_export_templates_path
+            godot_export_templates_path=ARGS.godot_export_templates_path,
+            godot_export_preset=ARGS.godot_export_preset
         )
         MODULE_FOR_CURRENT_TASK.perform_task(SETTINGS)
 

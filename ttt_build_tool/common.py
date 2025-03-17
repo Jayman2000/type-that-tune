@@ -20,12 +20,14 @@ EDITOR_EXECUTABLE_SYMLINK_PATH: Final = pathlib.Path(
     GODOT_ENGINE_DIR,
     "editor.exe" if os.name == "nt" else "editor"
 )
+EXPORTED_PROJECT_DIR: Final = pathlib.Path("exported_godot_project")
 
 
 class Settings(NamedTuple):
     """User preferences available to all tasks."""
     godot_editor_path: Optional[pathlib.Path]
     godot_export_templates_path: Optional[pathlib.Path]
+    godot_export_preset: Optional[str]
 
 
 def run_command(
