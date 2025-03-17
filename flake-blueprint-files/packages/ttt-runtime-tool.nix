@@ -17,4 +17,6 @@ pkgs.python3Packages.buildPythonApplication {
   pyproject = true;
 
   build-system = [ pkgs.python3Packages.setuptools ];
+
+  meta.mainProgram = "ttt-runtime-tool";
 }
