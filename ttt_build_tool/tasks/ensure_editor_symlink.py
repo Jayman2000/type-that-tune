@@ -24,25 +24,12 @@ symlink to the freshly built editor executable.
 
 
 def locate_editor_executable() -> pathlib.Path:
-    GODOT_BUILD_BIN_DIR: Final = pathlib.Path(
-        common.GODOT_ENGINE_DIR,
-        "src",
-        "bin"
-    )
-    for path in GODOT_BUILD_BIN_DIR.glob("*"):
+    for path in common.GODOT_BUILD_BIN_DIR.glob("*"):
         if "editor" in path.name.lower():
             return path
     raise FileNotFoundError(
         "Could not find Godot Engine editor executable."
     )
-
-
-def remove_then_symlink(
-    target: pathlib.Path,
-    symlink_path: pathlib.Path
-) -> None:
-    symlink_path.unlink(missing_ok=True)
-    symlink_path.symlink_to(target)
 
 
 def perform_task(settings: common.Settings) -> None:
@@ -53,14 +40,14 @@ def perform_task(settings: common.Settings) -> None:
     if settings.godot_editor_path is None:
         common.run_command(
             ("scons",),
-            pathlib.Path(common.GODOT_ENGINE_DIR, "src")
+            common.GODOT_SRC_DIR
         )
-        remove_then_symlink(
+        common.remove_then_symlink(
             locate_editor_executable().absolute(),
             EDITOR_EXECUTABLE_SYMLINK_PATH
         )
     else:
-        remove_then_symlink(
+        common.remove_then_symlink(
             settings.godot_editor_path.absolute(),
             EDITOR_EXECUTABLE_SYMLINK_PATH
         )

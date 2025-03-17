@@ -4,7 +4,7 @@
   perSystem,
   pkgs,
 }:
-pkgs.mkShellNoCC {
+pkgs.mkShell {
   name = "dev-shell-for-type-that-tune";
   packages = [
     pkgs.git
