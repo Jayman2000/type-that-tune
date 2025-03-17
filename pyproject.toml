@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 requires = ["setuptools"]
 
 [project]
-dependencies = ["ttt-build-tool"]
+dependencies = ["ttt-build-tool", "ttt-runtime-tool"]
 description = "A collection of Type That Tune–related packages"
 name = "type-that-tune-workspace"
 requires-python = ">=3.9"
@@ -19,6 +19,7 @@ packages = []
 
 [tool.uv.sources]
 ttt-build-tool = {workspace = true}
+ttt-runtime-tool = {workspace = true}
 
 [tool.uv.workspace]
 members = ["python_distribution_packages/*"]

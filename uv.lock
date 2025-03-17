@@ -4,6 +4,7 @@ requires-python = ">=3.9"
 [manifest]
 members = [
     "ttt-build-tool",
+    "ttt-runtime-tool",
     "type-that-tune-workspace",
 ]
 
@@ -311,15 +312,24 @@ requires-dist = [
 ]
 
 [[package]]
+name = "ttt-runtime-tool"
+version = "0.dev0"
+source = { editable = "python_distribution_packages/ttt-runtime-tool" }
+
+[[package]]
 name = "type-that-tune-workspace"
 version = "0.dev0"
 source = { editable = "." }
 dependencies = [
     { name = "ttt-build-tool" },
+    { name = "ttt-runtime-tool" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "ttt-build-tool", editable = "python_distribution_packages/ttt-build-tool" }]
+requires-dist = [
+    { name = "ttt-build-tool", editable = "python_distribution_packages/ttt-build-tool" },
+    { name = "ttt-runtime-tool", editable = "python_distribution_packages/ttt-runtime-tool" },
+]
 
 [[package]]
 name = "yt-dlp"
