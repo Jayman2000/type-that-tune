@@ -4,7 +4,7 @@
   perSystem,
   pkgs,
 }:
-pkgs.mkShellNoCC {
+pkgs.mkShell {
   name = "dev-shell-for-type-that-tune";
   packages = [
     pkgs.git
@@ -23,4 +23,16 @@ pkgs.mkShellNoCC {
     pkgs.cabal-install
     pkgs.ghc
   ];
+  shellHook =
+    let
+      variables = {
+        GODOT_EDITOR_PATH = pkgs.lib.meta.getExe perSystem.nixpkgsOldStable.godot_4;
+        GODOT_EXPORT_TEMPLATES_PATH = perSystem.nixpkgsOldStable.godot_4-export-templates;
+      };
+    in
+    ''
+      ${pkgs.lib.strings.toShellVars variables}
+      export GODOT_EDITOR_PATH
+      export GODOT_EXPORT_TEMPLATES_PATH
+    '';
 }

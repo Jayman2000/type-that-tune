@@ -44,7 +44,7 @@ editor:
 
         ```bash
         uv run ttt-build-tool \
-            --godot-editor-path "$(command -v godot4)" \
+            --godot-editor-path "$GODOT_EDITOR_PATH" \
             open_project_in_editor
         ```
 
