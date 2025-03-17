@@ -13,7 +13,7 @@ pkgs.python3Packages.buildPythonApplication {
       parsedPyprojectContents = builtins.fromTOML pyprojectContents;
     in
     parsedPyprojectContents.project.version;
-  src = flake;
+  src = "${flake}/python_distribution_packages/ttt-build-tool";
   pyproject = true;
 
   build-system = [ pkgs.python3Packages.setuptools ];

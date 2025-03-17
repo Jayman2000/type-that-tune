@@ -1,6 +1,12 @@
 version = 1
 requires-python = ">=3.9"
 
+[manifest]
+members = [
+    "ttt-build-tool",
+    "type-that-tune-workspace",
+]
+
 [[package]]
 name = "appdirs"
 version = "1.4.4"
@@ -288,7 +294,7 @@ wheels = [
 [[package]]
 name = "ttt-build-tool"
 version = "0.dev0"
-source = { editable = "." }
+source = { editable = "python_distribution_packages/ttt-build-tool" }
 dependencies = [
     { name = "appdirs" },
     { name = "reuse" },
@@ -303,6 +309,17 @@ requires-dist = [
     { name = "scons" },
     { name = "yt-dlp" },
 ]
+
+[[package]]
+name = "type-that-tune-workspace"
+version = "0.dev0"
+source = { editable = "." }
+dependencies = [
+    { name = "ttt-build-tool" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "ttt-build-tool", editable = "python_distribution_packages/ttt-build-tool" }]
 
 [[package]]
 name = "yt-dlp"
