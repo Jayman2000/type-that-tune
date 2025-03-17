@@ -28,6 +28,7 @@ class Settings(NamedTuple):
     godot_editor_path: Optional[pathlib.Path]
     godot_export_templates_path: Optional[pathlib.Path]
     godot_export_preset: Optional[str]
+    ttt_runtime_tool_path: Optional[pathlib.Path]
 
 
 def run_command(

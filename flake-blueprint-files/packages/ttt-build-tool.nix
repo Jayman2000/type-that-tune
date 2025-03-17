@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2025 Jason Yundt <jason@jasonyundt.email>
 {
   flake,
+  perSystem,
   pkgs,
   pname,
 }:
@@ -18,9 +19,10 @@ pkgs.python3Packages.buildPythonApplication {
 
   build-system = [ pkgs.python3Packages.setuptools ];
   dependencies = [
+    perSystem.self.ttt-runtime-tool
     pkgs.python3Packages.appdirs
     pkgs.python3Packages.reuse
-    pkgs.scons
     pkgs.python3Packages.yt-dlp
+    pkgs.scons
   ];
 }

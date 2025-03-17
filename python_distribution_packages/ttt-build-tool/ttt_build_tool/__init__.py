@@ -93,6 +93,22 @@ def main() -> int:
         type=str,
         metavar="NAME"
     )
+    ARGUMENT_PARSER.add_argument(
+        "--ttt-runtime-tool-path",
+        help=(
+            "Type That Tune needs to be able to run the "
+            + "ttt-runtime-tool. By default, Type That Tune will use "
+            + "the PATH environment variable in order to locate the "
+            + "ttt-runtime-tool. In some situations (example: the Nix "
+            + "package manager), it’s better assume that the "
+            + "ttt-runtime-tool is at a fixed location. You can use the"
+            + " --ttt-runtime-tool-path option to tell Type That Tune "
+            + "to always look for the ttt-runtime-tool at a fixed "
+            + "location."
+        ),
+        type=str,
+        metavar="PATH"
+    )
     ARGS: Final = ARGUMENT_PARSER.parse_args()
 
     MODULE_FOR_CURRENT_TASK: Final = importlib.import_module(
@@ -113,7 +129,8 @@ def main() -> int:
         SETTINGS: Final = common.Settings(
             godot_editor_path=ARGS.godot_editor_path,
             godot_export_templates_path=ARGS.godot_export_templates_path,
-            godot_export_preset=ARGS.godot_export_preset
+            godot_export_preset=ARGS.godot_export_preset,
+            ttt_runtime_tool_path=ARGS.ttt_runtime_tool_path
         )
         MODULE_FOR_CURRENT_TASK.perform_task(SETTINGS)
 
