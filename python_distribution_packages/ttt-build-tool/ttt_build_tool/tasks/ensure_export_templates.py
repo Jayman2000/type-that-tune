@@ -24,7 +24,7 @@ def perform_task(settings: common.Settings) -> None:
         or EXPORT_TEMPLATES_DIR.is_file()
     ):
         EXPORT_TEMPLATES_DIR.unlink(missing_ok=True)
-    else:
+    elif EXPORT_TEMPLATES_DIR.is_dir():
         shutil.rmtree(EXPORT_TEMPLATES_DIR)
 
     if settings.godot_export_templates_path is None:
