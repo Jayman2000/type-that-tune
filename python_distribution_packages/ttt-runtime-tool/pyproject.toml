@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: 2024–2025 Jason Yundt <jason@jasonyundt.email>
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools"]
+
+[project]
+description = "Python code that Type That Tune needs to use at runtime"
+name = "ttt-runtime-tool"
+requires-python = ">=3.9"
+# This is me trying to say “I don’t want this thing to have version
+# numbers.”
+version = "0.dev0"
+
+[project.scripts]
+ttt-runtime-tool = "ttt_runtime_tool:main"
+
+[tool.setuptools.packages.find]
+include = ["ttt_runtime_tool*"]
+where = ["."]

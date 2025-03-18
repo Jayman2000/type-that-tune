@@ -28,11 +28,13 @@ pkgs.mkShell {
       variables = {
         GODOT_EDITOR_PATH = pkgs.lib.meta.getExe perSystem.nixpkgsOldStable.godot_4;
         GODOT_EXPORT_TEMPLATES_PATH = perSystem.nixpkgsOldStable.godot_4-export-templates;
+        TTT_RUNTIME_TOOL_PATH = pkgs.lib.meta.getExe perSystem.self.ttt-runtime-tool;
       };
     in
     ''
       ${pkgs.lib.strings.toShellVars variables}
       export GODOT_EDITOR_PATH
       export GODOT_EXPORT_TEMPLATES_PATH
+      export TTT_RUNTIME_TOOL
     '';
 }
