@@ -18,10 +18,9 @@ pkgs.python3Packages.buildPythonApplication {
   pyproject = true;
 
   build-system = [ pkgs.python3Packages.setuptools ];
-  dependencies = [
-    pkgs.python3Packages.appdirs
-    pkgs.python3Packages.reuse
-    pkgs.python3Packages.yt-dlp
-    pkgs.scons
+  dependencies = with pkgs.python3Packages; [
+    appdirs
+    reuse
+    yt-dlp
   ];
 }

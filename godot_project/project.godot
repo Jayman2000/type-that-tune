@@ -19,7 +19,6 @@ config/icon="res://art/icon.webp"
 
 BackButtonHelper="*res://scenes_and_scripts/autoload/back_button_helper.gd"
 StartupChecker="res://scenes_and_scripts/autoload/startup_checker.gd"
-TTTRuntimeToolHelper="res://scenes_and_scripts/autoload/ttt_runtime_tool_helper.gd"
 
 [display]
 

@@ -36,28 +36,18 @@ aren’t sure how to do this, then please click [here].
         develop
     ```
 
-5. Prepare the Godot project folder and open it in the Godot Engine
-editor:
+5. Prepare the Godot project folder by running this command:
 
-    - If you ran the `nix` command from the previous step, then run this
-    command:
-
-        ```bash
-        uv run ttt-build-tool \
-            --godot-editor-path "$GODOT_EDITOR_PATH" \
-            open_project_in_editor
-        ```
-
-    - Otherwise, run this command:
-
-        ```bash
-        uv run ttt-build-tool open_project_in_editor
-        ```
+    ```bash
+    uv run ttt-build-tool open_project_in_editor
+    ```
 
     **Warning:** This step will take a really long time. Please be
     patient.
 
-6. Press <kbd>F5</kbd> to run the game.
+6. Open the project in the Godot editor.
+
+7. Run the project.
 
 <!-- editorconfig-checker-disable -->
 [here]: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository

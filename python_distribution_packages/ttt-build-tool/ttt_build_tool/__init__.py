@@ -4,7 +4,6 @@
 import argparse
 import collections.abc
 import importlib
-import pathlib
 import pkgutil
 from typing import Final
 
@@ -26,10 +25,6 @@ def main() -> int:
     DEFAULT_TASK: Final = "prepare_godot_project"
     ARGUMENT_PARSER: Final = argparse.ArgumentParser(
         description=DESCRIPTION
-    )
-    EXPORT_PRESETS_PATH: Final = pathlib.Path(
-        common.GODOT_PROJECT_DIR,
-        "export_presets.cfg"
     )
     ARGUMENT_PARSER.add_argument(
         "task_name",
@@ -55,60 +50,6 @@ def main() -> int:
         action="store_true",
         help="Print help text about the task instead of running it."
     )
-    ARGUMENT_PARSER.add_argument(
-        "--godot-editor-path",
-        help=(
-            "Some tasks require a copy of the Godot Engine editor in "
-            + "order to run. By default, ttt-build-tool will try to "
-            + "build and use its own copy of the Godot Engine editor. "
-            + "You can use the --godot-editor-absolute-path option to "
-            + "tell ttt-build-tool to use an existing copy of the Godot"
-            + "Engine editor instead of building its own."
-        ),
-        type=pathlib.Path,
-        metavar="PATH"
-    )
-    ARGUMENT_PARSER.add_argument(
-        "--godot-export-templates-path",
-        help=(
-            "Some tasks require Godot Engine export templates in order "
-            + "to run. By default, ttt-build-tool wil try to build and "
-            + "use its own export templates from source. You can use "
-            + "the --godot-export-templates-path option to tell "
-            + "ttt-build-tool to use an existing set of export "
-            + "templates instead of building its own from source."
-        ),
-        type=pathlib.Path,
-        metavar="PATH"
-    )
-    ARGUMENT_PARSER.add_argument(
-        "--godot-export-preset",
-        help=(
-            "Some tasks will try to export the Type That Tune Godot "
-            + "project. Godot projects can have multiple different "
-            + "export templates, and the ttt-build-tool needs to know "
-            + "which one you want to use. A list of valid preset names "
-            + f"can be found in {EXPORT_PRESETS_PATH}."
-        ),
-        type=str,
-        metavar="NAME"
-    )
-    ARGUMENT_PARSER.add_argument(
-        "--ttt-runtime-tool-path",
-        help=(
-            "Type That Tune needs to be able to run the "
-            + "ttt-runtime-tool. By default, Type That Tune will use "
-            + "the PATH environment variable in order to locate the "
-            + "ttt-runtime-tool. In some situations (example: the Nix "
-            + "package manager), it’s better assume that the "
-            + "ttt-runtime-tool is at a fixed location. You can use the"
-            + " --ttt-runtime-tool-path option to tell Type That Tune "
-            + "to always look for the ttt-runtime-tool at a fixed "
-            + "location."
-        ),
-        type=pathlib.Path,
-        metavar="PATH"
-    )
     ARGS: Final = ARGUMENT_PARSER.parse_args()
 
     MODULE_FOR_CURRENT_TASK: Final = importlib.import_module(
@@ -126,12 +67,7 @@ def main() -> int:
         else:
             print(DOC_STRING)
     else:
-        SETTINGS: Final = common.Settings(
-            godot_editor_path=ARGS.godot_editor_path,
-            godot_export_templates_path=ARGS.godot_export_templates_path,
-            godot_export_preset=ARGS.godot_export_preset,
-            ttt_runtime_tool_path=ARGS.ttt_runtime_tool_path
-        )
+        SETTINGS: Final = common.Settings()
         MODULE_FOR_CURRENT_TASK.perform_task(SETTINGS)
 
     return 0
