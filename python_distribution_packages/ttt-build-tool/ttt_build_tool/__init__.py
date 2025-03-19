@@ -4,7 +4,6 @@
 import argparse
 import collections.abc
 import importlib
-import pathlib
 import pkgutil
 from typing import Final
 
@@ -51,22 +50,6 @@ def main() -> int:
         action="store_true",
         help="Print help text about the task instead of running it."
     )
-    ARGUMENT_PARSER.add_argument(
-        "--ttt-runtime-tool-path",
-        help=(
-            "Type That Tune needs to be able to run the "
-            + "ttt-runtime-tool. By default, Type That Tune will use "
-            + "the PATH environment variable in order to locate the "
-            + "ttt-runtime-tool. In some situations (example: the Nix "
-            + "package manager), it’s better assume that the "
-            + "ttt-runtime-tool is at a fixed location. You can use the"
-            + " --ttt-runtime-tool-path option to tell Type That Tune "
-            + "to always look for the ttt-runtime-tool at a fixed "
-            + "location."
-        ),
-        type=pathlib.Path,
-        metavar="PATH"
-    )
     ARGS: Final = ARGUMENT_PARSER.parse_args()
 
     MODULE_FOR_CURRENT_TASK: Final = importlib.import_module(
@@ -84,9 +67,7 @@ def main() -> int:
         else:
             print(DOC_STRING)
     else:
-        SETTINGS: Final = common.Settings(
-            ttt_runtime_tool_path=ARGS.ttt_runtime_tool_path
-        )
+        SETTINGS: Final = common.Settings()
         MODULE_FOR_CURRENT_TASK.perform_task(SETTINGS)
 
     return 0

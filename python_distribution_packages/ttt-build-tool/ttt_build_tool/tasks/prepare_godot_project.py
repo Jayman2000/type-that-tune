@@ -5,7 +5,6 @@ from .. import common
 from . import (
     generate_license_files,
     prepare_media_files,
-    generate_external_tool_info_files
 )
 __doc__ = f"""
 Ensures that the Godot project is ready to be imported by the editor.
@@ -22,4 +21,3 @@ This task may skip creating certain files if they already exist.
 def perform_task(settings: common.Settings) -> None:
     generate_license_files.perform_task(settings)
     prepare_media_files.perform_task(settings)
-    generate_external_tool_info_files.perform_task(settings)

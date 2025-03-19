@@ -5,7 +5,7 @@ import os
 import pathlib
 import subprocess
 import sys
-from typing import Final, NamedTuple, Optional, Union
+from typing import Final, NamedTuple, Union
 
 
 GODOT_PROJECT_DIR: Final = pathlib.Path("godot_project")
@@ -24,7 +24,6 @@ EDITOR_EXECUTABLE_SYMLINK_PATH: Final = pathlib.Path(
 
 class Settings(NamedTuple):
     """User preferences available to all tasks."""
-    ttt_runtime_tool_path: Optional[pathlib.Path]
 
 
 def run_command(
