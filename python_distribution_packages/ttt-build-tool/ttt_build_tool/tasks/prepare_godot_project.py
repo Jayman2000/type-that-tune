@@ -18,6 +18,6 @@ This task may skip creating certain files if they already exist.
 """
 
 
-def perform_task(settings: common.Settings) -> None:
+def perform_task(settings: common.BuildConfig) -> None:
     generate_license_files.perform_task(settings)
     prepare_media_files.perform_task(settings)
