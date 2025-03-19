@@ -52,19 +52,6 @@ def main() -> int:
         help="Print help text about the task instead of running it."
     )
     ARGUMENT_PARSER.add_argument(
-        "--godot-editor-path",
-        help=(
-            "Some tasks require a copy of the Godot Engine editor in "
-            + "order to run. By default, ttt-build-tool will try to "
-            + "build and use its own copy of the Godot Engine editor. "
-            + "You can use the --godot-editor-absolute-path option to "
-            + "tell ttt-build-tool to use an existing copy of the Godot"
-            + "Engine editor instead of building its own."
-        ),
-        type=pathlib.Path,
-        metavar="PATH"
-    )
-    ARGUMENT_PARSER.add_argument(
         "--ttt-runtime-tool-path",
         help=(
             "Type That Tune needs to be able to run the "
@@ -98,7 +85,6 @@ def main() -> int:
             print(DOC_STRING)
     else:
         SETTINGS: Final = common.Settings(
-            godot_editor_path=ARGS.godot_editor_path,
             ttt_runtime_tool_path=ARGS.ttt_runtime_tool_path
         )
         MODULE_FOR_CURRENT_TASK.perform_task(SETTINGS)

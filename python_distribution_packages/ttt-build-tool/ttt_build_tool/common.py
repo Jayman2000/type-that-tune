@@ -24,7 +24,6 @@ EDITOR_EXECUTABLE_SYMLINK_PATH: Final = pathlib.Path(
 
 class Settings(NamedTuple):
     """User preferences available to all tasks."""
-    godot_editor_path: Optional[pathlib.Path]
     ttt_runtime_tool_path: Optional[pathlib.Path]
 
 
