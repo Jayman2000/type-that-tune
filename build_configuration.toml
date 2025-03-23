@@ -1,2 +1,6 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2024–2025 Jason Yundt <jason@jasonyundt.email>
+
+[[godot_editor_executable.search_list]]
+path = "/usr/bin/godot"
+type = "use_path_that_exists_at_build_time"

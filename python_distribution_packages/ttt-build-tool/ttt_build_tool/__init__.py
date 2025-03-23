@@ -81,7 +81,7 @@ def main() -> int:
         else:
             print(DOC_STRING)
     else:
-        BUILD_CONFIG: Final = common.BuildConfig.from_path(
+        BUILD_CONFIG: Final = common.BuildConfig(
             ARGS.build_config_file_path
         )
         MODULE_FOR_CURRENT_TASK.perform_task(BUILD_CONFIG)
