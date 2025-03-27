@@ -34,15 +34,20 @@ variables which could be confusing.
 """
 import collections.abc
 import pathlib
+import shutil
 import subprocess
 import sys
 import tomllib
 import warnings
-from typing import Any, Final, NamedTuple, Self, Union
+from typing import Any, Final, NamedTuple, Optional, Self, Union
 
 
 GODOT_PROJECT_DIR: Final = pathlib.Path("godot_project")
 GENERATED_DIR: Final = pathlib.Path(GODOT_PROJECT_DIR, "generated")
+SEARCH_TUPLE_ITEM_VALID_TYPES: Final = (
+    "use_path_that_exists_at_build_time",
+    "locate_using_path_env_var_at_build_time"
+)
 
 
 class NonZeroReturnCodeError(RuntimeError):
@@ -65,7 +70,8 @@ def run_command(
 
 class SearchTupleItem(NamedTuple):
     type: str
-    path: pathlib.Path
+    path: Optional[pathlib.Path]
+    command_name: Optional[str]
 
     @classmethod
     def from_parsed_toml_table(
@@ -95,24 +101,81 @@ class SearchTupleItem(NamedTuple):
                 + "string, but it isn’t."
             )
         # PATH
-        try:
-            PATH: Final = parsed_toml_table.pop("path")
-        except KeyError as original_exception:
-            NEW_EXCEPTION_2: Final = ValueError(
-                "Your build configuration "
-                + f"({path_to_build_config_file}) has a problem. The "
-                + f"{toml_value_path} table is supposed to contain a "
-                + "key named “path”, but it doesn’t."
-            )
-            raise NEW_EXCEPTION_2 from original_exception
-        if not isinstance(PATH, str):
+        PATH: Final = parsed_toml_table.pop("path", None)
+        if PATH is not None and not isinstance(PATH, str):
             raise ValueError(
                 "Your build configuration "
                 + f"({path_to_build_config_file}) has a problem. "
                 + f"{toml_value_path}.path is supposed to be a TOML "
                 + "string, but it isn’t."
             )
+        # COMMAND_NAME
+        COMMAND_NAME: Final = parsed_toml_table.pop(
+            "command_name",
+            None
+        )
+        if (
+            COMMAND_NAME is not None
+            and not isinstance(COMMAND_NAME, str)
+        ):
+            raise ValueError(
+                "Your build configuration "
+                + f"({path_to_build_config_file}) has a problem. "
+                + f"{toml_value_path}.command_name is supposed to be a"
+                + " TOML string, but it isn’t."
+            )
         # End
+        if TYPE == SEARCH_TUPLE_ITEM_VALID_TYPES[0]:
+            if PATH is None:
+                raise ValueError(
+                    "Your build configuration "
+                    + f"({path_to_build_config_file}) has a problem. "
+                    + f"{toml_value_path}.type is set to {TYPE}, but "
+                    + f"there was no {toml_value_path}.path "
+                    + f"TOML key. When {toml_value_path}.type is set to"
+                    + " {TYPE}, you need to set "
+                    + f"{toml_value_path}.path to a TOML string."
+                )
+            if COMMAND_NAME is not None:
+                raise ValueError(
+                    "Your build configuration "
+                    + f"({path_to_build_config_file}) has a problem. "
+                    + f"{toml_value_path}.type is set to {TYPE}, and "
+                    + f"{toml_value_path}.command_name is set to "
+                    + f"{COMMAND_NAME}. When {toml_value_path}.type is "
+                    + f"set to {TYPE}, {toml_value_path}.command_name "
+                    + "shouldn’t be used at all."
+                )
+        elif TYPE == SEARCH_TUPLE_ITEM_VALID_TYPES[1]:
+            if PATH is not None:
+                raise ValueError(
+                    "Your build configuration "
+                    + f"({path_to_build_config_file}) has a problem. "
+                    + f"{toml_value_path}.type is set to {TYPE}, and "
+                    + f"{toml_value_path}.path is set to {PATH}. When "
+                    + f"{toml_value_path}.type is set to {TYPE}, "
+                    + f"{toml_value_path}.path shouldn’t be used at "
+                    + "all."
+                )
+            if COMMAND_NAME is None:
+                raise ValueError(
+                    "Your build configuration "
+                    + f"({path_to_build_config_file}) has a problem. "
+                    + f"{toml_value_path}.type is set to {TYPE}, but "
+                    + f"there was no {toml_value_path}.command_name "
+                    + f"TOML key. When {toml_value_path}.type is set to"
+                    + f" {TYPE}, you need to set "
+                    + f"{toml_value_path}.command_name to a TOML "
+                    + "string."
+                )
+        else:
+            raise ValueError(
+                "Your build configuration "
+                + f"({path_to_build_config_file}) has a problem. "
+                + f"{toml_value_path}.type is set to {TYPE}. It should "
+                + "not be set to that. Instead, it should be set to one"
+                + f" of these: {SEARCH_TUPLE_ITEM_VALID_TYPES}."
+            )
         if len(parsed_toml_table) != 0:
             UNEXPECTED_KEYS: Final = tuple(parsed_toml_table.keys())
             raise ValueError(
@@ -123,7 +186,11 @@ class SearchTupleItem(NamedTuple):
                 + "the list of extra TOML keys that weren’t understood:"
                 + f" {UNEXPECTED_KEYS}."
             )
-        return cls(TYPE, pathlib.Path(PATH))
+        return cls(
+            TYPE,
+            None if PATH is None else pathlib.Path(PATH),
+            COMMAND_NAME
+        )
 
 
 class GodotEditorSearchTuple(tuple[SearchTupleItem]):
@@ -207,12 +274,24 @@ class GodotEditorSearchTuple(tuple[SearchTupleItem]):
         This function will either return the absolute path of a usable
         Godot editor executable, or it will raise an exception.
         """
-        VALID_TYPES: Final = ("use_path_that_exists_at_build_time",)
+        VALID_TYPES: Final = (
+            "use_path_that_exists_at_build_time",
+            "locate_using_path_env_var_at_build_time"
+        )
         item: SearchTupleItem
-        path_to_test: pathlib.Path
+        path_to_test: Optional[pathlib.Path]
         for item in self:
             if item.type == VALID_TYPES[0]:
+                assert item.path is not None
                 path_to_test = item.path.absolute()
+            elif item.type == VALID_TYPES[1]:
+                assert item.command_name is not None
+                shutil_result = shutil.which(item.command_name)
+                if shutil_result is None:
+                    path_to_test = None
+                else:
+                    path_to_test = pathlib.Path(shutil_result)
+                print(f"Failed to find command {item.command_name}.")
             else:
                 raise ValueError(
                     "One of the items in "
@@ -221,24 +300,25 @@ class GodotEditorSearchTuple(tuple[SearchTupleItem]):
                     + "should have been one of these: "
                     + repr(VALID_TYPES)
                 )
-            try:
-                print(
-                    "Testing Godot Editor executable at this path:",
-                    path_to_test
-                )
-                run_command(
-                    (path_to_test, "--version"),
-                    cwd=pathlib.Path.cwd()
-                )
-                print("Test succeeded!")
-                return path_to_test
-            except (NonZeroReturnCodeError, FileNotFoundError):
-                print("Test failed.")
-                warnings.warn(
-                    "One of the items on the build configuration’s "
-                    + "godot_editor_executable.search_list is not "
-                    + "usable."
-                )
+            if path_to_test is not None:
+                try:
+                    print(
+                        "Testing Godot Editor executable at this path:",
+                        path_to_test
+                    )
+                    run_command(
+                        (path_to_test, "--version"),
+                        cwd=pathlib.Path.cwd()
+                    )
+                    print("Test succeeded!")
+                    return path_to_test
+                except (NonZeroReturnCodeError, FileNotFoundError):
+                    print("Test failed.")
+            warnings.warn(
+                "One of the items on the build configuration’s "
+                + "godot_editor_executable.search_list is not "
+                + "usable."
+            )
         raise ValueError(
             "None of the items on the build configuration’s "
             + "godot_editor_executable.search_list were usable."
