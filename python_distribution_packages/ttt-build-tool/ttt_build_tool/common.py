@@ -498,9 +498,38 @@ class GodotEditorSearchTuple(SearchTuple):
 
 
 class GodotExportTemplatesSearchTuple(SearchTuple):
+    @staticmethod
+    def downloaded_godot_export_templates_path() -> pathlib.Path:
+        """
+        Downloads and extracts the Godot export templates if needed and
+        then returns the path to their directory.
+
+        If the export templates haven’t already been downloaded and
+        attempting to download them fails, then a
+        requests.RequestException will be raised.
+        """
+        ZIP_FILE_PATH: Final = download_if_needed(
+            "https://github.com/godotengine/godot-builds/releases/download/4.2.2-stable/Godot_v4.2.2-stable_export_templates.tpz",
+            # A .tpz file is actually just a ZIP file with a different
+            # file extension [1]. We need its name to actually end with
+            # “.zip”, though, or else shutil.unpack_archive will fail.
+            #
+            # [1]: <https://docs.godotengine.org/en/4.2/tutorials/export/exporting_projects.html#export-templates>
+            pathlib.Path("export_templates.zip"),
+            "df791307a118baf29a665db166a233ff221099499888b580a3af2a4198ac33fc"
+        )
+        EXTRACTED_DIR_PATH: Final = pathlib.Path(
+            ZIP_FILE_PATH.parent,
+            "extracted"
+        )
+        if not EXTRACTED_DIR_PATH.exists():
+            shutil.unpack_archive(ZIP_FILE_PATH, EXTRACTED_DIR_PATH)
+        return EXTRACTED_DIR_PATH
+
     def locate(self) -> pathlib.Path:
         VALID_TYPES: Final = (
             "use_path_that_exists_at_build_time",
+            "download_at_build_time"
         )
         item: SearchTupleItem
         path_to_test: Optional[pathlib.Path]
@@ -508,6 +537,16 @@ class GodotExportTemplatesSearchTuple(SearchTuple):
             if item.type == VALID_TYPES[0]:
                 assert item.path is not None
                 path_to_test = item.path
+            elif item.type == VALID_TYPES[1]:
+                try:
+                    path_to_test = (
+                        self.downloaded_godot_export_templates_path()
+                    )
+                except requests.RequestException:
+                    warnings.warn(
+                        "Failed to download the Godot export templates."
+                    )
+                    path_to_test = None
             else:
                 raise ValueError(
                     "One of the items in "
