@@ -134,7 +134,9 @@ repos:
                 additional_dependencies:
                     - appdirs
                     - appdirs-stubs
+                    - requests_cache
                     - reuse
+                    - types-requests
                     - yt-dlp
                     - yt-dlp-types
     -

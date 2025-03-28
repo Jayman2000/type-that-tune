@@ -2,6 +2,9 @@
 # SPDX-FileCopyrightText: 2024–2025 Jason Yundt <jason@jasonyundt.email>
 
 [[godot_editor_executable.search_list]]
+type = "download_at_build_time"
+
+[[godot_editor_executable.search_list]]
 command_name = "godot"
 type = "locate_using_path_env_var_at_build_time"
 

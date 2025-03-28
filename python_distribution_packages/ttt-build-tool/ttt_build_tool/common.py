@@ -33,6 +33,7 @@ that, then the function could modify the value of one of the caller’s
 variables which could be confusing.
 """
 import collections.abc
+import hashlib
 import pathlib
 import shutil
 import subprocess
@@ -41,13 +42,107 @@ import tomllib
 import warnings
 from typing import Any, Final, NamedTuple, Optional, Self, Union
 
+import appdirs
+import requests
+import requests_cache
+
 
 GODOT_PROJECT_DIR: Final = pathlib.Path("godot_project")
 GENERATED_DIR: Final = pathlib.Path(GODOT_PROJECT_DIR, "generated")
 SEARCH_TUPLE_ITEM_VALID_TYPES: Final = (
     "use_path_that_exists_at_build_time",
-    "locate_using_path_env_var_at_build_time"
+    "locate_using_path_env_var_at_build_time",
+    "download_at_build_time"
 )
+CACHE_DIRECTORY: Final = pathlib.Path(appdirs.user_cache_dir(
+    appname="ttt-build-tool",
+    appauthor="Type That Tune contributors"
+))
+DOWNLOADS_DIR: Final = pathlib.Path(CACHE_DIRECTORY, "downloads")
+REQUESTS_SESSION: Final = requests_cache.CachedSession(
+    pathlib.Path(CACHE_DIRECTORY, "requests_cache"),
+    backend="filesystem"
+)
+
+
+def dir_to_put_download_in(url: str) -> pathlib.Path:
+    """
+    Determines where inside DOWNLOADS_DIR a file should be saved.
+
+    Even if the ttt-build-tool is run multiple times, it should only
+    ever download files once. The ttt-build-tool stores its downloads in
+    subdirectories of the DOWNLOADS_DIR directory so that they can be
+    reused when the ttt-build-tool is run again.
+    """
+    URL_HASH: Final = hashlib.sha3_256(url.encode("utf-8")).hexdigest()
+    return pathlib.Path(DOWNLOADS_DIR, URL_HASH)
+
+
+def download_if_needed(
+    url: str,
+    relative_path: pathlib.Path,
+    expected_hash: str
+) -> pathlib.Path:
+    """
+    Download a regular file from url if necessary.
+
+    This function will download a regular file. It can’t be used to
+    download a video from sites like Niconico.
+
+    This function caches its output. It won’t try to redownload
+    something if it was already downloaded during a previous run of the
+    ttt-build-tool.
+
+    Parameters:
+    url — The Web address of the file that you want to download.
+
+    expected_hash — The SHA3-256 hash of the file that we’re going to
+    download. After the file is downloaded, its hash will be calculated
+    and compared to expected_hash. If they don’t match, then an
+    exception will be raised. This helps ensure that the code in this
+    repo is reproducible. expected_hash should be set to a string of
+    hexadecimal digits.
+
+    relative_path — Where to save the file, relative to
+    dir_to_put_download_in(url).
+
+    Return value: The path to the downloaded file.
+
+    Raises a requests.RequestException if the file fails to download.
+    """
+    DESTINATION: Final = pathlib.Path(
+        dir_to_put_download_in(url),
+        relative_path
+    )
+    if DESTINATION.exists():
+        with DESTINATION.open(mode="rb") as file:
+            ACTUAL_HASH_1: Final = (
+                hashlib.sha3_256(file.read()).hexdigest()
+            )
+        if ACTUAL_HASH_1 != expected_hash:
+            raise ValueError(
+                f"A file was downloaded from {repr(url)} and saved to "
+                + f"{DESTINATION}. ttt-build-tool expected that its "
+                + f"SHA3-256 hash would be {repr(expected_hash)}, but "
+                + "its hash was actually {repr(ACTUAL_HASH_1)}."
+            )
+    else:
+        RESPONSE: Final = REQUESTS_SESSION.get(url)
+        RESPONSE.raise_for_status()
+        ACTUAL_HASH_2: Final = (
+            hashlib.sha3_256(RESPONSE.content).hexdigest()
+        )
+        if ACTUAL_HASH_2 != expected_hash:
+            raise ValueError(
+                f"A file was downloaded from {repr(url)}. "
+                + "ttt-build-tool expected that its SHA3-256 hash would"
+                + f" be {repr(expected_hash)}, but its hash was "
+                + f"actually {repr(ACTUAL_HASH_2)}."
+            )
+        DESTINATION.parent.mkdir(exist_ok=True)
+        with DESTINATION.open(mode="wb") as file:
+            file.write(RESPONSE.content)
+    return DESTINATION
 
 
 class NonZeroReturnCodeError(RuntimeError):
@@ -168,6 +263,27 @@ class SearchTupleItem(NamedTuple):
                     + f"{toml_value_path}.command_name to a TOML "
                     + "string."
                 )
+        elif TYPE == SEARCH_TUPLE_ITEM_VALID_TYPES[2]:
+            if PATH is not None:
+                raise ValueError(
+                    "Your build configuration "
+                    + f"({path_to_build_config_file}) has a problem. "
+                    + f"{toml_value_path}.type is set to {TYPE}, and "
+                    + f"{toml_value_path}.path is set to {PATH}. When "
+                    + f"{toml_value_path}.type is set to {TYPE}, "
+                    + f"{toml_value_path}.path shouldn’t be used at "
+                    + "all."
+                )
+            if COMMAND_NAME is not None:
+                raise ValueError(
+                    "Your build configuration "
+                    + f"({path_to_build_config_file}) has a problem. "
+                    + f"{toml_value_path}.type is set to {TYPE}, and "
+                    + f"{toml_value_path}.command_name is set to "
+                    + f"{COMMAND_NAME}. When {toml_value_path}.type is "
+                    + f"set to {TYPE}, {toml_value_path}.command_name "
+                    + "shouldn’t be used at all."
+                )
         else:
             raise ValueError(
                 "Your build configuration "
@@ -267,6 +383,34 @@ class GodotEditorSearchTuple(tuple[SearchTupleItem]):
             )
         return cls(TO_INCLUDE_IN_RETURN_VALUE)
 
+    @staticmethod
+    def downloaded_godot_editor_path() -> pathlib.Path:
+        """
+        Downloads and extracts the Godot Engine editor if needed and
+        then returns the path to the editor’s executable.
+
+        If the Godot Engine editor hasn’t already been downloaded and
+        the attempting to download it fails, then a
+        requests.RequestException will be raised.
+        """
+        ZIP_FILE_PATH: Final = download_if_needed(
+            "https://github.com/godotengine/godot-builds/releases/download/4.2.2-stable/Godot_v4.2.2-stable_linux.x86_64.zip",
+            pathlib.Path("editor.zip"),
+            "18f3ff63fb4359c26e76fa52d1a7c5ccd6aaf17c063a2863fe3600aba66a49d4"
+        )
+        EXTRACTED_DIR_PATH: Final = pathlib.Path(
+            ZIP_FILE_PATH.parent,
+            "extracted"
+        )
+        EXECUTABLE_PATH: Final = pathlib.Path(
+            EXTRACTED_DIR_PATH,
+            "Godot_v4.2.2-stable_linux.x86_64"
+        )
+        if not EXTRACTED_DIR_PATH.exists():
+            shutil.unpack_archive(ZIP_FILE_PATH, EXTRACTED_DIR_PATH)
+            EXECUTABLE_PATH.chmod(0o755)
+        return EXECUTABLE_PATH
+
     def locate(self) -> pathlib.Path:
         """
         Finds the first item in self that is usable.
@@ -276,7 +420,8 @@ class GodotEditorSearchTuple(tuple[SearchTupleItem]):
         """
         VALID_TYPES: Final = (
             "use_path_that_exists_at_build_time",
-            "locate_using_path_env_var_at_build_time"
+            "locate_using_path_env_var_at_build_time",
+            "download_at_build_time"
         )
         item: SearchTupleItem
         path_to_test: Optional[pathlib.Path]
@@ -292,6 +437,14 @@ class GodotEditorSearchTuple(tuple[SearchTupleItem]):
                 else:
                     path_to_test = pathlib.Path(shutil_result)
                 print(f"Failed to find command {item.command_name}.")
+            elif item.type == VALID_TYPES[2]:
+                try:
+                    path_to_test = self.downloaded_godot_editor_path()
+                except requests.RequestException:
+                    warnings.warn(
+                        "Failed to download the Godot Engine editor."
+                    )
+                    path_to_test = None
             else:
                 raise ValueError(
                     "One of the items in "
