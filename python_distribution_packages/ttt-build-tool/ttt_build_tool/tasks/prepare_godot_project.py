@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: 2025 Jason Yundt <jason@jasonyundt.email>
 from .. import common
 from . import (
+    ensure_export_templates_symlink,
     ensure_exported_dir,
     generate_license_files,
     prepare_media_files,
@@ -20,6 +21,7 @@ This task may skip creating certain files if they already exist.
 
 
 def perform_task(settings: common.BuildConfig) -> None:
+    ensure_export_templates_symlink.perform_task(settings)
     ensure_exported_dir.perform_task(settings)
     generate_license_files.perform_task(settings)
     prepare_media_files.perform_task(settings)

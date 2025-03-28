@@ -31,7 +31,12 @@ parameters before using them:
 Functions do this so that they are less confusing. If they didn’t do
 that, then the function could modify the value of one of the caller’s
 variables which could be confusing.
+
+The bodies of all of the abstract methods in this module raise a
+NotImplementedError. Rasing an exception helps avoid this problem:
+<https://stackoverflow.com/q/51818797/7593853>.
 """
+import abc
 import collections.abc
 import hashlib
 import pathlib
@@ -309,12 +314,20 @@ class SearchTupleItem(NamedTuple):
         )
 
 
-class GodotEditorSearchTuple(tuple[SearchTupleItem]):
+class SearchTuple(abc.ABC, tuple[SearchTupleItem]):
+    """
+    A sequence that can be used to determine the location of a file or
+    directory that the ttt-build-tool needs to use.
+    """
     def __new__(
         cls,
         items: collections.abc.Iterable[SearchTupleItem]
     ) -> Self:
-        return super().__new__(cls, items)
+        return_value = super().__new__(cls, items)
+        # This is a workaround for this problem:
+        # <https://stackoverflow.com/q/24990397/7593853>.
+        assert len(return_value.__abstractmethods__) == 0 # type: ignore
+        return return_value
 
     def __repr__(self) -> str:
         return f"{type(self).__name__}({super().__repr__()})"
@@ -383,6 +396,18 @@ class GodotEditorSearchTuple(tuple[SearchTupleItem]):
             )
         return cls(TO_INCLUDE_IN_RETURN_VALUE)
 
+    @abc.abstractmethod
+    def locate(self) -> pathlib.Path:
+        """
+        Finds the first item in self that is usable.
+
+        This function will either return the absolute path of a usable
+        item that’s in self, or it will raise an exception.
+        """
+        raise NotImplementedError
+
+
+class GodotEditorSearchTuple(SearchTuple):
     @staticmethod
     def downloaded_godot_editor_path() -> pathlib.Path:
         """
@@ -412,12 +437,6 @@ class GodotEditorSearchTuple(tuple[SearchTupleItem]):
         return EXECUTABLE_PATH
 
     def locate(self) -> pathlib.Path:
-        """
-        Finds the first item in self that is usable.
-
-        This function will either return the absolute path of a usable
-        Godot editor executable, or it will raise an exception.
-        """
         VALID_TYPES: Final = (
             "use_path_that_exists_at_build_time",
             "locate_using_path_env_var_at_build_time",
@@ -478,6 +497,45 @@ class GodotEditorSearchTuple(tuple[SearchTupleItem]):
         )
 
 
+class GodotExportTemplatesSearchTuple(SearchTuple):
+    def locate(self) -> pathlib.Path:
+        VALID_TYPES: Final = (
+            "use_path_that_exists_at_build_time",
+        )
+        item: SearchTupleItem
+        path_to_test: Optional[pathlib.Path]
+        for item in self:
+            if item.type == VALID_TYPES[0]:
+                assert item.path is not None
+                path_to_test = item.path
+            else:
+                raise ValueError(
+                    "One of the items in "
+                    + "godot_export_templates.search_list has an "
+                    + f"invalid type: {repr(item.type)}. Its type "
+                    + "should have been one of these: "
+                    + repr(VALID_TYPES)
+                )
+            if path_to_test is not None:
+                if path_to_test.is_dir():
+                    return path_to_test
+                else:
+                    print(
+                        "The Godot export templates can’t possibly in "
+                        + f"the {path_to_test} directory. "
+                        + f"{path_to_test} either does not exist or is "
+                        + "not actually a directory."
+                    )
+            warnings.warn(
+                "One of the items on the build configuration’s "
+                + "godot_export_templates.search_list is not "
+                + "usable."
+            )
+        raise ValueError(
+            "None of the items on the build configuration’s "
+            + "godot_export_templates.search_list were usable."
+        )
+
 
 class BuildConfig:
     """User preferences available to all tasks."""
@@ -519,6 +577,33 @@ class BuildConfig:
                 path_to_build_config_file,
                 "godot_editor_executable",
                 GODOT_EDITOR_EXECUTABLE_TABLE
+            )
+        )
+        # godot_export_templates_search_tuple
+        try:
+            GODOT_EXPORT_TEMPLATES_TABLE: Final = (
+                PARSED_TOML_DOCUMENT.pop("godot_export_templates")
+            )
+        except KeyError as original_exception:
+            NEW_EXCEPTION_3: Final = ValueError(
+                "Your build configuration "
+                + f"({path_to_build_config_file}) has a problem. It’s "
+                + "supposed to contain a key named "
+                + "“godot_export_templates”, but it doesn’t."
+            )
+            raise NEW_EXCEPTION_3 from original_exception
+        if not isinstance(GODOT_EXPORT_TEMPLATES_TABLE, dict):
+            raise ValueError(
+                "Your build configuration "
+                + f"({path_to_build_config_file}) has a problem. "
+                + "godot_export_templates is supposed to be a TOML "
+                + "table, but it isn’t."
+            )
+        self.godot_export_templates_tuple: Final = (
+            GodotExportTemplatesSearchTuple.from_parsed_toml_table(
+                path_to_build_config_file,
+                "godot_export_templates",
+                GODOT_EXPORT_TEMPLATES_TABLE
             )
         )
         # End
