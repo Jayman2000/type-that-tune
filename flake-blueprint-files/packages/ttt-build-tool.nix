@@ -20,6 +20,7 @@ pkgs.python3Packages.buildPythonApplication {
   build-system = [ pkgs.python3Packages.setuptools ];
   dependencies = with pkgs.python3Packages; [
     appdirs
+    requests-cache
     reuse
     yt-dlp
   ];
