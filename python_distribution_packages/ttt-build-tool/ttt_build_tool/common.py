@@ -434,9 +434,9 @@ class GodotEditorSearchTuple(tuple[SearchTupleItem]):
                 shutil_result = shutil.which(item.command_name)
                 if shutil_result is None:
                     path_to_test = None
+                    print(f"Failed to find command {item.command_name}.")
                 else:
                     path_to_test = pathlib.Path(shutil_result)
-                print(f"Failed to find command {item.command_name}.")
             elif item.type == VALID_TYPES[2]:
                 try:
                     path_to_test = self.downloaded_godot_editor_path()
