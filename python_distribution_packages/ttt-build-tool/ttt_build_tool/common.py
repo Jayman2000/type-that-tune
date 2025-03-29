@@ -64,8 +64,12 @@ CACHE_DIRECTORY: Final = pathlib.Path(appdirs.user_cache_dir(
     appauthor="Type That Tune contributors"
 ))
 DOWNLOADS_DIR: Final = pathlib.Path(CACHE_DIRECTORY, "downloads")
+REQUESTS_CACHE_CACHE_DIR: Final = (
+    pathlib.Path(CACHE_DIRECTORY, "requests_cache")
+)
+REQUESTS_CACHE_CACHE_DIR.mkdir(parents=True, exist_ok=True)
 REQUESTS_SESSION: Final = requests_cache.CachedSession(
-    pathlib.Path(CACHE_DIRECTORY, "requests_cache"),
+    REQUESTS_CACHE_CACHE_DIR,
     backend="filesystem"
 )
 
