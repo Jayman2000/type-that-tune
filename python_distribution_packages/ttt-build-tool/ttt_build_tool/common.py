@@ -144,7 +144,7 @@ def download_if_needed(
                 + f" be {repr(expected_hash)}, but its hash was "
                 + f"actually {repr(ACTUAL_HASH_2)}."
             )
-        DESTINATION.parent.mkdir(exist_ok=True)
+        DESTINATION.parent.mkdir(parents=True, exist_ok=True)
         with DESTINATION.open(mode="wb") as file:
             file.write(RESPONSE.content)
     return DESTINATION
