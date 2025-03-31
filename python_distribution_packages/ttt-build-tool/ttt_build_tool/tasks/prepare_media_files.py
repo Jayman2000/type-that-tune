@@ -1,23 +1,16 @@
 # -*- coding: utf-8 -*-
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2024–2025 Jason Yundt <jason@jasonyundt.email>
-import hashlib
 import pathlib
 import shutil
 import subprocess
 from typing import Final, Optional
 
-import appdirs
 import yt_dlp
 
 from .. import common
 
 
-CACHE_DIRECTORY: Final = pathlib.Path(appdirs.user_cache_dir(
-    appname="ttt-build-tool",
-    appauthor="Type That Tune contributors"
-))
-DOWNLOADS_DIR: Final = pathlib.Path(CACHE_DIRECTORY, "downloads")
 MEDIA_DIR: Final = pathlib.Path(common.GENERATED_DIR, "media")
 __doc__ = f"""
 Ensures that the files in the {MEDIA_DIR} directory exist.
@@ -28,7 +21,7 @@ any of them does not exist, then this task will create it.
 
 This task starts by ensure that required videos are preset in the
 downloads cache directory. The downloads cache directory is located at:
-    {DOWNLOADS_DIR}
+    {common.DOWNLOADS_DIR}
 If a required video is not in the downloads cache directory, then this
 task will download it. The downloads cache directory is stored outside
 of this repository in order to (hopefully) make sure that videos are
@@ -87,10 +80,8 @@ def prepare_one_piece_of_media(
     name: str,
     additional_ffmpeg_args: tuple[str, ...] = tuple()
 ) -> None:
-    URL_HASH: Final = hashlib.sha3_256(url.encode("utf-8")).hexdigest()
     CACHED_DOWNLOAD_PATH_NO_SUFFIX: Final = pathlib.Path(
-        DOWNLOADS_DIR,
-        URL_HASH,
+        common.dir_to_put_download_in(url),
         "media"
     )
     CACHED_DOWNLOAD_PATH: Final = \
@@ -133,8 +124,8 @@ def prepare_one_piece_of_media(
         subprocess.run(FFMPEG_COMMAND)
 
 
-def perform_task(settings: common.Settings) -> None:
-    for directory in (CACHE_DIRECTORY, MEDIA_DIR):
+def perform_task(settings: common.BuildConfig) -> None:
+    for directory in (common.CACHE_DIRECTORY, MEDIA_DIR):
         directory.mkdir(exist_ok=True, parents=True)
 
     FFMPEG_RESIZE_FILTER: Final = (

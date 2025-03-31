@@ -9,7 +9,7 @@ requires = ["setuptools"]
 dependencies = ["ttt-build-tool", "ttt-runtime-tool"]
 description = "A collection of Type That Tune–related packages"
 name = "type-that-tune-workspace"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 # This is me trying to say “I don’t want this thing to have version
 # numbers.”
 version = "0.dev0"
