@@ -1,0 +1,35 @@
+# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: 2024–2025 Jason Yundt <jason@jasonyundt.email>
+
+export_preset = "x86_64-linux"
+
+[[godot_editor_executable.search_list]]
+type = "download_at_build_time"
+
+[[godot_editor_executable.search_list]]
+command_name = "godot4"
+type = "locate_using_path_env_var_at_build_time"
+
+[[godot_editor_executable.search_list]]
+command_name = "godot"
+type = "locate_using_path_env_var_at_build_time"
+
+[[godot_editor_executable.search_list]]
+path = "/usr/bin/godot"
+type = "use_path_that_exists_at_build_time"
+
+[[godot_export_templates.search_list]]
+type = "download_at_build_time"
+
+[[godot_export_templates.search_list]]
+# This is where the godot-export-templates-git AUR package puts the
+# Godot export templates [1]. I don’t know if this is a standard
+# location. The only other Linux package for Godot 4 export templates
+# that I’ve found was the Nixpkgs package [2], but Nixpkgs updates are
+# going to cause the files for that package to move to different
+# locations.
+#
+# [1]: <https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=godot-export-templates-git&id=f32d8730b10d74c1cb4b966239a452a0a4149c97#n47>
+# [2]: <https://github.com/NixOS/nixpkgs/blob/409ee5c72a9c5a616ad80979f8f386a3cf718398/pkgs/development/tools/godot/export-templates-bin.nix>
+path = "/usr/share/godot/templates/"
+type = "use_path_that_exists_at_build_time"

@@ -4,6 +4,7 @@
 import argparse
 import collections.abc
 import importlib
+import pathlib
 import pkgutil
 from typing import Final
 
@@ -25,6 +26,19 @@ def main() -> int:
     DEFAULT_TASK: Final = "prepare_godot_project"
     ARGUMENT_PARSER: Final = argparse.ArgumentParser(
         description=DESCRIPTION
+    )
+    ARGUMENT_PARSER.add_argument(
+        "build_config_file_path",
+        type=pathlib.Path,
+        help=(
+            "The build configuration file that you want to use. Build "
+            + "configuration files allow you to customize your build of"
+            + " Type That Tune. Build configuration files allow you to "
+            + "customize your build of Type That Tune. They mainly "
+            + "allow you to determine the locations of Type That Tune’s"
+            + " dependencies."
+        ),
+        metavar="BUILD_CONFIG_FILE_PATH",
     )
     ARGUMENT_PARSER.add_argument(
         "task_name",
@@ -67,7 +81,9 @@ def main() -> int:
         else:
             print(DOC_STRING)
     else:
-        SETTINGS: Final = common.Settings()
-        MODULE_FOR_CURRENT_TASK.perform_task(SETTINGS)
+        BUILD_CONFIG: Final = common.BuildConfig(
+            ARGS.build_config_file_path
+        )
+        MODULE_FOR_CURRENT_TASK.perform_task(BUILD_CONFIG)
 
     return 0
