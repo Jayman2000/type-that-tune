@@ -54,6 +54,7 @@ import requests_cache
 
 GODOT_PROJECT_DIR: Final = pathlib.Path("godot_project")
 GENERATED_DIR: Final = pathlib.Path(GODOT_PROJECT_DIR, "generated")
+EXPORTED_DIR: Final = pathlib.Path("exported_godot_project")
 SEARCH_TUPLE_ITEM_VALID_TYPES: Final = (
     "use_path_that_exists_at_build_time",
     "locate_using_path_env_var_at_build_time",
@@ -599,19 +600,40 @@ class BuildConfig:
                     + "that that file contains valid TOML?"
                 )
                 raise NEW_EXCEPTION_1 from ORIGINAL_EXCEPTION
-        # godot_editor_search_tuple
+        # export_preset
         try:
-            GODOT_EDITOR_EXECUTABLE_TABLE: Final = (
-                PARSED_TOML_DOCUMENT.pop("godot_editor_executable")
+            EXPORT_PRESET: Final = (
+                PARSED_TOML_DOCUMENT.pop("export_preset")
             )
         except KeyError as original_exception:
             NEW_EXCEPTION_2: Final = ValueError(
                 "Your build configuration "
                 + f"({path_to_build_config_file}) has a problem. It’s "
                 + "supposed to contain a key named "
-                + "“godot_editor_executable”, but it doesn’t."
+                + "“export_preset”, but it doesn’t."
             )
             raise NEW_EXCEPTION_2 from original_exception
+        if not isinstance(EXPORT_PRESET, str):
+            raise ValueError(
+                "Your build configuration "
+                + f"({path_to_build_config_file}) has a problem. "
+                + "export_preset is supposed to be a TOML "
+                + "string, but it isn’t."
+            )
+        self.export_preset: Final[str] = EXPORT_PRESET
+        # godot_editor_search_tuple
+        try:
+            GODOT_EDITOR_EXECUTABLE_TABLE: Final = (
+                PARSED_TOML_DOCUMENT.pop("godot_editor_executable")
+            )
+        except KeyError as original_exception:
+            NEW_EXCEPTION_3: Final = ValueError(
+                "Your build configuration "
+                + f"({path_to_build_config_file}) has a problem. It’s "
+                + "supposed to contain a key named "
+                + "“godot_editor_executable”, but it doesn’t."
+            )
+            raise NEW_EXCEPTION_3 from original_exception
         if not isinstance(GODOT_EDITOR_EXECUTABLE_TABLE, dict):
             raise ValueError(
                 "Your build configuration "
@@ -632,13 +654,13 @@ class BuildConfig:
                 PARSED_TOML_DOCUMENT.pop("godot_export_templates")
             )
         except KeyError as original_exception:
-            NEW_EXCEPTION_3: Final = ValueError(
+            NEW_EXCEPTION_4: Final = ValueError(
                 "Your build configuration "
                 + f"({path_to_build_config_file}) has a problem. It’s "
                 + "supposed to contain a key named "
                 + "“godot_export_templates”, but it doesn’t."
             )
-            raise NEW_EXCEPTION_3 from original_exception
+            raise NEW_EXCEPTION_4 from original_exception
         if not isinstance(GODOT_EXPORT_TEMPLATES_TABLE, dict):
             raise ValueError(
                 "Your build configuration "
@@ -691,3 +713,19 @@ class BuildConfig:
                 + f"but its type is actually {type(return_value)}."
             )
         return return_value
+
+    def exported_project_executable_path(self) -> pathlib.Path:
+        VALID_EXPORT_PRESETS: Final = ("x86_64-linux",)
+        if self.export_preset == VALID_EXPORT_PRESETS[0]:
+            return pathlib.Path(
+                EXPORTED_DIR.absolute(),
+                "type-that-tune.x86_64"
+            )
+        else:
+            raise ValueError(
+                "Your build configuration has a problem. "
+                + "export_preset was set to "
+                + f"{repr(self.export_preset)}. That is not a valid "
+                + "export preset. Only the export presets on this list "
+                + f"are valid: {VALID_EXPORT_PRESETS}."
+            )

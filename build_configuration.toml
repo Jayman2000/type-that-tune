@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2024–2025 Jason Yundt <jason@jasonyundt.email>
 
+export_preset = "x86_64-linux"
+
 [[godot_editor_executable.search_list]]
 type = "download_at_build_time"
 
