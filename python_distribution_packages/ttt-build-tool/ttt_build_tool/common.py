@@ -71,7 +71,10 @@ REQUESTS_CACHE_CACHE_DIR.mkdir(parents=True, exist_ok=True)
 REQUESTS_SESSION: Final = requests_cache.CachedSession(
     REQUESTS_CACHE_CACHE_DIR,
     backend="filesystem",
-    cache_control=True
+    cache_control=True,
+    # This is a workaround for this bug:
+    # <https://github.com/requests-cache/requests-cache/issues/1078>
+    serializer="yaml"
 )
 
 

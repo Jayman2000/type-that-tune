@@ -8,7 +8,7 @@ requires = ["setuptools"]
 [project]
 dependencies = [
     "appdirs",
-    "requests-cache",
+    "requests-cache[yaml]",
     "reuse",
     "yt-dlp"
 ]
