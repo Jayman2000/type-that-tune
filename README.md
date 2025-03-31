@@ -36,18 +36,27 @@ aren’t sure how to do this, then please click [here].
         develop
     ```
 
-5. Prepare the Godot project folder by running this command:
+5. Build the game by running this command:
 
     ```bash
-    uv run ttt-build-tool open_project_in_editor
+    uv run ttt-build-tool build_configuration.toml export_godot_project
     ```
 
     **Warning:** This step will take a really long time. Please be
     patient.
 
-6. Open the project in the Godot editor.
+6. Change directory into the `exported_godot_project` directory by
+running this command:
 
-7. Run the project.
+    ```bash
+    cd exported_godot_project
+    ```
+
+7. Start the game by running this command:
+
+    ```bash
+    ./type-that-tune.x86_64
+    ```
 
 <!-- editorconfig-checker-disable -->
 [here]: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
