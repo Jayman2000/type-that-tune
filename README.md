@@ -83,6 +83,9 @@ work. Here’s how you fix it:
     2. Run `pre-commit clean`
     3. Run `pre-commit install-hooks`
 
+- If you want to update Type That Tune’s dependencies, then take a look
+at [this guide](./Updating%20Dependencies.md).
+
 [1]: https://pre-commit.com
 [2]: https://pre-commit.com/#quick-start
 [3]: https://pre-commit.com/#2-add-a-pre-commit-configuration
