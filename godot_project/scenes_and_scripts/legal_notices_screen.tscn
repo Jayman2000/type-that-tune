@@ -51,27 +51,36 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 tab_alignment = 1
+current_tab = 0
 
 [node name="Legal notices for Godot" type="TabContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector"]
 layout_mode = 2
+current_tab = 0
+metadata/_tab_index = 0
 
 [node name="Authors" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Godot" instance=ExtResource("2_if6av")]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="Donors" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Godot" instance=ExtResource("2_if6av")]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="Copyright notices" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Godot" instance=ExtResource("2_if6av")]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 2
 
 [node name="Licenses" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Godot" instance=ExtResource("3_fxek8")]
 layout_mode = 2
+metadata/_tab_index = 3
 
 [node name="Legal notices for Type That Tune’s source code" type="TabContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector"]
 visible = false
 layout_mode = 2
+current_tab = 0
+metadata/_tab_index = 1
 
 [node name="README" type="RichTextLabel" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Type That Tune’s source code"]
 layout_mode = 2
@@ -79,13 +88,16 @@ bbcode_enabled = true
 text = "Type That Tune expresses the legal notices for its source code using an SPDX document. There are multiple formats for SPDX documents. Type That Tune uses the tag/value format. The tag/value format is the one that uses the [code].spdx[/code] file extension.
 
 For more information, please visit [url]https://spdx.dev[/url]"
+metadata/_tab_index = 0
 
 [node name="SPDX document" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Type That Tune’s source code" instance=ExtResource("2_if6av")]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="Text of licenses used in SPDX document" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector/Legal notices for Type That Tune’s source code" instance=ExtResource("3_fxek8")]
 layout_mode = 2
+metadata/_tab_index = 2
 
 [node name="CloseButton" type="Button" parent="MarginContainer/Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2

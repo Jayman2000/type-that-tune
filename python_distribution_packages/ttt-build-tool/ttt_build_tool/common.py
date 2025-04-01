@@ -429,9 +429,9 @@ class GodotEditorSearchTuple(SearchTuple):
         """
         ZIP_FILE_PATH: Final = download_if_needed(
             # editorconfig-checker-disable
-            "https://github.com/godotengine/godot-builds/releases/download/4.2.2-stable/Godot_v4.2.2-stable_linux.x86_64.zip",
+            "https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip",
             pathlib.Path("editor.zip"),
-            "18f3ff63fb4359c26e76fa52d1a7c5ccd6aaf17c063a2863fe3600aba66a49d4"
+            "84513e316c75bd7897d8b34c2fc2b7eb662f65af2c7401d8298dbc2a450ed652"
             # editorconfig-checker-enable
         )
         EXTRACTED_DIR_PATH: Final = pathlib.Path(
@@ -440,7 +440,7 @@ class GodotEditorSearchTuple(SearchTuple):
         )
         EXECUTABLE_PATH: Final = pathlib.Path(
             EXTRACTED_DIR_PATH,
-            "Godot_v4.2.2-stable_linux.x86_64"
+            "Godot_v4.3-stable_linux.x86_64"
         )
         if not EXTRACTED_DIR_PATH.exists():
             shutil.unpack_archive(ZIP_FILE_PATH, EXTRACTED_DIR_PATH)
@@ -523,14 +523,14 @@ class GodotExportTemplatesSearchTuple(SearchTuple):
         """
         ZIP_FILE_PATH: Final = download_if_needed(
             # editorconfig-checker-disable
-            "https://github.com/godotengine/godot-builds/releases/download/4.2.2-stable/Godot_v4.2.2-stable_export_templates.tpz",
+            "https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz",
             # A .tpz file is actually just a ZIP file with a different
             # file extension [1]. We need its name to actually end with
             # “.zip”, though, or else shutil.unpack_archive will fail.
             #
             # [1]: <https://docs.godotengine.org/en/4.2/tutorials/export/exporting_projects.html#export-templates>
             pathlib.Path("export_templates.zip"),
-            "df791307a118baf29a665db166a233ff221099499888b580a3af2a4198ac33fc"
+            "c29f8a9e53b610b8441849936b8a637330c395c17c3cfb52fe8963d44408d985"
             # editorconfig-checker-enable
         )
         EXTRACTED_DIR_PATH: Final = pathlib.Path(

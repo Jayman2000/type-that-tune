@@ -9,7 +9,7 @@ pkgs.mkShell {
   packages = [
     pkgs.git
     pkgs.nodePackages_latest.livedown
-    perSystem.nixpkgsOldStable.godot_4
+    pkgs.godot_4
     pkgs.ffmpeg
     pkgs.uv
 
