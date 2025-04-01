@@ -37,23 +37,6 @@
                 "type": "github"
             }
         },
-        "nixpkgsOldStable": {
-            "locked": {
-                "lastModified": 1723752037,
-                "narHash":
-                "sha256-6BdB1hoQEvMwKWS9/VDJasoqJxqWV6FYRyO+KoFXBaw=",
-                "owner": "NixOS",
-                "repo": "nixpkgs",
-                "rev": "26eb674c5d0c0c9bb66b6836cc23805bacb532dc",
-                "type": "github"
-            },
-            "original": {
-                "owner": "NixOS",
-                "repo": "nixpkgs",
-                "rev": "26eb674c5d0c0c9bb66b6836cc23805bacb532dc",
-                "type": "github"
-            }
-        },
         "nixpkgsUnstable": {
             "locked": {
                 "lastModified": 1743315132,
@@ -92,7 +75,6 @@
             "inputs": {
                 "blueprint": "blueprint",
                 "nixpkgs": "nixpkgs_2",
-                "nixpkgsOldStable": "nixpkgsOldStable",
                 "nixpkgsUnstable": "nixpkgsUnstable"
             }
         },
