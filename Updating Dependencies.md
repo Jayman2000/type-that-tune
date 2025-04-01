@@ -108,9 +108,9 @@ following this procedure:
     1. Update the URL for the version of the Godot Engine editor that
     the `ttt-build-tool` downloads by following this proceedure:
 
-        1. Open
+        1. Open <!-- editorconfig-checker-disable -->
         `python_distribution_packages/ttt-build-tool/ttt_build_tool/common.py`
-        in a text editor.
+        in a text editor. <!-- editorconfig-checker-enable -->
 
         1. Find the `GodotEditorSearchTuple` class definition.
 
@@ -146,9 +146,10 @@ following this procedure:
     templates that the `ttt-build-tool` downloads by following this
     proceedure:
 
-        1. If you don’t still have it open, open
+        1. If you don’t still have it open,
+        open <!-- editorconfig-checker-disable -->
         `python_distribution_packages/ttt-build-tool/ttt_build_tool/common.py`
-        in a text editor.
+        in a text editor. <!-- editorconfig-checker-enable -->
 
         1. Find the `GodotExportTemplatesSearchTuple` class definition.
 
