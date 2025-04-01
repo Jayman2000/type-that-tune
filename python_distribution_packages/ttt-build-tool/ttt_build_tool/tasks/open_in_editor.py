@@ -4,7 +4,7 @@
 from typing import Final
 
 from .. import common
-from . import prepare_godot_project
+from . import run_task
 __doc__ = f"""
 Opens the {common.GODOT_PROJECT_DIR} directory in the Godot Engine
 editor.
@@ -16,7 +16,7 @@ Godot editor.
 
 
 def perform_task(settings: common.BuildConfig) -> None:
-    prepare_godot_project.perform_task(settings)
+    run_task("prepare_godot_project", settings)
     COMMAND: Final = (
         settings.godot_editor_path(),
         "--editor"

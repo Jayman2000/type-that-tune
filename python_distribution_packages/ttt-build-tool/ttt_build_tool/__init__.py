@@ -2,19 +2,10 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2024–2025 Jason Yundt <jason@jasonyundt.email>
 import argparse
-import collections.abc
-import importlib
 import pathlib
-import pkgutil
 from typing import Final
 
 from . import common, tasks
-
-
-def task_names() -> collections.abc.Iterable[str]:
-    SEARCH_PATHS: Final = tasks.__spec__.submodule_search_locations
-    for module_info in pkgutil.iter_modules(path=SEARCH_PATHS):
-        yield module_info.name
 
 
 def main() -> int:
@@ -22,7 +13,6 @@ def main() -> int:
         "Transform Type That Tune’s source code into something that can"
         + " be be used with the Godot Engine editor."
     )
-    TASK_NAMES: Final = tuple(task_names())
     DEFAULT_TASK: Final = "prepare_godot_project"
     ARGUMENT_PARSER: Final = argparse.ArgumentParser(
         description=DESCRIPTION
@@ -44,7 +34,7 @@ def main() -> int:
         "task_name",
         nargs="?",
         default=DEFAULT_TASK,
-        choices=TASK_NAMES,
+        choices=tasks.TASK_NAMES,
         help=(
             "The preparation task that you want the build tool to "
             + f"perform. If not specified, {DEFAULT_TASK} will be used "
@@ -54,7 +44,7 @@ def main() -> int:
             + "generate_license_files because that task needs to be run"
             + " before the Godot project directory is ready to be used."
             + " Here’s a list of all valid tasks: "
-            + f"{", ".join(TASK_NAMES)}. You can use the "
+            + f"{", ".join(tasks.TASK_NAMES)}. You can use the "
             + "--describe-task option to get help on specific tasks."
         ),
         metavar="TASK",
@@ -66,13 +56,9 @@ def main() -> int:
     )
     ARGS: Final = ARGUMENT_PARSER.parse_args()
 
-    MODULE_FOR_CURRENT_TASK: Final = importlib.import_module(
-        f".tasks.{ARGS.task_name}",
-        package=__name__
-    )
     if ARGS.describe_task:
         print(f"{ARGS.task_name}:")
-        DOC_STRING: Final = MODULE_FOR_CURRENT_TASK.__doc__
+        DOC_STRING: Final = tasks.task_description(ARGS.task_name)
         if DOC_STRING is None:
             print(
                 "Unfortunately, this task doesn’t have a description "
@@ -84,6 +70,6 @@ def main() -> int:
         BUILD_CONFIG: Final = common.BuildConfig(
             ARGS.build_config_file_path
         )
-        MODULE_FOR_CURRENT_TASK.perform_task(BUILD_CONFIG)
+        tasks.run_task(ARGS.task_name, BUILD_CONFIG)
 
     return 0
