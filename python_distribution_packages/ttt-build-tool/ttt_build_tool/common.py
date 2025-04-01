@@ -16,11 +16,11 @@ example, consider this TOML file:
 In this example,
 • the value path “godot_editor_executable” would refer to a table,
 • the value path “godot_editor_executable.search_list” would refer to an
-  array,
+array,
 • the value path “godot_editor_executable.search_list[0]” would refer to
-  a table, and
+a table, and
 • the value path “godot_editor_executable.search_list[0].path” would
-  refer to a string.
+refer to a string.
 
 Some of the functions do something like this in order to copy their
 parameters before using them:
@@ -428,9 +428,11 @@ class GodotEditorSearchTuple(SearchTuple):
         requests.RequestException will be raised.
         """
         ZIP_FILE_PATH: Final = download_if_needed(
+            # editorconfig-checker-disable
             "https://github.com/godotengine/godot-builds/releases/download/4.2.2-stable/Godot_v4.2.2-stable_linux.x86_64.zip",
             pathlib.Path("editor.zip"),
             "18f3ff63fb4359c26e76fa52d1a7c5ccd6aaf17c063a2863fe3600aba66a49d4"
+            # editorconfig-checker-enable
         )
         EXTRACTED_DIR_PATH: Final = pathlib.Path(
             ZIP_FILE_PATH.parent,
@@ -462,7 +464,9 @@ class GodotEditorSearchTuple(SearchTuple):
                 shutil_result = shutil.which(item.command_name)
                 if shutil_result is None:
                     path_to_test = None
-                    print(f"Failed to find command {item.command_name}.")
+                    print(
+                        f"Failed to find command {item.command_name}."
+                    )
                 else:
                     path_to_test = pathlib.Path(shutil_result)
             elif item.type == VALID_TYPES[2]:
@@ -518,6 +522,7 @@ class GodotExportTemplatesSearchTuple(SearchTuple):
         requests.RequestException will be raised.
         """
         ZIP_FILE_PATH: Final = download_if_needed(
+            # editorconfig-checker-disable
             "https://github.com/godotengine/godot-builds/releases/download/4.2.2-stable/Godot_v4.2.2-stable_export_templates.tpz",
             # A .tpz file is actually just a ZIP file with a different
             # file extension [1]. We need its name to actually end with
@@ -526,6 +531,7 @@ class GodotExportTemplatesSearchTuple(SearchTuple):
             # [1]: <https://docs.godotengine.org/en/4.2/tutorials/export/exporting_projects.html#export-templates>
             pathlib.Path("export_templates.zip"),
             "df791307a118baf29a665db166a233ff221099499888b580a3af2a4198ac33fc"
+            # editorconfig-checker-enable
         )
         EXTRACTED_DIR_PATH: Final = pathlib.Path(
             ZIP_FILE_PATH.parent,

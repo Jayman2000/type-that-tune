@@ -45,7 +45,7 @@ repos:
         # yamllint disable-line rule:line-length
         repo: https://github.com/editorconfig-checker/editorconfig-checker.python
         # editorconfig-checker-enable
-        rev: 3.2.0
+        rev: 3.2.1
         hooks:
             -
                 id: editorconfig-checker
@@ -53,10 +53,15 @@ repos:
                 args:
                     - -ignore-defaults
                     # Unfortunately, I don’t think that there’s any way
-                    # to get Godot to obey the EditorConfig when
-                    # generating plain text files.
+                    # to get Godot and uv to obey the EditorConfig when
+                    # generating plain text files. Also, when writing
+                    # .license files, you can’t really split values over
+                    # multiple lines, so it doesn’t make sense to
+                    # enforce a line length limit for those files.
                     - -exclude
-                    - '*.import'
+                    # editorconfig-checker-disable
+                    - '(uv\.lock)|(project\.godot)|(.*\.(cfg|import|license|tscn))'
+                    # editorconfig-checker-enable
     -
         repo: https://github.com/pre-commit/pre-commit-hooks
         rev: v5.0.0
@@ -111,8 +116,10 @@ repos:
                 id: markdownlint
                 exclude: *default_excludes
     -
+        # editorconfig-checker-disable
         # yamllint disable-line rule:line-length
         repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+        # editorconfig-checker-enable
         rev: v2.14.0
         hooks:
             -
@@ -148,7 +155,7 @@ repos:
                 exclude: *default_excludes
     -
         repo: https://github.com/NixOS/nixfmt
-        rev: 74a8d9aef93e59e7edbc4f2f59ad33fc8284bd8d
+        rev: 300657710e59990d2fd12413ccae44deb80d754a
         hooks:
             -
                 id: nixfmt

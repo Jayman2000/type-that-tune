@@ -1,6 +1,6 @@
 <!--
 SPDX-License-Identifier: CC0-1.0
-SPDX-FileCopyrightText: 2024 Jason Yundt <jason@jasonyundt.email>
+SPDX-FileCopyrightText: 2024–2025 Jason Yundt <jason@jasonyundt.email>
 -->
 
 # Type That Tune
@@ -82,6 +82,9 @@ work. Here’s how you fix it:
     1. Set the `PIP_NO_BINARY` environment variable to “ruff”.
     2. Run `pre-commit clean`
     3. Run `pre-commit install-hooks`
+
+- If you want to update Type That Tune’s dependencies, then take a look
+at [this guide](./Updating%20Dependencies.md).
 
 [1]: https://pre-commit.com
 [2]: https://pre-commit.com/#quick-start
