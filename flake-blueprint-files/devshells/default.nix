@@ -9,7 +9,8 @@ pkgs.mkShell {
   packages = [
     pkgs.git
     pkgs.nodePackages_latest.livedown
-    pkgs.godot_4
+    # TODO: Eventually, this should use a stable version of Nixpkgs.
+    perSystem.nixpkgsUnstable.godot_4
     pkgs.ffmpeg
     pkgs.uv
 

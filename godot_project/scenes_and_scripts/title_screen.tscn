@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c6jtloj62bqpo"]
 
-[ext_resource type="Script" path="res://scenes_and_scripts/title_screen.gd" id="1_vc2x5"]
+[ext_resource type="Script" uid="uid://c53dd08wfkpvv" path="res://scenes_and_scripts/title_screen.gd" id="1_vc2x5"]
 [ext_resource type="PackedScene" uid="uid://dm4esd72ptakv" path="res://scenes_and_scripts/legal_notices_screen.tscn" id="2_jrjgh"]
 
 [node name="TitleScreen" type="Node"]

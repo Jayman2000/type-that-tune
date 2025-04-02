@@ -21,7 +21,7 @@ func _init() -> void:
     # version number only uses two. For example, godotengine.org might
     # mention Godot version 4.3. Here, we wouldn’t call it version 4.3.
     # Instead, we would call it version 4.3.0.
-    const EXPECTED_GODOT_VERSION := "4.3.0-stable"
+    const EXPECTED_GODOT_VERSION := "4.4.1-stable"
     if actual_godot_version != EXPECTED_GODOT_VERSION:
         push_warning(
             "This game is intended to be played with Godot Engine ",
