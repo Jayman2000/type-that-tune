@@ -17,6 +17,10 @@ func _init() -> void:
         extract_version_component(version_info, "patch"),
         extract_version_component(version_info, "status")
     ]
+    # This version number always uses three digits, even if the upstream
+    # version number only uses two. For example, godotengine.org might
+    # mention Godot version 4.3. Here, we wouldn’t call it version 4.3.
+    # Instead, we would call it version 4.3.0.
     const EXPECTED_GODOT_VERSION := "4.3.0-stable"
     if actual_godot_version != EXPECTED_GODOT_VERSION:
         push_warning(
