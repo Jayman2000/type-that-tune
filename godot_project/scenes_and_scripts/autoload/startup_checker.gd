@@ -17,7 +17,7 @@ func _init() -> void:
         extract_version_component(version_info, "patch"),
         extract_version_component(version_info, "status")
     ]
-    const EXPECTED_GODOT_VERSION := "4.2.2-stable"
+    const EXPECTED_GODOT_VERSION := "4.3.0-stable"
     if actual_godot_version != EXPECTED_GODOT_VERSION:
         push_warning(
             "This game is intended to be played with Godot Engine ",
