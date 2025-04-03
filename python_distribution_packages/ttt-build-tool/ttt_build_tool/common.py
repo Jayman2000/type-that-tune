@@ -56,11 +56,6 @@ import requests_cache
 GODOT_PROJECT_DIR: Final = pathlib.Path("godot_project")
 GENERATED_DIR: Final = pathlib.Path(GODOT_PROJECT_DIR, "generated")
 EXPORTED_DIR: Final = pathlib.Path("exported_godot_project")
-SEARCH_TUPLE_ITEM_VALID_TYPES: Final = (
-    "use_path_that_exists_at_build_time",
-    "locate_using_path_env_var_at_build_time",
-    "download_at_build_time"
-)
 CACHE_DIRECTORY: Final = pathlib.Path(appdirs.user_cache_dir(
     appname="ttt-build-tool",
     appauthor="Type That Tune contributors"
@@ -192,6 +187,11 @@ class SearchTupleItem(NamedTuple):
     ) -> Self:
         # Beginning
         parsed_toml_table = copy.copy(parsed_toml_table)
+        VALID_TYPES: Final = (
+            "use_path_that_exists_at_build_time",
+            "locate_using_path_env_var_at_build_time",
+            "download_at_build_time"
+        )
         # TYPE
         try:
             TYPE: Final = parsed_toml_table.pop("type")
@@ -235,7 +235,7 @@ class SearchTupleItem(NamedTuple):
                 + " TOML string, but it isn’t."
             )
         # End
-        if TYPE == SEARCH_TUPLE_ITEM_VALID_TYPES[0]:
+        if TYPE == VALID_TYPES[0]:
             if PATH is None:
                 raise ValueError(
                     "Your build configuration "
@@ -256,7 +256,7 @@ class SearchTupleItem(NamedTuple):
                     + f"set to {TYPE}, {toml_value_path}.command_name "
                     + "shouldn’t be used at all."
                 )
-        elif TYPE == SEARCH_TUPLE_ITEM_VALID_TYPES[1]:
+        elif TYPE == VALID_TYPES[1]:
             if PATH is not None:
                 raise ValueError(
                     "Your build configuration "
@@ -278,7 +278,7 @@ class SearchTupleItem(NamedTuple):
                     + f"{toml_value_path}.command_name to a TOML "
                     + "string."
                 )
-        elif TYPE == SEARCH_TUPLE_ITEM_VALID_TYPES[2]:
+        elif TYPE == VALID_TYPES[2]:
             if PATH is not None:
                 raise ValueError(
                     "Your build configuration "
@@ -305,7 +305,7 @@ class SearchTupleItem(NamedTuple):
                 + f"({path_to_build_config_file}) has a problem. "
                 + f"{toml_value_path}.type is set to {TYPE}. It should "
                 + "not be set to that. Instead, it should be set to one"
-                + f" of these: {SEARCH_TUPLE_ITEM_VALID_TYPES}."
+                + f" of these: {VALID_TYPES}."
             )
         if len(parsed_toml_table) != 0:
             UNEXPECTED_KEYS: Final = tuple(parsed_toml_table.keys())
