@@ -6,7 +6,7 @@ import pkgutil
 from types import ModuleType
 from typing import Final, Optional
 
-from .. import common
+from ..common import build_config
 
 
 TASK_NAMES: Final = tuple(
@@ -35,7 +35,10 @@ def task_description(task_name: str) -> Optional[str]:
     return task_module(task_name).__doc__
 
 
-def run_task(task_name: str, settings: common.BuildConfig) -> None:
+def run_task(
+    task_name: str,
+    settings: build_config.BuildConfig
+) -> None:
     if len(task_stack) == 0:
         print(f"Starting the {task_name} task…")
     else:

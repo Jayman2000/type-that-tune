@@ -9,6 +9,7 @@ from typing import Final, Optional
 import yt_dlp
 
 from .. import common
+from ..common import build_config, download
 
 
 MEDIA_DIR: Final = pathlib.Path(common.GENERATED_DIR, "media")
@@ -81,7 +82,7 @@ def prepare_one_piece_of_media(
     additional_ffmpeg_args: tuple[str, ...] = tuple()
 ) -> None:
     CACHED_DOWNLOAD_PATH_NO_SUFFIX: Final = pathlib.Path(
-        common.dir_to_put_download_in(url),
+        download.dir_to_put_download_in(url),
         "media"
     )
     CACHED_DOWNLOAD_PATH: Final = \
@@ -124,7 +125,7 @@ def prepare_one_piece_of_media(
         subprocess.run(FFMPEG_COMMAND)
 
 
-def perform_task(settings: common.BuildConfig) -> None:
+def perform_task(settings: build_config.BuildConfig) -> None:
     for directory in (common.CACHE_DIRECTORY, MEDIA_DIR):
         directory.mkdir(exist_ok=True, parents=True)
 

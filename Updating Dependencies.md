@@ -109,7 +109,7 @@ following this procedure:
     the `ttt-build-tool` downloads by following this proceedure:
 
         1. Open <!-- editorconfig-checker-disable -->
-        `python_distribution_packages/ttt-build-tool/ttt_build_tool/common.py`
+        `python_distribution_packages/ttt-build-tool/ttt_build_tool/common/build_config_helpers.py`
         in a text editor. <!-- editorconfig-checker-enable -->
 
         1. Find the `GodotEditorSearchTuple` class definition.
@@ -148,7 +148,7 @@ following this procedure:
 
         1. If you don’t still have it open,
         open <!-- editorconfig-checker-disable -->
-        `python_distribution_packages/ttt-build-tool/ttt_build_tool/common.py`
+        `python_distribution_packages/ttt-build-tool/ttt_build_tool/common/build_config_helpers.py`
         in a text editor. <!-- editorconfig-checker-enable -->
 
         1. Find the `GodotExportTemplatesSearchTuple` class definition.

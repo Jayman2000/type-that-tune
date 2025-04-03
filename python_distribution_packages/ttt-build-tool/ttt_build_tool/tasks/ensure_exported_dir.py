@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2025 Jason Yundt <jason@jasonyundt.email>
 from .. import common
+from ..common import build_config
 
 
 __doc__ = f"""
@@ -13,5 +14,5 @@ Godot Engine editor won’t be able to export the project correctly.
 """
 
 
-def perform_task(settings: common.BuildConfig) -> None:
+def perform_task(settings: build_config.BuildConfig) -> None:
     common.EXPORTED_DIR.mkdir(exist_ok=True)

@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2025 Jason Yundt <jason@jasonyundt.email>
 from .. import common
+from ..common import build_config
 from . import run_task
 __doc__ = f"""
 Ensures that the Godot project is ready to be imported by the editor.
@@ -15,7 +16,7 @@ This task may skip creating certain files if they already exist.
 """
 
 
-def perform_task(settings: common.BuildConfig) -> None:
+def perform_task(settings: build_config.BuildConfig) -> None:
     run_task("ensure_export_templates_symlink", settings)
     run_task("ensure_exported_dir", settings)
     run_task("generate_license_files", settings)
