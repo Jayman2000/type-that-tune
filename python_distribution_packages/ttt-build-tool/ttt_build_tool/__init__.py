@@ -6,7 +6,7 @@ import pathlib
 from typing import Final
 
 from . import tasks
-from .common import build_config
+from .common.config_files import build_config
 
 
 def main() -> int:
@@ -68,7 +68,7 @@ def main() -> int:
         else:
             print(DOC_STRING)
     else:
-        BUILD_CONFIG: Final = build_config.BuildConfig(
+        BUILD_CONFIG: Final = build_config.BuildConfig.from_path(
             ARGS.build_config_file_path
         )
         tasks.run_task(ARGS.task_name, BUILD_CONFIG)

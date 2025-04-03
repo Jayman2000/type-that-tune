@@ -9,7 +9,8 @@ from typing import Final, Optional
 import yt_dlp
 
 from .. import common
-from ..common import build_config, download
+from ..common import download
+from ..common.config_files import build_config
 
 
 MEDIA_DIR: Final = pathlib.Path(common.GENERATED_DIR, "media")

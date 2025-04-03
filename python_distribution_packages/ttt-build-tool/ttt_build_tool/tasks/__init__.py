@@ -6,7 +6,7 @@ import pkgutil
 from types import ModuleType
 from typing import Final, Optional
 
-from ..common import build_config
+from ..common.config_files import build_config
 
 
 TASK_NAMES: Final = tuple(

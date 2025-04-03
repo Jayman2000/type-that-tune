@@ -9,7 +9,7 @@ import reuse.project
 import reuse.report
 
 from .. import common
-from ..common import build_config
+from ..common.config_files import build_config
 
 
 GENERATED_LICENSES_PATH: Final = pathlib.Path(

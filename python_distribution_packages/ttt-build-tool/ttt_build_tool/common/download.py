@@ -7,6 +7,7 @@ redownloaded.
 """
 import hashlib
 import pathlib
+import shutil
 from typing import Final
 
 import requests_cache
@@ -106,3 +107,39 @@ def download_if_needed(
         with DESTINATION.open(mode="wb") as file:
             file.write(RESPONSE.content)
     return DESTINATION
+
+
+def download_and_extract_if_needed(
+    url: str,
+    relative_path_for_archive: pathlib.Path,
+    expected_hash: str
+) -> pathlib.Path:
+    """
+    Downloads and extracts an archive if it hasn’t already been
+    downloaded and extracted.
+
+    This function is very similar to download_if_needed. See that
+    functions docstring for additional details.
+
+    Parameters: (essentially) the same as the parameters for
+    download_if_needed.
+
+    Return value: The path to the extracted archive.
+
+    Raises a requests.RequestException if the file fails to download.
+    """
+    ARCHIVE_PATH: Final = download_if_needed(
+        url,
+        relative_path_for_archive,
+        expected_hash
+    )
+    EXTRACTED_DIR_PATH: Final = pathlib.Path(
+        ARCHIVE_PATH.parent,
+        "extracted"
+    )
+    if not EXTRACTED_DIR_PATH.exists():
+        shutil.unpack_archive(
+            ARCHIVE_PATH,
+            EXTRACTED_DIR_PATH
+        )
+    return EXTRACTED_DIR_PATH

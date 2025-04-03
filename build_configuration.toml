@@ -3,25 +3,25 @@
 
 export_preset = "x86_64-linux"
 
-[[godot_editor_executable.search_list]]
+[[godot_editor_executable_search_list]]
 type = "download_at_build_time"
 
-[[godot_editor_executable.search_list]]
+[[godot_editor_executable_search_list]]
 command_name = "godot4"
 type = "locate_using_path_env_var_at_build_time"
 
-[[godot_editor_executable.search_list]]
+[[godot_editor_executable_search_list]]
 command_name = "godot"
 type = "locate_using_path_env_var_at_build_time"
 
-[[godot_editor_executable.search_list]]
+[[godot_editor_executable_search_list]]
 path = "/usr/bin/godot"
 type = "use_path_that_exists_at_build_time"
 
-[[godot_export_templates.search_list]]
+[[godot_export_templates_search_list]]
 type = "download_at_build_time"
 
-[[godot_export_templates.search_list]]
+[[godot_export_templates_search_list]]
 # This is where the godot-export-templates-git AUR package puts the
 # Godot export templates [1]. I don’t know if this is a standard
 # location. The only other Linux package for Godot 4 export templates
