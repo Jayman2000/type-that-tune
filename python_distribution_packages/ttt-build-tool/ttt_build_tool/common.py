@@ -26,7 +26,7 @@ Some of the functions do something like this in order to copy their
 parameters before using them:
 
     def do_something(example_dict):
-        example_dict = dict(example_dict)
+        example_dict = copy.copy(example_dict)
 
 Functions do this so that they are less confusing. If they didn’t do
 that, then the function could modify the value of one of the caller’s
@@ -38,6 +38,7 @@ NotImplementedError. Rasing an exception helps avoid this problem:
 """
 import abc
 import collections.abc
+import copy
 import hashlib
 import pathlib
 import shutil
@@ -190,7 +191,7 @@ class SearchTupleItem(NamedTuple):
         parsed_toml_table: dict[Any, Any]
     ) -> Self:
         # Beginning
-        parsed_toml_table = dict(parsed_toml_table)
+        parsed_toml_table = copy.copy(parsed_toml_table)
         # TYPE
         try:
             TYPE: Final = parsed_toml_table.pop("type")
@@ -351,7 +352,7 @@ class SearchTuple(abc.ABC, tuple[SearchTupleItem]):
         # Create our own copy of the dict so that we don’t inadvertently
         # modify one of the caller’s variables.
         # Beginning
-        parsed_toml_table = dict(parsed_toml_table)
+        parsed_toml_table = copy.copy(parsed_toml_table)
         # SEARCH_LIST
         try:
             SEARCH_LIST: Final = parsed_toml_table.pop("search_list")
