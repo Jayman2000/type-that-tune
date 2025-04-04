@@ -4,7 +4,7 @@
 import pathlib
 from typing import Final
 
-from .. import common
+from ..common.config_files import build_config
 
 
 GODOT_EXPORT_TEMPLATES_SYMLINK: Final = (
@@ -20,8 +20,8 @@ that contains the export templates.
 """
 
 
-def perform_task(settings: common.BuildConfig) -> None:
+def perform_task(settings: build_config.BuildConfig) -> None:
     GODOT_EXPORT_TEMPLATES_SYMLINK.unlink(missing_ok=True)
     GODOT_EXPORT_TEMPLATES_SYMLINK.symlink_to(
-        settings.godot_export_templates_tuple.locate()
+        settings.godot_export_templates_search_list.path_to_use()
     )

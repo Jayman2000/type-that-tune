@@ -9,6 +9,7 @@ import reuse.project
 import reuse.report
 
 from .. import common
+from ..common.config_files import build_config
 
 
 GENERATED_LICENSES_PATH: Final = pathlib.Path(
@@ -30,7 +31,7 @@ required).
 """
 
 
-def perform_task(settings: common.BuildConfig) -> None:
+def perform_task(settings: build_config.BuildConfig) -> None:
     common.GENERATED_DIR.mkdir(exist_ok=True, parents=True)
     ORIGINAL_LICENSES_PATH: Final = pathlib.Path("LICENSES")
     if GENERATED_LICENSES_PATH.exists():
