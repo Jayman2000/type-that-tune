@@ -19,5 +19,6 @@ This task may skip creating certain files if they already exist.
 def perform_task(settings: build_config.BuildConfig) -> None:
     run_task("ensure_export_templates_symlink", settings)
     run_task("ensure_exported_dir", settings)
+    run_task("generate_info_files", settings)
     run_task("generate_license_files", settings)
     run_task("prepare_media_files", settings)

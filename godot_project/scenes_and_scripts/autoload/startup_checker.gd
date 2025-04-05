@@ -10,6 +10,7 @@ extends Node
 
 ## Does some checks, and then calls [method Node.queue_free].
 func _init() -> void:
+    # actual_godot_version
     var version_info: Dictionary = Engine.get_version_info()
     var actual_godot_version = "%s.%s.%s-%s" % [
         extract_version_component(version_info, "major"),
@@ -17,16 +18,26 @@ func _init() -> void:
         extract_version_component(version_info, "patch"),
         extract_version_component(version_info, "status")
     ]
-    # This version number always uses three digits, even if the upstream
-    # version number only uses two. For example, godotengine.org might
-    # mention Godot version 4.3. Here, we wouldn’t call it version 4.3.
-    # Instead, we would call it version 4.3.0.
-    const EXPECTED_GODOT_VERSION := "4.3.0-stable"
-    if actual_godot_version != EXPECTED_GODOT_VERSION:
+    # expected_godot_version
+    const EXPECTED_GODOT_VERSION_FILE_PATH := (
+        # editorconfig-checker-disable
+        "res://generated/info_from_build_tool/expected_godot_version.txt"
+        # editorconfig-checker-enable
+    )
+    var expected_godot_version := FileAccess.get_file_as_string(
+        EXPECTED_GODOT_VERSION_FILE_PATH
+    )
+    var error_code: Error = FileAccess.get_open_error()
+    if error_code != OK:
+        push_error(
+            "Failed to read %s as a text file. Error code: %s"
+            % [EXPECTED_GODOT_VERSION_FILE_PATH, error_code]
+        )
+    if actual_godot_version != expected_godot_version:
         push_warning(
             "This game is intended to be played with Godot Engine ",
             "version ",
-            EXPECTED_GODOT_VERSION,
+            expected_godot_version,
             ". You are currently using a different version of Godot ",
             "Engine: ",
             extract_version_component(version_info, "string")

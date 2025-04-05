@@ -42,7 +42,10 @@ class SearchTuple[T: search_item.SearchItem](tuple[T]):
         self.toml_value_path: Final = toml_value_path
         self._path_to_use: Optional[pathlib.Path] = None
 
-    def path_to_use(self) -> pathlib.Path:
+    def path_to_use(
+        self,
+        skip_downloadables: bool = False
+    ) -> pathlib.Path:
         """
         Returns the path to the first usable item in self.
 
@@ -50,19 +53,30 @@ class SearchTuple[T: search_item.SearchItem](tuple[T]):
         passes its own test. Specifically, this is done via the
         search_item.SearchItem.locate and search_item.SearchItem.test
         methods.
+
+        If skip_downloadables is set to True, then items that have the
+        download_at_build_time type will be ignored.
         """
         if self._path_to_use is None:
             i: int
             for i in range(len(self)):
                 item: T = self[i]
-                result: Optional[pathlib.Path] = item.locate_and_test()
-                if result is not None:
-                    self._path_to_use = result
-                    return self._path_to_use
-                warnings.warn(
-                    f"{self.toml_value_path}[{i}] could not be "
-                    + "used."
-                )
+                # editorconfig-checker-disable
+                if (
+                    not skip_downloadables
+                    or not item.type == search_item.SearchItemType.download_at_build_time
+                ):
+                # editorconfig-checker-enable
+                    result: Optional[pathlib.Path] = (
+                        item.locate_and_test()
+                    )
+                    if result is not None:
+                        self._path_to_use = result
+                        return self._path_to_use
+                    warnings.warn(
+                        f"{self.toml_value_path}[{i}] could not be "
+                        + "used."
+                    )
             raise ValueError(
                 build_config_error_message(self.build_config_path)
                 + " None of the items on the "
