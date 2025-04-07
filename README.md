@@ -14,11 +14,21 @@ aren’t sure how to do this, then please click [here].
 
 2. Open a terminal.
 
-3. Change directory to the root of this repo by running this command:
+3. Change directory to the root of this repo by doing one of the
+following:
 
-    ```bash
-    cd <path-to-repo>
-    ```
+    - If your terminal is using [the Windows Command Shell], then run
+    this command:
+
+        ```bash
+        CD /D <path-to-repo>
+        ```
+
+    - Otherwise
+
+        ```bash
+        cd <path-to-repo>
+        ```
 
 4. Make sure that you have the following installed:
 
@@ -59,6 +69,7 @@ running this command:
     ```
 
 <!-- editorconfig-checker-disable -->
+[the Windows Command Shell]: https://learn.microsoft.com/en-us/powershell/scripting/what-is-a-command-shell?view=powershell-7.5
 [here]: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
 [the Nix package manager]: https://nix.dev
 <!-- editorconfig-checker-enable -->
