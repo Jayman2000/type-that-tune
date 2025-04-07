@@ -148,14 +148,14 @@ repos:
                     - yt-dlp-types
     -
         repo: https://github.com/astral-sh/ruff-pre-commit
-        rev: v0.11.2
+        rev: v0.11.4
         hooks:
             -
                 id: ruff
                 exclude: *default_excludes
     -
         repo: https://github.com/NixOS/nixfmt
-        rev: 300657710e59990d2fd12413ccae44deb80d754a
+        rev: 65af4b69133d19f534d97746c97c2d5b464f43b4
         hooks:
             -
                 id: nixfmt
