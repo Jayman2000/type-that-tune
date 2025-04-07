@@ -80,121 +80,34 @@ environments with the new `uv.lock` file by running this command:
     uv sync
     ```
 
-1. Update the version of the Godot Engine that Type That Tune uses by
-following this procedure:
+1. Update the expected versions of the game’s dependencies by running
+this command:
 
-    1. Determine the correct version of the Godot Engine by running this
-    command:
+    ```bash
+    uv run ttt-build-tool \
+        build_configuration.toml \
+        update_expected_versions
+    ```
+
+1. Update the versions of any dependencies that the `ttt-build-tool`
+might download by following this procedure:
+
+    1. Check for any potential download errors by running this command:
+
+        <!-- editorconfig-checker-disable -->
 
         ```bash
-        godot4 --version
+        uv run ttt-build-tool \
+            build_configuration.toml \
+            check_downloadables
         ```
 
-        This should display the version of Godot that’s used by this
-        repopository’s flake. That version of Godot might not be the
-        latest stable upstream version of Godot. Personally, I choose to
-        use a potentially outdated version of Godot because it’s more
-        convenient to do so. I could have chosen to just use the latest
-        stable upstream version of Godot, but then I would have to
-        constantly mess with this repository’s flake’s Nix expression in
-        order to make it use the right version.
+        <!-- editorconfig-checker-enable -->
 
-        The version number will end with `nixpkgs.<hash>`. Please ignore
-        that part of the version number.
+    1. If there were any errors, then fix them.
 
-        Write this version number down somewhere so that you don’t
-        forget it part way through this process.
-
-    1. Update the URL for the version of the Godot Engine editor that
-    the `ttt-build-tool` downloads by following this proceedure:
-
-        1. Open <!-- editorconfig-checker-disable -->
-        `python_distribution_packages/ttt-build-tool/ttt_build_tool/common/build_config_helpers.py`
-        in a text editor. <!-- editorconfig-checker-enable -->
-
-        1. Find the `GodotEditorSearchTuple` class definition.
-
-        1. Find that class definition’s `downloaded_godot_editor_path`
-        method definition.
-
-        1. Find that method definition’s `download_if_needed` function
-        call.
-
-        1. The first argument that’s passed to that function is a URL.
-        Change that URL so that it downloads the correct version of
-        the Godot editor.
-
-        1. The third argument that’s passed to that function is a hash.
-        Change the hash to `"Hash to be determined"`. We’ll figure out
-        what the actual hash is in another step.
-
-        1. Trigger a download error by running this command:
-
-            ```bash
-            uv run ttt-build-tool \
-                build_configuration.toml \
-                open_in_editor
-            ```
-
-            The error message that that command produces should contain
-            the actual hash for the file that was downloaded.
-
-        1. Go back to where you wrote `"Hash to be determined"`, and
-        replace it with the actual hash from the error message.
-
-    1. Update the URL for the version of the Godot Engine export
-    templates that the `ttt-build-tool` downloads by following this
-    proceedure:
-
-        1. If you don’t still have it open,
-        open <!-- editorconfig-checker-disable -->
-        `python_distribution_packages/ttt-build-tool/ttt_build_tool/common/build_config_helpers.py`
-        in a text editor. <!-- editorconfig-checker-enable -->
-
-        1. Find the `GodotExportTemplatesSearchTuple` class definition.
-
-        1. Find that class definition’s
-        `downloaded_godot_export_templates_path` method definition.
-
-        1. Find that method definition’s `download_if_needed` function
-        call.
-
-        1. The first argument that’s passed to that function is a URL.
-        Change that URL so that it downloads the correct version of
-        the Godot export templates.
-
-        1. The third argument that’s passed to that function is a hash.
-        Change the hash to `"Hash to be determined"`. We’ll figure out
-        what the actual hash is in another step.
-
-        1. Trigger a download error by running this command:
-
-            ```bash
-            uv run ttt-build-tool \
-                build_configuration.toml \
-                ensure_export_templates_symlink
-            ```
-
-            The error message that that command produces should contain
-            the actual hash for the file that was downloaded.
-
-        1. Go back to where you wrote `"Hash to be determined"`, and
-        replace it with the actual hash from the error message.
-
-    1. Update the version of the Godot Engine that the Godot project
-    expects by following this procedure:
-
-        1. Open
-        `godot_project/scenes_and_scripts/autoload/startup_checker.gd`
-        in a text editor.
-
-        1. Find the `_init` function definition.
-
-        1. Find that function definition’s `EXPECTED_GODOT_VERSION`
-        constant definition.
-
-        1. Change that constant’s value so that so that it matches the
-        correct Godot Engine version.
+    1. Keep repeating those previous two steps until there are no more
+    errors.
 
 1. Test the game by following the instructions in [the
 README](./README.md). Look out for any new errors or warnings that may

@@ -5,11 +5,13 @@ import abc
 import enum
 import pathlib
 import shutil
+import warnings
 from typing import Any, Final, NoReturn, Optional, Self
 
 import requests
 
-from .. import download, run_command
+from .. import run_command
+from ..download import downloadables
 from . import (
     build_config_error_message,
     pop_and_assert_correct_type,
@@ -234,17 +236,19 @@ class GodotEditorExecutableSearchItem(SearchItem):
 
     def locate(self) -> Optional[pathlib.Path]:
         if self.type == SearchItemType.download_at_build_time:
-            try:
-                # editorconfig-checker-disable
-                EXTRACTED_DIR: Final = download.download_and_extract_if_needed(
-                    "https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip",
-                    pathlib.Path("editor.zip"),
-                    "84513e316c75bd7897d8b34c2fc2b7eb662f65af2c7401d8298dbc2a450ed652"
+            GODOT_EDITOR_CURRENT_PLATFORM: Final = (
+                downloadables.GODOT_EDITOR_CURRENT_PLATFORM
+            )
+            if GODOT_EDITOR_CURRENT_PLATFORM is None:
+                warnings.warn(
+                    "The ttt-build-tool doesn’t know how to download a "
+                    + "copy of the Godot Engine editor for your current"
+                    + " platform."
                 )
-                # editorconfig-checker-enable
-                GODOT_EDITOR_EXECUTABLE_PATH: Final = pathlib.Path(
-                    EXTRACTED_DIR,
-                    "Godot_v4.3-stable_linux.x86_64"
+                return None
+            try:
+                GODOT_EDITOR_EXECUTABLE_PATH: Final = (
+                    GODOT_EDITOR_CURRENT_PLATFORM.extracted_path()
                 )
                 # TODO: I think that this is only needed because of a
                 # Python bug.
@@ -302,19 +306,8 @@ class GodotExportTemplatesSearchItem(SearchItem):
         if self.type == SearchItemType.download_at_build_time:
             try:
                 # editorconfig-checker-disable
-                EXTRACTED_DIR: Final = download.download_and_extract_if_needed(
-                    "https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz",
-                    # A .tpz file is actually just a ZIP file with a
-                    # different file extension [1]. We need its name to
-                    # actually end with “.zip”, though, or else
-                    # shutil.unpack_archive will fail.
-                    #
-                    # [1]: <https://docs.godotengine.org/en/4.2/tutorials/export/exporting_projects.html#export-templates>
-                    pathlib.Path("export_templates.zip"),
-                    "c29f8a9e53b610b8441849936b8a637330c395c17c3cfb52fe8963d44408d985"
-                )
+                return downloadables.GODOT_EXPORT_TEMPLATES.extracted_path()
                 # editorconfig-checker-enable
-                return pathlib.Path(EXTRACTED_DIR, "templates")
             except requests.RequestException:
                 return None
             # editorconfig-checker-disable
