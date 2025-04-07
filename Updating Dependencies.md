@@ -121,5 +121,5 @@ If you do so, then use this commit message:
 <pre>Update pinned dependencies
 
 This commit was created by following the instructions in
-Updating Dependencies.md
+Updating Dependencies.md.
 </pre>
