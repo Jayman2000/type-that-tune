@@ -53,10 +53,11 @@ GODOT_EXPORT_TEMPLATES: Final = Downloadable(
 
 # Variables that are derived from the previous ones
 godot_editor_current_platform: Optional[Downloadable] = None
-if platform.machine() == "x86_64":
-    if platform.system() == "Linux":
+if platform.system() == "Linux":
+    if platform.machine() == "x86_64":
         godot_editor_current_platform = GODOT_EDITOR_X86_64_LINUX
-    elif platform.system() == "Windows":
+elif platform.system() == "Windows":
+    if platform.machine() == "AMD64":
         godot_editor_current_platform = GODOT_EDITOR_X86_64_WINDOWS
 GODOT_EDITOR_CURRENT_PLATFORM: Final = godot_editor_current_platform
 del godot_editor_current_platform

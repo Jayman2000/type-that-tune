@@ -12,15 +12,29 @@ Type That Tune is a typing game for crazy people.
 1. Make sure that you have a copy of this repo on your computer. If you
 aren’t sure how to do this, then please click [here].
 
-2. Open a terminal.
+2. If you’re running Windows, then make sure that Developer Mode is
+enabled. If you aren’t sure how to do this, then please take a look at
+[these instructions][Developer Mode].
 
-3. Change directory to the root of this repo by running this command:
+3. Open a terminal.
 
-    ```bash
-    cd <path-to-repo>
-    ```
+4. Change directory to the root of this repo by doing one of the
+following:
 
-4. Make sure that you have the following installed:
+    - If your terminal is using [the Windows Command Shell], then run
+    this command:
+
+        ```bash
+        CD /D <path-to-repo>
+        ```
+
+    - Otherwise
+
+        ```bash
+        cd <path-to-repo>
+        ```
+
+5. Make sure that you have the following installed:
 
     - [uv](https://docs.astral.sh/uv/)
     - [FFmpeg](https://www.ffmpeg.org)
@@ -36,7 +50,7 @@ aren’t sure how to do this, then please click [here].
         develop
     ```
 
-5. Build the game by running this command:
+6. Build the game by running this command:
 
     ```bash
     uv run ttt-build-tool build_configuration.toml export_godot_project
@@ -45,22 +59,24 @@ aren’t sure how to do this, then please click [here].
     **Warning:** This step will take a really long time. Please be
     patient.
 
-6. Change directory into the `exported_godot_project` directory by
+7. Change directory into the `exported_godot_project` directory by
 running this command:
 
     ```bash
     cd exported_godot_project
     ```
 
-7. Start the game by running this command:
+8. Start the game by running this command:
 
     ```bash
     ./type-that-tune.x86_64
     ```
 
 <!-- editorconfig-checker-disable -->
+[Developer Mode]: https://learn.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development
 [here]: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
 [the Nix package manager]: https://nix.dev
+[the Windows Command Shell]: https://learn.microsoft.com/en-us/powershell/scripting/what-is-a-command-shell?view=powershell-7.5
 <!-- editorconfig-checker-enable -->
 
 ## Hints for Contributors
