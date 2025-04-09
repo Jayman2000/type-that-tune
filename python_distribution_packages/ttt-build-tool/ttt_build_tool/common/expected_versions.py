@@ -30,3 +30,5 @@ GODOT_VERSION: Final = (
     + ("" if GODOT_VERSION_PATCH == 0 else f".{GODOT_VERSION_PATCH}")
     + f"-{GODOT_VERSION_STATUS}"
 )
+
+PYTHON_VERSION: Final = '3.12.8'

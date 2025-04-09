@@ -6,6 +6,10 @@ extends CanvasItem
 const DocumentViewer := preload(
     "res://scenes_and_scripts/document_viewer.gd"
 )
+const LegalNoticeViewerForEmbeddedDependences := preload(
+    "res://scenes_and_scripts"
+    + "/legal_notice_viewer_for_embedded_dependencies.gd"
+)
 
 @onready var project_selector: Node = \
     $MarginContainer/Panel/MarginContainer/VBoxContainer/ProjectSelector
@@ -115,6 +119,19 @@ func set_up_godot_legal_notices() -> void:
     godot_licenes.change_documents_list(Engine.get_license_info())
 
 
+func set_up_python_legal_notices() -> void:
+    # editorconfig-checker-disable
+    var legal_notices_for_python: LegalNoticeViewerForEmbeddedDependences
+    # editorconfig-checker-enable
+    legal_notices_for_python = get_node(
+        "MarginContainer/Panel/MarginContainer/VBoxContainer"
+        + "/ProjectSelector/Legal notices for PYTHON® interpreters"
+    )
+    legal_notices_for_python.legal_notice_dir_paths = (
+        PythonHelper.legal_notice_dir_paths
+    )
+
+
 func set_up_ttt_legal_notices() -> void:
     const LONG_NAME := "Legal notices for Type That Tune’s source code"
     const LONG_NAME2 := "Text of licenses used in SPDX document"
@@ -147,6 +164,7 @@ func set_up_ttt_legal_notices() -> void:
 
 func _ready() -> void:
     set_up_godot_legal_notices()
+    set_up_python_legal_notices()
     set_up_ttt_legal_notices()
 
 

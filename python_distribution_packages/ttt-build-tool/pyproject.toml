@@ -10,7 +10,8 @@ dependencies = [
     "appdirs",
     "requests-cache[yaml]",
     "reuse",
-    "yt-dlp"
+    "yt-dlp",
+    "zstandard"
 ]
 description = "Prepares godot_project/ before it gets imported by Godot"
 name = "ttt-build-tool"

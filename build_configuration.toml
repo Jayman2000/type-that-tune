@@ -35,3 +35,14 @@ type = "download_at_build_time"
 # editorconfig-checker-enable
 path = "/usr/share/godot/templates/"
 type = "use_path_that_exists_at_build_time"
+
+[[python_interpreter_search_list]]
+type = "download_at_build_time"
+
+[[python_interpreter_search_list]]
+command_name = "python"
+type = "locate_using_path_env_var_at_runtime"
+
+[[python_interpreter_search_list]]
+path = "/usr/bin/python"
+type = "use_path_that_exists_at_runtime"

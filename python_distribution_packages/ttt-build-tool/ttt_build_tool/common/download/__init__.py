@@ -6,11 +6,14 @@ Code that downloads things and caches them so that they don’t have to be
 redownloaded.
 """
 import hashlib
+import io
 import pathlib
 import shutil
+import tarfile
 from typing import Final, NamedTuple
 
 import requests_cache
+import zstandard
 
 from .. import DOWNLOADS_DIR, CACHE_DIRECTORY
 
@@ -26,6 +29,33 @@ REQUESTS_SESSION: Final = requests_cache.CachedSession(
     # This is a workaround for this bug:
     # <https://github.com/requests-cache/requests-cache/issues/1078>
     serializer="yaml"
+)
+
+
+def unpack_tar_zst(
+    archive_file_path: pathlib.Path,
+    extraction_dir_path: pathlib.Path
+) -> None:
+    # TODO: These next two lines shouldn’t do anything, but they
+    # actually do do something. Honestly, mypy should probably be giving
+    # me some sort of error for this function’s parameters, but it’s
+    # not. I think that there’s some sort of upstream bug going on here.
+    archive_file_path = pathlib.Path(archive_file_path)
+    extraction_dir_path = pathlib.Path(extraction_dir_path)
+
+    with archive_file_path.open(mode="rb") as file:
+        UNCOMPRESSED_TAR_ARCHIVE: Final = (
+            zstandard.decompress(file.read())
+        )
+    with io.BytesIO(UNCOMPRESSED_TAR_ARCHIVE) as raw_tar_data:
+        with tarfile.open(mode="r:", fileobj=raw_tar_data) as tar_file:
+            tar_file.extractall(path=extraction_dir_path)
+shutil.register_unpack_format(
+    "zsttar",
+    [".tar.zst"],
+    unpack_tar_zst,
+    (),
+    "Zstandard compressed tape archive"
 )
 
 

@@ -124,3 +124,6 @@ type GodotEditorExecutableSearchTuple = (
 type GodotExportTemplatesSearchTuple = (
     SearchTuple[search_item.GodotExportTemplatesSearchItem]
 )
+type PythonInterpreterSearchTuple = (
+    SearchTuple[search_item.PythonInterpreterSearchItem]
+)

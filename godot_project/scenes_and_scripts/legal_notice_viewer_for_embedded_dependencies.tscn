@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://y3mgw2jaasvn"]
+
+[ext_resource type="Script" path="res://scenes_and_scripts/legal_notice_viewer_for_embedded_dependencies.gd" id="1_5q7e7"]
+
+[node name="LegalNoticeViewerForEmbeddedDependences" type="TabContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+script = ExtResource("1_5q7e7")
+metadata/_tab_index = 1
+
+[node name="README" type="RichTextLabel" parent="."]
+layout_mode = 2
+bbcode_enabled = true
+metadata/_tab_index = 0
+
+[connection signal="meta_clicked" from="README" to="." method="_on_readme_meta_clicked"]

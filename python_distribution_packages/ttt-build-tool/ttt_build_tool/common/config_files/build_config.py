@@ -4,10 +4,15 @@
 import os
 import pathlib
 import tomllib
-from typing import Any, Final, NamedTuple, Self
+from typing import Any, Final, NamedTuple, Optional, Self
 
 from .. import EXPORTED_DIR
-from . import pop_and_assert_correct_type, search_item, search_tuple
+from . import (
+    MissingBuildConfigSectionError,
+    pop_and_assert_correct_type,
+    search_item,
+    search_tuple
+)
 
 
 class BuildConfig(NamedTuple):
@@ -16,6 +21,7 @@ class BuildConfig(NamedTuple):
     # editorconfig-checker-disable
     godot_editor_executable_search_list: search_tuple.GodotEditorExecutableSearchTuple
     godot_export_templates_search_list: search_tuple.GodotExportTemplatesSearchTuple
+    python_interpreter_search_list: Optional[search_tuple.PythonInterpreterSearchTuple]
     # editorconfig-checker-enable
 
     def exported_project_executable_path(self) -> pathlib.Path:
@@ -29,24 +35,67 @@ class BuildConfig(NamedTuple):
 
 
     @staticmethod
-    def convert_toml_search_list[T: search_item.SearchItem](
+    def convert_toml_search_list_helper[T: search_item.SearchItem](
         build_config_path: pathlib.Path,
         parsed_toml_document: dict[str, Any],
         key: str,
-        search_item_type: type[T]
-    ) -> search_tuple.SearchTuple[T]:
-        SEARCH_LIST_RAW: Final = pop_and_assert_correct_type(
-            build_config_path,
-            "The build configuration",
-            parsed_toml_document,
-            key,
-            list
-        )
+        search_item_type: type[T],
+        missing_ok: bool
+    ) -> Optional[search_tuple.SearchTuple[T]]:
+        try:
+            SEARCH_LIST_RAW: Final = pop_and_assert_correct_type(
+                build_config_path,
+                "The build configuration",
+                parsed_toml_document,
+                key,
+                list
+            )
+        except MissingBuildConfigSectionError as exception:
+            if missing_ok:
+                return None
+            else:
+                raise exception
         return search_tuple.SearchTuple.from_parsed_toml(
             build_config_path,
             key,
             SEARCH_LIST_RAW,
             search_item_type
+        )
+
+    @classmethod
+    def convert_toml_search_list[T: search_item.SearchItem](
+        cls,
+        build_config_path: pathlib.Path,
+        parsed_toml_document: dict[str, Any],
+        key: str,
+        search_item_type: type[T],
+        missing_ok: bool = False
+    ) -> search_tuple.SearchTuple[T]:
+        RETURN_VALUE: Final = cls.convert_toml_search_list_helper(
+            build_config_path,
+            parsed_toml_document,
+            key,
+            search_item_type,
+            False
+        )
+        assert RETURN_VALUE is not None
+        return RETURN_VALUE
+
+    @classmethod
+    def convert_toml_search_list_missing_ok[T: search_item.SearchItem](
+        cls,
+        build_config_path: pathlib.Path,
+        parsed_toml_document: dict[str, Any],
+        key: str,
+        search_item_type: type[T],
+        missing_ok: bool = False
+    ) -> Optional[search_tuple.SearchTuple[T]]:
+        return cls.convert_toml_search_list_helper(
+            build_config_path,
+            parsed_toml_document,
+            key,
+            search_item_type,
+            True
         )
 
     @classmethod
@@ -86,12 +135,21 @@ class BuildConfig(NamedTuple):
                 search_item.GodotExportTemplatesSearchItem
             )
         )
+        PYTHON_INTERPRETER_SEARCH_LIST: Final = (
+            cls.convert_toml_search_list_missing_ok(
+                build_config_path,
+                PARSED_TOML_DOCUMENT,
+                "python_interpreter_search_list",
+                search_item.PythonInterpreterSearchItem
+            )
+        )
         # End
         # TODO: Complain if there’s extra stuff.
         return cls(
             build_config_path,
             EXPORT_PRESET,
             GODOT_EDITOR_EXECUTABLE_SEARCH_LIST,
-            GODOT_EXPORT_TEMPLATES_SEARCH_LIST
+            GODOT_EXPORT_TEMPLATES_SEARCH_LIST,
+            PYTHON_INTERPRETER_SEARCH_LIST
         )
 

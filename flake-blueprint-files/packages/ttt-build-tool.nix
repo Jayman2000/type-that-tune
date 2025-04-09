@@ -24,5 +24,6 @@ pkgs.python3Packages.buildPythonApplication {
     requests-cache
     reuse
     yt-dlp
+    zstandard
   ];
 }

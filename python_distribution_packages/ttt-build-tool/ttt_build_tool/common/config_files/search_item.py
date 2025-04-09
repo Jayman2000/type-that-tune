@@ -23,6 +23,11 @@ class SearchItemType(enum.Enum):
     download_at_build_time = enum.auto()
     locate_using_path_env_var_at_build_time = enum.auto()
     use_path_that_exists_at_build_time = enum.auto()
+    locate_using_path_env_var_at_runtime = enum.auto()
+    use_path_that_exists_at_runtime = enum.auto()
+
+    def __str__(self) -> str:
+        return self.name
 
     @classmethod
     def from_parsed_toml(
@@ -62,6 +67,8 @@ class SearchItem(abc.ABC):
         self.type: Final = type
         self.command_name: Final = command_name
         self.path: Final = path
+        self._locate_and_test_has_been_run: bool = False
+        self._locate_and_test_result: Optional[pathlib.Path] = None
 
     def assert_none_for_type(self, attribute_name: str) -> None:
         attribute_value = getattr(self, attribute_name)
@@ -121,8 +128,11 @@ class SearchItem(abc.ABC):
         raise NotImplementedError
 
     @staticmethod
-    def test_godot(path: pathlib.Path) -> bool:
-        print(f"Testing a Godot Engine editor executable ({path})…")
+    def test_using_minus_minus_version(
+        name: str,
+        path: pathlib.Path
+    ) -> bool:
+        print(f"Testing a {name} executable ({path})…")
         COMMAND: Final = (path, "--version")
         try:
             run_command.run_command(
@@ -146,11 +156,16 @@ class SearchItem(abc.ABC):
         object. If the item cannot be found or if it fails a test, then
         this function will return a pathlib.Path
         """
-        PATH: Final = self.locate()
-        if PATH is not None and type(self).test(PATH):
-            return PATH
-        else:
-            return None
+        if not self._locate_and_test_has_been_run:
+            return_value: Optional[pathlib.Path]
+            PATH: Final = self.locate()
+            if PATH is not None and type(self).test(PATH):
+                return_value = PATH
+            else:
+                return_value = None
+            self._locate_and_test_result = return_value
+            self._locate_and_test_has_been_run = True
+        return self._locate_and_test_result
 
     @classmethod
     def from_parsed_toml(
@@ -272,7 +287,10 @@ class GodotEditorExecutableSearchItem(SearchItem):
 
     @classmethod
     def test(cls, path: pathlib.Path) -> bool:
-        return cls.test_godot(path)
+        return cls.test_using_minus_minus_version(
+            "Godot Engine editor executable",
+            path
+        )
 
 
 class GodotExportTemplatesSearchItem(SearchItem):
@@ -320,3 +338,81 @@ class GodotExportTemplatesSearchItem(SearchItem):
     @classmethod
     def test(cls, path: pathlib.Path) -> bool:
         return path.is_dir()
+
+class PythonInterpreterSearchItem(SearchItem):
+    def __init__(
+        self,
+        build_config_path: pathlib.Path,
+        toml_value_path: str,
+        type: SearchItemType,
+        command_name: Optional[str],
+        path: Optional[pathlib.Path]
+    ) -> None:
+        super().__init__(
+            build_config_path,
+            toml_value_path,
+            type,
+            command_name,
+            path
+        )
+        if self.type == SearchItemType.download_at_build_time:
+            self.assert_none_for_type("command_name")
+            self.assert_none_for_type("path")
+            # editorconfig-checker-disable
+        elif self.type == SearchItemType.locate_using_path_env_var_at_runtime:
+            # editorconfig-checker-enable
+            self.assert_not_none_for_type("command_name")
+            self.assert_none_for_type("path")
+            # editorconfig-checker-disable
+        elif self.type == SearchItemType.use_path_that_exists_at_runtime:
+            # editorconfig-checker-enable
+            self.assert_none_for_type("command_name")
+            self.assert_not_none_for_type("path")
+        else:
+            self.raise_error_for_unsupported_type()
+
+    def locate(self) -> Optional[pathlib.Path]:
+        if self.type == SearchItemType.download_at_build_time:
+            PYTHON_INTERPRETER_CURRENT_PLATFORM: Final = (
+                downloadables.PYTHON_INTERPRETER_CURRENT_PLATFORM
+            )
+            if PYTHON_INTERPRETER_CURRENT_PLATFORM is None:
+                warnings.warn(
+                    "The ttt-build-tool doesn’t know how to download a "
+                    + "Python interpreter for your current platform."
+                )
+                return None
+            try:
+                return (
+                    PYTHON_INTERPRETER_CURRENT_PLATFORM.extracted_path()
+                )
+            except requests.RequestException:
+                return None
+            # editorconfig-checker-disable
+        elif self.type == SearchItemType.locate_using_path_env_var_at_runtime:
+            assert self.command_name is not None
+            PATH_STR_OR_NONE: Final = shutil.which(self.command_name)
+            if PATH_STR_OR_NONE is None:
+                return None
+            else:
+                return pathlib.Path(PATH_STR_OR_NONE)
+        elif self.type == SearchItemType.use_path_that_exists_at_runtime:
+            return self.path
+        else:
+            raise RuntimeError("This should never happen.")
+        # editorconfig-checker-enable
+
+    @classmethod
+    def test(cls, path: pathlib.Path) -> bool:
+        NAME: Final = "Python interpreter executable"
+        if path.is_dir():
+            # Assume that path refers to a bundle that’s going to be
+            # embedded.
+            return cls.test_using_minus_minus_version(
+                NAME,
+                pathlib.Path(path, "install", "bin", "python")
+            )
+        else:
+            # Assume that path refers to a file that we expect exists at
+            # runtime.
+            return cls.test_using_minus_minus_version(NAME, path)

@@ -12,7 +12,7 @@ import pathlib
 import platform
 from typing import Final, Optional
 
-from ..expected_versions import GODOT_VERSION
+from ..expected_versions import GODOT_VERSION, PYTHON_VERSION
 from . import Downloadable
 
 
@@ -49,15 +49,44 @@ GODOT_EXPORT_TEMPLATES: Final = Downloadable(
     pathlib.Path("Export templates.zip"),
     pathlib.Path("templates")
 )
+# Python interpreter
+PYTHON_BUILDS_STANDALONE_TIMESTAMP: Final = "20250115"
+PYTHON_INTERPRETER_X86_64_LINUX: Final = Downloadable(
+    # editorconfig-checker-disable
+    f"https://github.com/astral-sh/python-build-standalone/releases/download/{PYTHON_BUILDS_STANDALONE_TIMESTAMP}/cpython-{PYTHON_VERSION}+{PYTHON_BUILDS_STANDALONE_TIMESTAMP}-x86_64-unknown-linux-musl-lto-full.tar.zst",
+    # editorconfig-checker-enable
+    "be68330a5237a91d08931830ba37187fe792db3daed4385267c561b2d2e37ad8",
+    pathlib.Path("python.tar.zst"),
+    pathlib.Path("python")
+)
+PYTHON_INTERPRETER_X86_64_WINDOWS: Final = Downloadable(
+    # editorconfig-checker-disable
+    f"https://github.com/astral-sh/python-build-standalone/releases/download/{PYTHON_BUILDS_STANDALONE_TIMESTAMP}/cpython-{PYTHON_VERSION}+{PYTHON_BUILDS_STANDALONE_TIMESTAMP}-x86_64-pc-windows-msvc-pgo-full.tar.zst",
+    # editorconfig-checker-enable
+    "0864e6d4f11384694f785370f144ee9e342838c21249ba34c7f8fefb050753e0",
+    pathlib.Path("python.tar.zst"),
+    pathlib.Path("python")
+)
 
 
 # Variables that are derived from the previous ones
 godot_editor_current_platform: Optional[Downloadable] = None
+python_interpreter_current_patform: Optional[Downloadable] = None
 if platform.system() == "Linux":
     if platform.machine() == "x86_64":
         godot_editor_current_platform = GODOT_EDITOR_X86_64_LINUX
+        python_interpreter_current_platform = (
+            PYTHON_INTERPRETER_X86_64_LINUX
+        )
 elif platform.system() == "Windows":
     if platform.machine() == "AMD64":
         godot_editor_current_platform = GODOT_EDITOR_X86_64_WINDOWS
+        python_interpreter_current_platform = (
+            PYTHON_INTERPRETER_X86_64_WINDOWS
+        )
 GODOT_EDITOR_CURRENT_PLATFORM: Final = godot_editor_current_platform
+PYTHON_INTERPRETER_CURRENT_PLATFORM: Final = (
+    python_interpreter_current_platform
+)
 del godot_editor_current_platform
+del python_interpreter_current_platform

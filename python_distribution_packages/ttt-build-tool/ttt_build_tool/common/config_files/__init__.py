@@ -25,6 +25,10 @@ import pathlib
 from typing import Any, Final, Optional
 
 
+class MissingBuildConfigSectionError(ValueError):
+    pass
+
+
 def build_config_error_message(build_config_path: pathlib.Path) -> str:
     return (
         f"Your build configuration ({build_config_path}) has a problem."
@@ -98,7 +102,7 @@ def pop_and_assert_correct_type[T: TOMLConversionResult](
         expected_python_type
     )
     if RETURN_VALUE is None:
-        raise ValueError(
+        raise MissingBuildConfigSectionError(
             build_config_error_message(build_config_path)
             + f" {toml_value_path} is supposed to contain a TOML key "
             + f"named “{expected_key}”, but it doesn’t."

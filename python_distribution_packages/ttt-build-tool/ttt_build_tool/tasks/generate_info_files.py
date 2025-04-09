@@ -2,11 +2,13 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: 2025 Jason Yundt <jason@jasonyundt.email>
 import pathlib
-from typing import Final
+import shutil
+import warnings
+from typing import Any, Final, Optional
 
 from .. import common
 from ..common import expected_versions
-from ..common.config_files import build_config
+from ..common.config_files import build_config, search_item
 
 
 INFO_DIR_PATH: Final = pathlib.Path(
@@ -30,8 +32,26 @@ multiple different files makes it so that I don’t have to do that.
 """
 
 
+def potentially_create_file_for_attribute(
+    dir_path: pathlib.Path,
+    object: Any,
+    attribute_name: str
+) -> Any:
+    """Stores an attribute in a file if the attribute is not None."""
+    ATTRIBUTE_VALUE: Final = getattr(object, attribute_name)
+    if ATTRIBUTE_VALUE is not None:
+        FILE_PATH: Final = pathlib.Path(
+            dir_path,
+            f"{attribute_name}.txt"
+        )
+        with FILE_PATH.open(mode="w", encoding="utf_8") as file:
+            file.write(str(ATTRIBUTE_VALUE))
+    return ATTRIBUTE_VALUE
+
+
 def perform_task(settings: build_config.BuildConfig) -> None:
     INFO_DIR_PATH.mkdir(parents=True, exist_ok=True)
+    # Expected Godot version
     EXPECTED_GODOT_VERSION_PATH: Final = pathlib.Path(
         INFO_DIR_PATH,
         "expected_godot_version.txt"
@@ -54,3 +74,62 @@ def perform_task(settings: build_config.BuildConfig) -> None:
             + "-"
             + str(expected_versions.GODOT_VERSION_STATUS)
         )
+    # Python interpreter search list
+    PYTHON_INTERPRETER_SEARCH_LIST_DIR_PATH: Final = pathlib.Path(
+        INFO_DIR_PATH,
+        "python_interpreter_search_list"
+    )
+    shutil.rmtree(
+        PYTHON_INTERPRETER_SEARCH_LIST_DIR_PATH,
+        ignore_errors=True
+    )
+    if settings.python_interpreter_search_list is not None:
+        PYTHON_INTERPRETER_SEARCH_LIST_DIR_PATH.mkdir(parents=True)
+        i: int
+        for i in range(len(settings.python_interpreter_search_list)):
+            current_item: search_item.PythonInterpreterSearchItem = (
+                settings.python_interpreter_search_list[i]
+            )
+            current_item_dir_path: pathlib.Path = pathlib.Path(
+                PYTHON_INTERPRETER_SEARCH_LIST_DIR_PATH,
+                str(i)
+            )
+            current_item_dir_path.mkdir()
+            current_type: Any = potentially_create_file_for_attribute(
+                current_item_dir_path,
+                current_item,
+                "type"
+            )
+            potentially_create_file_for_attribute(
+                current_item_dir_path,
+                current_item,
+                "command_name"
+            )
+            potentially_create_file_for_attribute(
+                current_item_dir_path,
+                current_item,
+                "path"
+            )
+
+            # editorconfig-checker-disable
+            if current_type == search_item.SearchItemType.download_at_build_time:
+                # editorconfig-checker-enable
+                path_to_copy: Optional[pathlib.Path] = (
+                    current_item.locate_and_test()
+                )
+                if path_to_copy is None:
+                    warnings.warn(
+                        "Your build configuration "
+                        + f"({current_item.build_config_path}) might "
+                        + "have a problem. "
+                        + f"{current_item.toml_value_path} is not "
+                        + "usable. "
+                    )
+                else:
+                    destination: pathlib.Path = pathlib.Path(
+                        current_item_dir_path,
+                        "download"
+                    )
+                    shutil.copytree(path_to_copy, destination)
+                    # Prevent audio files from being imported.
+                    pathlib.Path(destination, ".gdignore").touch()

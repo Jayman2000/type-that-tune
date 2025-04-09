@@ -6,7 +6,10 @@ import re
 import subprocess
 from typing import Any, Final
 
-from ..common.config_files import build_config
+from ..common.config_files import (
+    build_config,
+    build_config_error_message
+)
 
 
 EXPECTED_VERSIONS_FILE: Final = pathlib.Path(
@@ -47,6 +50,7 @@ def sub_at_least_once(
 
 def perform_task(settings: build_config.BuildConfig) -> None:
     # Determine the new version numbers.
+    # Godot Engine
     NEW_GODOT_VERSION_COMMAND: Final = (
         settings.godot_editor_executable_search_list.path_to_use(),
         "--version"
@@ -68,6 +72,28 @@ def perform_task(settings: build_config.BuildConfig) -> None:
     except ValueError:
         new_godot_version_patch = 0
         new_godot_version_status = NEW_GODOT_VERSION_SEGMENTS[2]
+    # Python
+    if settings.python_interpreter_search_list is None:
+        TASK_NAME: Final = __name__.split(sep=".")[-1]
+        raise ValueError(
+            build_config_error_message(settings.build_config_path)
+            + " There’s no key named python_interpreter_search_list. "
+            + "Sometimes, it is OK to not have a key named "
+            + "python_interpreter_search_list, but there’s need to be a"
+            + " key named python_interpreter_search_list in order for "
+            + f"the {TASK_NAME} task to work."
+        )
+    NEW_PYTHON_VERSION_COMMAND: Final = (
+        settings.python_interpreter_search_list.path_to_use(
+            skip_downloadables=True
+        ),
+        "--version"
+    )
+    NEW_PYTHON_VERSION_UNPARSED: Final = subprocess.check_output(
+        NEW_PYTHON_VERSION_COMMAND,
+        encoding="locale"
+    )
+    NEW_PYTHON_VERSION: Final = NEW_PYTHON_VERSION_UNPARSED.split()[1]
 
     # Replace the old version numbers with the new ones.
     with EXPECTED_VERSIONS_FILE.open(mode="r", encoding="utf_8") as f:
@@ -90,6 +116,11 @@ def perform_task(settings: build_config.BuildConfig) -> None:
     module_source_code = sub_at_least_once(
         "(?<=GODOT_VERSION_STATUS: Final = ).*",
         new_godot_version_status,
+        module_source_code
+    )
+    module_source_code = sub_at_least_once(
+        "(?<=PYTHON_VERSION: Final = ).*",
+        NEW_PYTHON_VERSION,
         module_source_code
     )
     with EXPECTED_VERSIONS_FILE.open(mode="w", encoding="utf_8") as f:
